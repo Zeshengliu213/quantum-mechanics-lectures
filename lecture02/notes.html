@@ -1,0 +1,937 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Lecture 2 · The Schrödinger Equation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Fira+Code&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+:root{
+  --bg:#0c0e0c;--bg2:#151915;--bg3:#1e231e;
+  --fg:#ede9e0;--fg2:#a8a49b;--fg3:#706c65;
+  --accent:#6dbf5e;--accent2:#3d8a35;--accent-dim:#2a5a24;
+  --blue:#5ba4e6;--coral:#e8734a;--purple:#b07ee8;--amber:#ddb84a;--red:#e05454;--gold:#f59e0b;
+  --ff:'Playfair Display','Noto Serif SC',Georgia,serif;
+  --mono:'Fira Code',monospace;
+  --radius:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--ff);font-size:18px;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent2);color:#fff}
+.app{width:100%;height:100%;display:flex;flex-direction:column}
+header.chrome{height:32px;background:var(--bg2);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;z-index:20}
+.chrome .tag{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);opacity:0.6}
+.chrome .tsm{font-size:11px;color:var(--fg3);margin-left:14px}
+.chrome .ind{font-size:11px;color:var(--fg3);font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.deck{flex:1;position:relative;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px 5vw 36px;opacity:0;pointer-events:none;transform:translateX(40px);transition:opacity 0.4s,transform 0.4s;overflow-y:auto}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+.slide.exit{opacity:0;transform:translateX(-40px)}
+footer.ft{height:30px;background:var(--bg2);border-top:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0;z-index:20}
+.ptr{flex:1;height:2px;background:rgba(255,255,255,0.05);border-radius:2px;margin:0 14px}
+.pfill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.3s}
+.ft .ht{font-size:10px;color:var(--fg3)}
+.ft .ht kbd{background:var(--bg3);padding:1px 4px;border-radius:3px;font-size:9px;border:1px solid rgba(255,255,255,0.08)}
+.ft .nb{background:none;border:1px solid rgba(255,255,255,0.1);color:var(--fg2);font-family:var(--ff);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s}
+.ft .nb:hover{background:rgba(255,255,255,0.05)}
+
+.slide h1{font-size:clamp(36px,5.5vw,64px);font-weight:700;line-height:1.1;text-align:center;letter-spacing:-0.5px;max-width:1100px}
+.slide h2{font-size:clamp(28px,4vw,50px);font-weight:700;line-height:1.15;max-width:1100px}
+.slide h3{font-size:20px;font-weight:600;margin-bottom:8px}
+.slide p{font-size:17px;line-height:1.6;color:var(--fg2);max-width:none}
+.ey{font-size:13px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:12px}
+.sh{text-align:left;width:100%;max-width:1200px;margin-bottom:20px}
+.lead{font-size:clamp(18px,2.4vw,24px);color:var(--fg2);line-height:1.45;text-align:center;max-width:780px;margin-top:16px;font-style:italic}
+.accent{color:var(--accent)}.blue{color:var(--blue)}.coral{color:var(--coral)}.purple{color:var(--purple)}.amber{color:var(--amber)}.gold{color:var(--gold)}
+.cap{font-size:14px;color:var(--fg3);text-align:center;margin-top:8px}
+.fm{font-size:clamp(26px,3.8vw,46px);text-align:center;margin:16px 0}
+.sfm{font-size:clamp(18px,2.2vw,26px)}
+.cd{background:var(--bg2);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:20px 24px}
+.cd h3{font-size:18px;font-weight:600;margin-bottom:8px}
+.cd p{font-size:16px;line-height:1.6;color:var(--fg2)}
+.em-cd{border-color:var(--accent-dim);background:rgba(42,90,36,0.07)}
+.tk{border-left:3px solid var(--accent);border-radius:0;background:rgba(42,90,36,0.05);padding:14px 18px;margin-top:10px}
+.tk span.lab{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:4px}
+.tk-blue{border-left-color:var(--blue);background:rgba(91,164,230,0.06)}
+.tk-blue span.lab{color:var(--blue)}
+.tk-coral{border-left-color:var(--coral);background:rgba(232,115,74,0.06)}
+.tk-coral span.lab{color:var(--coral)}
+.tk-amber{border-left-color:var(--amber);background:rgba(221,184,74,0.06)}
+.tk-amber span.lab{color:var(--amber)}
+.tk-red{border-left-color:var(--red);background:rgba(224,84,84,0.06)}
+.tk-red span.lab{color:var(--red)}
+.tk-purple{border-left-color:var(--purple);background:rgba(176,126,232,0.06)}
+.tk-purple span.lab{color:var(--purple)}
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:16px;margin-bottom:6px;font-size:16px;line-height:1.55;color:var(--fg2)}
+ul.bl li::before{content:'';position:absolute;left:0;top:7px;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.yc{display:inline-block;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);padding:2px 8px;border-radius:4px;margin-bottom:6px}
+
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:1200px}
+.t3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%;max-width:1200px}
+.stk{display:flex;flex-direction:column;gap:12px}
+.cc{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:1200px}
+canvas.vis{width:100%;border-radius:6px;display:block;background:rgba(0,0,0,0.18)}
+
+.ct{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:6px}
+.ct button{font-family:var(--ff);font-size:14px;padding:6px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;background:transparent;color:var(--fg2);cursor:pointer;transition:all 0.2s}
+.ct button:hover,.ct button.on{background:var(--accent2);border-color:var(--accent);color:#fff}
+.ct .leg{font-size:12px;color:var(--fg3)}
+.ct .sw{display:inline-block;width:12px;height:3px;vertical-align:middle;margin-right:4px}
+
+/* stepper list */
+.stp{counter-reset:s;list-style:none;padding:0}
+.stp li{position:relative;padding:8px 0 8px 40px;counter-increment:s;font-size:15px;line-height:1.55;color:var(--fg2)}
+.stp li::before{content:counter(s);position:absolute;left:0;top:7px;width:26px;height:26px;border-radius:50%;background:var(--accent-dim);color:var(--accent);font-family:var(--mono);font-size:13px;text-align:center;line-height:26px;font-weight:600}
+
+.of{width:110px;height:110px;position:relative;margin:0 auto}
+.ob{position:absolute;border:1.5px solid;border-radius:50%;animation:sp linear infinite}
+.oa{width:110px;height:110px;top:0;left:0;border-color:rgba(106,191,94,0.18);animation-duration:8s}
+.ob2{width:76px;height:76px;top:17px;left:17px;border-color:rgba(91,164,230,0.18);animation-duration:6s;animation-direction:reverse}
+.oc{width:42px;height:42px;top:34px;left:34px;border-color:rgba(176,126,232,0.18);animation-duration:4s}
+.nu{width:7px;height:7px;border-radius:50%;background:var(--accent);position:absolute;top:51px;left:51px;box-shadow:0 0 10px rgba(106,191,94,0.4)}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+table.cmp{width:100%;border-collapse:collapse;margin-top:6px}
+table.cmp th,table.cmp td{padding:10px 14px;font-size:15px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--fg2)}
+table.cmp th{color:var(--fg);font-weight:600;background:rgba(255,255,255,0.02)}
+table.cmp tr:last-child td{border-bottom:none}
+
+.qb{background:rgba(245,158,11,0.06);border:1px solid rgba(245,158,11,0.18);border-radius:6px;padding:14px 18px;margin-top:10px}
+.qb>span{font-size:11px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);display:block;margin-bottom:4px}
+.qb p{font-size:15px;color:var(--fg2);line-height:1.55}
+
+@media(max-width:768px){
+  .slide{padding:16px 16px 28px}
+  .tc,.t3{grid-template-columns:1fr}
+  header.chrome .tsm{display:none}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="chrome">
+  <div style="display:flex;align-items:center;gap:8px"><span class="tag">Quantum Mechanics</span><span class="tsm">Lecture 2 · Schrödinger Equation</span></div>
+  <span class="ind" id="ind">1 / 20</span>
+</header>
+<main class="deck" id="deck">
+
+<!-- S0 COVER -->
+<section class="slide active">
+  <p class="ey" style="font-size:16px">Course · Organic Electronics</p>
+  <h1 style="font-style:italic;color:var(--accent);font-size:clamp(46px,7vw,80px)">The Schrödinger Equation</h1>
+  <p class="lead" style="font-style:normal;font-size:clamp(22px,3vw,30px)">Zesheng Liu<br>Linköping University</p>
+  <div class="of" style="margin-top:20px"><div class="ob oa"></div><div class="ob ob2"></div><div class="ob oc"></div><div class="nu"></div></div>
+  <p class="cap" style="margin-top:20px;font-size:17px">Lecture 2 · Equation of Motion in the Quantum World · ←→ or click · <kbd>F</kbd> fullscreen</p>
+</section>
+
+<!-- S1 CLASSICAL vs QUANTUM -->
+<section class="slide">
+  <div class="sh"><p class="ey">Why we need a new framework</p><h2>A World with Trajectories vs. A World without</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd" style="border-color:rgba(91,164,230,0.25)">
+        <h3 style="color:var(--blue)">Classical Mechanics · Everything is Determined</h3>
+        <canvas id="cCla" class="vis" height="260"></canvas>
+        <p style="font-size:14px;margin-top:8px">Given initial conditions $(x_0,\,p_0)$, Newton's equation $m\ddot x=-\partial_x V$ yields a <strong class="blue">unique trajectory</strong> $x(t)$. Every future moment is completely predictable.</p>
+      </div>
+      <div class="tk tk-blue"><span class="lab">Laplace's Belief (1814)</span>
+        <p style="font-size:14px">"If one knew the position and momentum of every particle in the universe at this moment, one could predict the entire future." — The classical worldview.</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd" style="border-color:rgba(232,115,74,0.3)">
+        <h3 style="color:var(--coral)">Quantum Mechanics · Double-Slit Electron Experiment</h3>
+        <canvas id="cQua" class="vis" height="260"></canvas>
+        <p style="font-size:14px;margin-top:8px">Electrons are fired one by one from an electron gun and land on a screen after passing through two slits. Classically, each electron should "follow one path," leaving only two bright bands — yet the accumulating hits form <strong class="coral">interference fringes</strong>, something impossible for classical particles.</p>
+      </div>
+      <div class="tk tk-coral"><span class="lab">Key Question</span>
+        <p style="font-size:14px">A single electron "passes through both slits simultaneously" and interferes with itself? If trajectories are invalid, what should describe the particle's "state"? This leads us to the <strong class="accent">wave function $\psi(x,t)$</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2 SCHRÖDINGER HISTORY -->
+<section class="slide">
+  <div class="sh"><p class="ey">The origin story · Winter 1925 – Spring 1926</p><h2>Where did this equation come from?</h2></div>
+
+  <div class="tc" style="max-width:1200px">
+    <div class="cd" style="text-align:center;display:flex;flex-direction:column;align-items:center;gap:10px;padding:24px">
+      <img src="../lecture01/assets/portraits/schrodinger.jpg" alt="Erwin Schrödinger"
+           style="width:200px;height:200px;border-radius:50%;object-fit:cover;border:3px solid rgba(109,191,94,0.35);filter:grayscale(0.15)">
+      <h3 style="color:var(--accent);font-size:22px;margin-top:8px">Erwin Schrödinger</h3>
+      <p style="font-size:14px;color:var(--fg3);margin:0">1887–1961 · Austrian Physicist</p>
+      <p style="font-size:14px;color:var(--fg3);margin:0">Vienna → Zürich → Berlin → Dublin</p>
+      <div class="yc" style="margin-top:10px">Nobel Prize · 1933</div>
+      <p style="font-size:14px;max-width:320px;margin-top:6px">Aged 38 in 1925, teaching at the <strong>University of Zürich</strong>, known mainly for statistical thermodynamics — not yet having done the work that would change physics.</p>
+    </div>
+
+    <div class="stk">
+      <div class="tk tk-blue"><span class="lab">① Nov 1925 · The Assignment</span>
+        <p style="font-size:14px;line-height:1.65">The University of Zürich and ETH ran a joint physics colloquium. Colleague <strong>Peter Debye</strong> had read <strong>de Broglie</strong>'s 1924 doctoral thesis (proposing matter waves $\lambda = h/p$) and found it important yet "naïve." He assigned Schrödinger to present it at the colloquium.</p>
+        <p style="font-size:14px;margin-top:6px">After Schrödinger's presentation, Debye stood up and remarked — a comment that crystallized the challenge:</p>
+        <p style="font-size:14px;margin-top:6px;font-style:italic;color:var(--fg);border-left:2px solid var(--blue);padding-left:10px">"This kind of discussion is too naïve … if you treat a wave seriously, you need a <strong>wave equation</strong>."</p>
+        <p style="font-size:13px;margin-top:4px;color:var(--fg3)">— The task fell to Schrödinger: find the wave equation for matter waves.</p>
+      </div>
+
+      <div class="tk tk-amber"><span class="lab">② Dec 1925 – Jan 1926 · Two and a Half Weeks in Arosa</span>
+        <p style="font-size:14px;line-height:1.65">Before Christmas, he left his wife Anny in Vienna and, accompanied by a <strong>mystery companion whose identity remains unknown</strong>, headed to the Alpine resort of <strong>Arosa</strong>, Switzerland, staying at the familiar <strong>Villa Herwig</strong> for two and a half weeks.</p>
+        <p style="font-size:14px;margin-top:6px">During this retreat he solved the <strong class="amber">stationary equation for the hydrogen atom</strong> — with energy levels matching Bohr's formula exactly. A decisive test.</p>
+        <p style="font-size:13px;color:var(--fg3);margin-top:6px">Biographer Walter Moore called this Schrödinger's "late erotic outburst" — a creative burst near the age of forty whose true motivation remains a mystery.</p>
+      </div>
+
+      <div class="tk"><span class="lab">③ Jan – Jun 1926 · Six Months that Rewrote Physics</span>
+        <p style="font-size:14px;line-height:1.65">On January 27 he submitted the first paper "<em>Quantisierung als Eigenwertproblem</em>" to <em>Annalen der Physik</em>. Over the following six months he published four papers in the same series, with the equation evolving into the form we know today.</p>
+        <p style="font-size:14px;margin-top:6px">Mathematician <strong>Hermann Weyl</strong> supplied the rigorous mathematics of eigenvalue problems; that same summer <strong>Born</strong> proposed the probabilistic interpretation of $|\psi|^2$, completing the theory.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S3 ORIGINAL MANUSCRIPT -->
+<section class="slide">
+  <div class="sh"><p class="ey">The original manuscript · 1926</p><h2>First Paper &mdash; Original Scanned Pages</h2></div>
+  <div style="width:100%;max-width:1200px">
+    <p style="font-size:14px;color:var(--fg2);text-align:center;max-width:900px;margin:0 auto 14px">
+      E. Schrödinger, "<em>Quantisierung als Eigenwertproblem</em>" (Erste Mitteilung),
+      <em>Annalen der Physik</em> <strong>79</strong>, 361–376 &mdash; submitted January 27, 1926.
+    </p>
+    <div class="tc" style="gap:18px;align-items:stretch">
+      <div class="cd" style="padding:14px;display:flex;flex-direction:column">
+        <a href="./assets/schrodinger_p1_title.png" target="_blank" style="display:block">
+          <img src="./assets/schrodinger_p1_title.png" alt="Schrödinger 1926 paper page 1"
+               style="width:100%;border-radius:4px;display:block;background:#fff;filter:sepia(0.10) contrast(1.05);box-shadow:0 4px 14px rgba(0,0,0,0.4)">
+        </a>
+        <div style="margin-top:10px">
+          <div class="yc" style="background:rgba(221,184,74,0.15);color:var(--amber)">First Page · p. 361</div>
+          <p style="font-size:13px;margin-top:4px">Title, authorship, the opening Hamilton–Jacobi substitution $S = K\log\psi$, and the first eigenvalue equation.</p>
+        </div>
+      </div>
+      <div class="cd" style="padding:14px;display:flex;flex-direction:column">
+        <a href="./assets/schrodinger_p11_bohr.png" target="_blank" style="display:block">
+          <img src="./assets/schrodinger_p11_bohr.png" alt="Schrödinger 1926 paper Bohr energy levels page"
+               style="width:100%;border-radius:4px;display:block;background:#fff;filter:sepia(0.10) contrast(1.05);box-shadow:0 4px 14px rgba(0,0,0,0.4)">
+        </a>
+        <div style="margin-top:10px">
+          <div class="yc">p. 371 · Decisive Victory</div>
+          <p style="font-size:13px;margin-top:4px">"<em>Es ergeben sich also die wohlbekannten Bohrschen Energieniveaus …</em>"<br>The hydrogen energy levels are perfectly reproduced by the new theory.</p>
+        </div>
+      </div>
+    </div>
+    <p style="font-size:12px;color:var(--fg3);text-align:center;margin-top:12px">
+      Click image to enlarge · <a href="./assets/schrodinger_1926.pdf" target="_blank" style="color:var(--accent)">Download full PDF (16 pages · 2.5 MB)</a>
+      · Public domain, <a href="https://archive.org/details/quantisierung-als-eigenwertproblem" target="_blank" style="color:var(--fg3)">Internet Archive</a>
+    </p>
+  </div>
+</section>
+
+<!-- S4 FULL EQUATION -->
+<section class="slide">
+  <div class="sh" style="text-align:center"><p class="ey">Schrödinger equation · 1926</p><h2 style="text-align:center">The Equation</h2></div>
+  <div class="cc" style="gap:28px;justify-content:center;flex:1">
+    <div style="padding:30px 40px;background:rgba(42,90,36,0.08);border:1px solid rgba(109,191,94,0.25);border-radius:12px;max-width:1100px;width:100%;text-align:center">
+      <div style="font-size:clamp(26px,4.6vw,56px);color:var(--accent);line-height:1.4;margin:10px 0">
+        $\displaystyle i\hbar\,\frac{\partial \psi}{\partial t} \;=\; -\frac{\hbar^2}{2m}\,\frac{\partial^2 \psi}{\partial x^2} \;+\; V\,\psi$
+      </div>
+    </div>
+    <div class="t3" style="max-width:1100px">
+      <div class="cd"><div class="yc">Left · Time Evolution</div>
+        <p style="font-size:14px">$i\hbar\,\dfrac{\partial\psi}{\partial t}$ — the <strong class="accent">rate of change of the wave function</strong> in time. First-order time derivative + imaginary unit $i$ keeps the evolution norm-preserving.</p>
+      </div>
+      <div class="cd em-cd"><div class="yc">Right · Kinetic Term</div>
+        <p style="font-size:14px">$-\dfrac{\hbar^2}{2m}\,\dfrac{\partial^2\psi}{\partial x^2}$ — the second spatial derivative reflects the wave's "curvature," corresponding to classical kinetic energy $p^2/2m$.</p>
+      </div>
+      <div class="cd"><div class="yc">Right · Potential Term</div>
+        <p style="font-size:14px">$V(x,t)\,\psi$ — the <strong>external potential</strong> experienced by the particle, such as the Coulomb potential of a nucleus or the periodic potential of a molecule, identical in form to classical mechanics.</p>
+      </div>
+    </div>
+    <p style="font-size:15px;color:var(--fg3);text-align:center;max-width:900px">$\psi\in\mathbb{C}$ — complex-valued wave function · $\hbar = h/2\pi \approx 1.055\times 10^{-34}$ J·s · $m$ — particle mass · $V$ — potential energy</p>
+  </div>
+</section>
+
+<!-- S4 DERIVATION FROM PLANE WAVE -->
+<section class="slide">
+  <div class="sh"><p class="ey">How Schrödinger guessed it</p><h2>"Deriving" the Schrödinger Equation from a Plane Wave</h2></div>
+
+  <div class="tc" style="max-width:1200px">
+    <div class="stk">
+      <div class="cd" style="border-left:3px solid var(--blue);border-radius:0">
+        <h3 style="color:var(--blue)">Step 1 · Starting point: de Broglie relations</h3>
+        <p style="font-size:14px">Two relations for matter waves (from Planck–Einstein and de Broglie):</p>
+        <div class="fm sfm" style="margin:6px 0">$E = \hbar\omega,\qquad p = \hbar k$</div>
+        <p style="font-size:13px;color:var(--fg3)">Frequency $\leftrightarrow$ energy, wave number $\leftrightarrow$ momentum.</p>
+      </div>
+
+      <div class="cd" style="border-left:3px solid var(--blue);border-radius:0">
+        <h3 style="color:var(--blue)">Step 2 · Try the simplest wave: the plane wave</h3>
+        <p style="font-size:14px">A free particle corresponds to an infinitely extended monochromatic wave:</p>
+        <div class="fm sfm" style="margin:6px 0">$\psi(x,t) = e^{\,i(kx-\omega t)}$</div>
+        <p style="font-size:14px">Differentiate twice and see what can be "read off":</p>
+        <div class="fm sfm" style="font-size:16px;margin:6px 0;text-align:left;padding-left:20px">
+          $\dfrac{\partial\psi}{\partial t} = -i\omega\,\psi$ &nbsp;&nbsp;<span style="color:var(--fg3)">→ contains $\omega$</span><br>
+          $\dfrac{\partial^2\psi}{\partial x^2} = -k^2\,\psi$ &nbsp;&nbsp;<span style="color:var(--fg3)">→ contains $k^2$</span>
+        </div>
+      </div>
+
+      <div class="cd" style="border-left:3px solid var(--blue);border-radius:0">
+        <h3 style="color:var(--blue)">Step 3 · Extract the "reading rules" for ω and k²</h3>
+        <p style="font-size:14px">Inverting the two relations above:</p>
+        <div class="fm sfm" style="margin:6px 0">$\omega\,\psi = i\,\dfrac{\partial\psi}{\partial t},\qquad k^2\,\psi = -\dfrac{\partial^2\psi}{\partial x^2}$</div>
+        <p style="font-size:14px">Combined with de Broglie relations $E=\hbar\omega,\ p=\hbar k$:</p>
+        <div class="fm sfm" style="margin:6px 0">$E\,\psi = i\hbar\,\dfrac{\partial\psi}{\partial t},\qquad p^2\,\psi = -\hbar^2\,\dfrac{\partial^2\psi}{\partial x^2}$</div>
+        <p style="font-size:13px;color:var(--fg3)">Energy and momentum are "translated" into differential operators acting on $\psi$.</p>
+      </div>
+    </div>
+
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3 style="color:var(--accent)">Step 4 · Substitute into the classical energy relation</h3>
+        <p style="font-size:14px">Classical energy of a non-relativistic particle:</p>
+        <div class="fm sfm" style="margin:6px 0">$E = \dfrac{p^2}{2m} + V(x)$</div>
+        <p style="font-size:14px">Multiply both sides by $\psi$:</p>
+        <div class="fm sfm" style="margin:6px 0">$E\,\psi = \dfrac{p^2\,\psi}{2m} + V\,\psi$</div>
+        <p style="font-size:14px">Substitute the two "translations" from Step 3 — $E\psi\to i\hbar\,\partial_t\psi$, $p^2\psi\to -\hbar^2\,\partial_x^2\psi$:</p>
+        <div class="fm sfm" style="margin:10px 0;color:var(--accent);font-size:clamp(16px,2vw,22px)">$i\hbar\,\dfrac{\partial\psi}{\partial t} \;=\; -\dfrac{\hbar^2}{2m}\,\dfrac{\partial^2\psi}{\partial x^2} + V(x)\,\psi$</div>
+        <p style="font-size:13px;color:var(--fg3);text-align:center">Exact match — this is the Schrödinger equation.</p>
+      </div>
+
+      <div class="cd" style="border-left:3px solid var(--coral);border-radius:0">
+        <h3 style="color:var(--coral)">Step 5 · Linear extension</h3>
+        <p style="font-size:14px">The equation holds for a single plane wave $e^{i(kx-\omega t)}$. <strong>Because the equation is linear</strong>, any superposition of different $k$</p>
+        <div class="fm sfm" style="margin:6px 0">$\psi = \displaystyle\int \phi(k)\,e^{i(kx-\omega(k)t)}\,dk$</div>
+        <p style="font-size:14px">is also automatically satisfied. This extends the formula from "monochromatic waves" to <strong>arbitrary wave packets and superposition states</strong>.</p>
+      </div>
+
+      <div class="tk tk-red"><span class="lab">Caveat · This is not a rigorous derivation</span>
+        <p style="font-size:14px">The above is <strong>analogy + inspired guesswork</strong>: the equation is assembled from de Broglie relations + plane waves + classical energy. It <strong>cannot be derived from Newtonian mechanics</strong> — its validity is ultimately confirmed by experiment (hydrogen energy levels).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S7 WAVE FUNCTION -->
+<section class="slide">
+  <div class="sh"><p class="ey"><span class="purple">Part I · State</span></p><h2>The Wave Function ψ(x,t) — State of a Quantum Particle</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd"><h3>Why Classical Trajectories Break Down</h3>
+        <p>Even a single electron in a double-slit experiment forms interference fringes. If the electron follows a definite trajectory, passing only through the left or right slit, how can it "sense" the other slit?</p>
+        <p style="margin-top:8px;font-size:14px;color:var(--fg3)">The classical description $(x(t),p(t))$ must be replaced.</p>
+      </div>
+      <div class="cd em-cd"><h3>The Quantum Mechanical Approach</h3>
+        <p>A <strong class="accent">complex-valued function</strong> $\psi(x,t)\in\mathbb{C}$ completely describes the state of the particle.</p>
+        <div class="fm sfm" style="margin:10px 0">$\psi:\mathbb{R}\times\mathbb{R}\to\mathbb{C}$</div>
+        <p style="font-size:14px">Complex numbers provide two degrees of freedom: amplitude and phase — phase is the key to interference.</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd"><h3>Born's Probabilistic Interpretation (1926)</h3>
+        <div class="fm sfm">$|\psi(x,t)|^2\,dx = P(x \text{ in } dx)$</div>
+        <p>$|\psi|^2$ is the <strong class="accent">probability density</strong>, with units [length]$^{-1}$.</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">Normalization</span>
+        <div class="fm sfm" style="margin:4px 0">$\displaystyle\int_{-\infty}^{+\infty}|\psi|^2\,dx = 1$</div>
+        <p style="font-size:13px">An overall phase factor $e^{i\alpha}$ does not affect $|\psi|^2$ and has no physical meaning.</p>
+      </div>
+      <div class="tk tk-red"><span class="lab">Basic Requirements</span>
+        <p style="font-size:14px">Single-valued · Continuous (when $V$ is finite, both $\psi$ and $\psi'$ are continuous) · Square-integrable</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8 BORN INTERPRETATION -->
+<section class="slide">
+  <div class="sh"><p class="ey"><span class="blue">Part II · Interpretation</span></p><h2>Born's Statistical Interpretation — What does ψ Mean?</h2></div>
+  <div class="tc" style="max-width:1200px">
+    <div class="cd" style="display:flex;flex-direction:column;align-items:center;gap:10px;padding:24px;text-align:center">
+      <img src="../lecture01/assets/portraits/born.jpg" alt="Max Born"
+           style="width:170px;height:170px;border-radius:50%;object-fit:cover;border:3px solid rgba(91,164,230,0.35);filter:grayscale(0.15)">
+      <h3 style="color:var(--blue);font-size:20px;margin-top:6px">Max Born</h3>
+      <p style="font-size:13px;color:var(--fg3);margin:0">1882–1970 · German Physicist</p>
+      <div class="yc" style="background:rgba(91,164,230,0.12);color:var(--blue);margin-top:6px">Nobel Prize · 1954</div>
+      <p style="font-size:13px;color:var(--fg3);margin-top:4px">Awarded for: <em>"fundamental research in quantum mechanics, especially the statistical interpretation of the wave function"</em></p>
+      <p style="font-size:14px;max-width:280px;margin-top:6px">The Schrödinger equation yields $\psi$, but what physical quantity is $\psi$ itself? Born provided the answer in 1926.</p>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3 style="color:var(--accent)">Born's Central Claim</h3>
+        <div class="fm sfm" style="margin:10px 0">$|\psi(x,t)|^2 \,dx = \text{probability of finding the particle in } dx \text{ near } x$</div>
+        <p style="font-size:14px">$\psi$ itself is not observable (it is complex); what is observable is the <strong class="accent">squared modulus</strong> $|\psi|^2$, the <strong>probability density</strong>.</p>
+      </div>
+      <div class="tk tk-blue"><span class="lab">Normalization Condition</span>
+        <div class="fm sfm" style="margin:6px 0">$\displaystyle\int_{-\infty}^{+\infty}|\psi(x,t)|^2\,dx = 1$</div>
+        <p style="font-size:13px">The total probability of finding the particle anywhere must equal 1. Multiplying $\psi$ by $e^{i\alpha}$ (overall phase) does not affect $|\psi|^2$ and has no physical meaning.</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">This Differs from Schrödinger's Own Idea!</span>
+        <p style="font-size:14px">Schrödinger himself initially thought $|\psi|^2$ represented charge density — a <em>continuous</em> material distribution. Born's statistical interpretation dissatisfied him, but experiments repeatedly confirmed Born was right.</p>
+      </div>
+      <div class="tk tk-red"><span class="lab">Three Mathematical Requirements for the Wave Function</span>
+        <p style="font-size:14px"><strong>① Single-valued</strong>: only one probability at each point.<br>
+        <strong>② Continuous</strong>: when the potential is finite, $\psi$ and its first derivative are both continuous.<br>
+        <strong>③ Square-integrable</strong>: $\int|\psi|^2 dx < \infty$, so normalization is possible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S9 PROPERTIES OF SCHRÖDINGER EQUATION -->
+<section class="slide">
+  <div class="sh"><p class="ey">Part III · Properties</p><h2>Basic Properties of the Schrödinger Equation</h2></div>
+  <div class="cc" style="gap:14px">
+    <div class="fm sfm" style="color:var(--fg3)">$i\hbar\,\dfrac{\partial\psi}{\partial t} = -\dfrac{\hbar^2}{2m}\dfrac{\partial^2\psi}{\partial x^2} + V\psi$</div>
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;width:100%;max-width:1200px">
+      <div class="cd" style="border-left:3px solid var(--blue);border-radius:0">
+        <div class="yc" style="background:rgba(91,164,230,0.12);color:var(--blue)">① Linear</div>
+        <p style="font-size:14px;margin-top:8px">If $\psi_1,\psi_2$ are both solutions, so is $c_1\psi_1+c_2\psi_2$. This directly implies the <strong class="accent">superposition principle</strong> — the origin of quantum interference.</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--accent);border-radius:0">
+        <div class="yc">② First-order in time</div>
+        <p style="font-size:14px;margin-top:8px">Given only the initial state $\psi(x,0)$, the equation <strong class="accent">uniquely determines</strong> $\psi(x,t)$ at all later times. Time evolution is completely deterministic.</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--purple);border-radius:0">
+        <div class="yc" style="background:rgba(176,126,232,0.12);color:var(--purple)">③ Complex-valued</div>
+        <p style="font-size:14px;margin-top:8px">The equation contains $i$; solutions are inherently complex. A real wave function cannot satisfy the equation (except for special symmetries of $V$).</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--amber);border-radius:0">
+        <div class="yc" style="background:rgba(221,184,74,0.12);color:var(--amber)">④ Probability conservation</div>
+        <p style="font-size:14px;margin-top:8px">One can show $\dfrac{d}{dt}\int|\psi|^2 dx = 0$. If the initial state is normalized, it remains normalized at all times — particles cannot appear or vanish.</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--coral);border-radius:0">
+        <div class="yc" style="background:rgba(232,115,74,0.12);color:var(--coral)">⑤ Ehrenfest's Theorem</div>
+        <p style="font-size:14px;margin-top:8px">Expectation values satisfy $m\,d\langle x\rangle/dt = \langle p\rangle$ and $d\langle p\rangle/dt = -\langle \partial V/\partial x\rangle$. <strong>In the macroscopic limit these reduce to Newton's equations.</strong></p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--red);border-radius:0">
+        <div class="yc" style="background:rgba(224,84,84,0.12);color:var(--red)">⑥ A postulate</div>
+        <p style="font-size:14px;margin-top:8px">This is a <strong>fundamental postulate</strong> of quantum mechanics, on equal footing with $F=ma$. Its validity is established by experiment; it cannot be derived from more basic principles.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S10 TISE DERIVATION -->
+<section class="slide">
+  <div class="sh"><p class="ey">Part IV · Stationary states</p><h2>Separation of Variables → Time-Independent Schrödinger Equation</h2></div>
+  <div class="tc" style="max-width:1200px">
+    <div class="cd" style="border-left:3px solid var(--blue);border-radius:0">
+      <h3 style="color:var(--blue)">Derivation: Step by Step</h3>
+      <p style="font-size:13px;color:var(--fg3);margin-bottom:8px">Assumption: $V = V(x)$ does not depend explicitly on time.</p>
+      <ol class="stp">
+        <li><strong>Assume a product form</strong>: $\psi(x,t)=\varphi(x)\,T(t)$, substitute into the TDSE:
+          $$i\hbar\,\varphi\,\dot T = T\!\left[-\tfrac{\hbar^2}{2m}\varphi'' + V\varphi\right]$$</li>
+        <li><strong>Divide both sides by</strong> $\varphi T$; the left side depends only on $t$, the right only on $x$:
+          $$i\hbar\,\frac{\dot T}{T} = \frac{1}{\varphi}\!\left[-\frac{\hbar^2}{2m}\varphi'' + V\varphi\right] = E$$</li>
+        <li><strong>Why can they both equal a constant?</strong> The left side varies with $t$; the right varies with $x$; yet they are always equal, so both sides must equal the same constant $E$.</li>
+        <li><strong>Time equation</strong>: $i\hbar\dot T = ET \;\Rightarrow\; T(t) = e^{-iEt/\hbar}$</li>
+        <li><strong>Spatial equation</strong> (Time-Independent Schrödinger Equation):</li>
+      </ol>
+      <div class="fm sfm" style="margin:8px 0;color:var(--accent)">$$-\frac{\hbar^2}{2m}\varphi''(x) + V(x)\varphi(x) = E\,\varphi(x)$$</div>
+      <p style="font-size:13px;color:var(--fg3)">Complete stationary-state solution: $\psi_n(x,t)=\varphi_n(x)\,e^{-iE_n t/\hbar}$</p>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>Physical Meaning of Stationary States</h3>
+        <div class="fm sfm" style="margin:8px 0">$|\psi_n|^2 = |\varphi_n(x)|^2 \cdot \underbrace{|e^{-iE_n t/\hbar}|^2}_{=\,1}= |\varphi_n(x)|^2$</div>
+        <p style="font-size:14px">The phase rotates, but the <strong class="accent">probability density does not change with time</strong>. Atomic orbitals (1s, 2p, …) are all stationary states — this is why they are stable.</p>
+      </div>
+      <div class="tk tk-coral"><span class="lab">The Origin of Energy Quantization</span>
+        <p style="font-size:14px">The TISE is a second-order ODE. With boundary conditions (bound states require $\varphi\to 0$), not every $E$ yields a physically acceptable solution — only the discrete set $\{E_n\}$ does. This is the mathematical origin of <strong>quantization</strong>.</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">Next Lecture Preview</span>
+        <p style="font-size:14px">Lecture 3 solves the <strong>infinite square well</strong> by hand, verifies $E_n \propto n^2$, and applies the result to conjugated molecules to estimate the HOMO-LUMO gap.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S11 OPERATORS & EXPECTATION -->
+<section class="slide">
+  <div class="sh"><p class="ey">Part V · Observables</p><h2>Operators and Expectation Values</h2></div>
+  <div class="cc" style="gap:16px">
+    <div class="t3" style="max-width:1200px">
+      <div class="cd">
+        <div class="yc">Position operator</div>
+        <div class="fm sfm" style="margin:8px 0">$\hat x\,\psi = x\cdot\psi$</div>
+        <p style="font-size:14px">The simplest operator: multiplication by coordinate $x$.</p>
+      </div>
+      <div class="cd em-cd">
+        <div class="yc">Momentum operator</div>
+        <div class="fm sfm" style="margin:8px 0">$\hat p = -i\hbar\,\dfrac{\partial}{\partial x}$</div>
+        <p style="font-size:14px">From de Broglie: $e^{ikx}$ is its eigenfunction with eigenvalue $\hbar k = p$.</p>
+      </div>
+      <div class="cd">
+        <div class="yc">Hamiltonian operator</div>
+        <div class="fm sfm" style="margin:8px 0">$\hat H = \dfrac{\hat p^2}{2m} + V$</div>
+        <p style="font-size:14px">Kinetic energy + potential energy; the generator of time evolution in the TDSE.</p>
+      </div>
+    </div>
+    <div class="cd" style="max-width:1200px;width:100%;border-left:3px solid var(--accent);border-radius:0">
+      <h3>Expectation Value — the "Average Measurement Outcome" in QM</h3>
+      <div class="fm sfm" style="margin:10px 0">$\langle \hat A\rangle = \displaystyle\int_{-\infty}^{+\infty}\psi^*(x,t)\;\hat A\;\psi(x,t)\;dx$</div>
+      <div class="tc" style="gap:16px;margin-top:12px">
+        <div>
+          <p style="font-size:14px">For $\hat A = \hat x$:</p>
+          <div class="fm sfm" style="font-size:18px;margin:6px 0">$\langle x\rangle = \int x\,|\psi|^2\,dx$</div>
+          <p style="font-size:13px;color:var(--fg3)">The position mean weighted by probability density — exactly analogous to a classical weighted average.</p>
+        </div>
+        <div>
+          <p style="font-size:14px">For $\hat A = \hat p$:</p>
+          <div class="fm sfm" style="font-size:18px;margin:6px 0">$\langle p\rangle = \int\psi^*\!\left(-i\hbar\frac{\partial}{\partial x}\right)\!\psi\,dx$</div>
+          <p style="font-size:13px;color:var(--fg3)">Note that $\hat p$ must act between $\psi^*$ and $\psi$ — the order cannot be arbitrarily reversed.</p>
+        </div>
+      </div>
+    </div>
+    <div class="tk tk-amber" style="max-width:1200px;width:100%"><span class="lab">Why Do We Need Operators?</span>
+      <p style="font-size:14px">In quantum mechanics, "position" or "momentum" is not a single number but a distribution of possible outcomes. Operators encode this distribution into the equations; expectation values give the experimentally reproducible mean.</p>
+    </div>
+  </div>
+</section>
+
+<!-- S12 COMMUTATOR -->
+<section class="slide">
+  <div class="sh"><p class="ey">Part VI · Commutator</p><h2>Commutator [x̂, p̂] = iℏ — Step-by-Step Derivation</h2></div>
+  <div class="tc" style="max-width:1200px">
+    <div class="cd" style="border-left:3px solid var(--blue);border-radius:0">
+      <h3 style="color:var(--blue)">Proof for an Arbitrary Function f(x)</h3>
+      <p style="font-size:13px;color:var(--fg3);margin-bottom:10px">The commutator $[\hat A,\hat B]=\hat A\hat B-\hat B\hat A$ is itself an operator and must act on a function to be meaningful.</p>
+      <ol class="stp">
+        <li>Compute $\hat x\hat p\,f$:
+          $$\hat x\hat p\,f = x\cdot\left(-i\hbar\frac{df}{dx}\right) = -i\hbar\, x f'$$</li>
+        <li>Compute $\hat p\hat x\,f$, applying the <strong>product rule</strong>:
+          $$\hat p\hat x\,f = -i\hbar\frac{d}{dx}(xf) = -i\hbar(f + xf')$$</li>
+        <li>Subtract:
+          $$[\hat x,\hat p]\,f = -i\hbar xf' - (-i\hbar f - i\hbar xf') = i\hbar f$$</li>
+        <li>Since $f$ is arbitrary, we obtain the <strong>canonical commutation relation</strong>:</li>
+      </ol>
+      <div class="fm" style="font-size:clamp(26px,4vw,44px);color:var(--accent);margin:10px 0">$[\hat x,\hat p] = i\hbar$</div>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>Physical Meaning of Commutation</h3>
+        <ul class="bl">
+          <li>If $[\hat A,\hat B]=0$, both observables <strong class="accent">can simultaneously have definite values</strong>; measurement order does not matter.</li>
+          <li>If $[\hat A,\hat B]\ne 0$, they <strong class="coral">cannot both be precisely determined</strong> simultaneously; intrinsic uncertainty exists.</li>
+          <li>$[\hat x,\hat p]=i\hbar\ne 0$ → the uncertainty principle for position and momentum follows.</li>
+        </ul>
+      </div>
+      <div class="tk tk-purple"><span class="lab">Correspondence with the Classical Poisson Bracket</span>
+        <p style="font-size:14px">In classical mechanics $\{x,p\}_{\text{Poisson}}=1$; the quantization rule replaces Poisson brackets: $\{\cdot,\cdot\}\to \frac{1}{i\hbar}[\cdot,\cdot]$. This is the central idea of canonical quantization.</p>
+      </div>
+      <div class="tk tk-red"><span class="lab">Key: Order Cannot Be Exchanged</span>
+        <p style="font-size:14px">Measuring position then momentum ≠ measuring momentum then position. The disturbance between the two measurements differs by $i\hbar$ — not a technical flaw, but an intrinsic structure of nature.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S13 UNCERTAINTY PRINCIPLE -->
+<section class="slide">
+  <div class="sh"><p class="ey">Heisenberg · 1927</p><h2>The Uncertainty Principle — Nature's Intrinsic Constraint</h2></div>
+  <div class="cc">
+    <div class="fm" style="font-size:clamp(28px,4.5vw,50px)">$\Delta x \cdot \Delta p \;\geq\; \dfrac{\hbar}{2}$</div>
+    <canvas id="cUn" class="vis" height="340" style="max-width:900px"></canvas>
+    <div class="ct">
+      <button onclick="setUn(12)">Narrow Δx</button>
+      <button onclick="setUn(30)" class="on">Medium</button>
+      <button onclick="setUn(60)">Wide Δx</button>
+      <span class="leg"><span class="sw" style="background:#5ba4e6"></span>|ψ(x)|² &nbsp;<span class="sw" style="background:#6dbf5e"></span>|φ(p)|²</span>
+    </div>
+    <div class="tc" style="max-width:1100px">
+      <div class="cd">
+        <h3>Derived from the Commutation Relation</h3>
+        <p style="font-size:14px">Robertson's inequality: for any two Hermitian operators $\hat A,\hat B$,</p>
+        <div class="fm sfm" style="font-size:18px;margin:6px 0">$\Delta A\,\Delta B \ge \tfrac{1}{2}|\langle[\hat A,\hat B]\rangle|$</div>
+        <p style="font-size:14px">Substituting $[\hat x,\hat p]=i\hbar$ immediately gives $\Delta x\Delta p\ge\hbar/2$.</p>
+      </div>
+      <div class="cd em-cd">
+        <h3>This Is Not Measurement Error</h3>
+        <ul class="bl">
+          <li>Even with <strong class="coral">perfectly precise</strong> instruments, the inequality still holds.</li>
+          <li>It reflects a <strong>structural incompatibility</strong> between $\hat x$ and $\hat p$, determined by the commutator.</li>
+          <li>As $\hbar\to 0$ (classical limit), the right side vanishes and both can be precisely defined simultaneously.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S14 SUPERPOSITION -->
+<section class="slide">
+  <div class="sh"><p class="ey">Part VII · Superposition</p><h2>Superposition Principle</h2></div>
+  <div class="tc" style="max-width:1200px">
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>Linearity → Superposition</h3>
+        <p style="font-size:14px">The TDSE is linear. If $\varphi_n$ are energy eigenstates, then</p>
+        <div class="fm sfm" style="margin:10px 0">$\psi = \displaystyle\sum_n c_n\,\varphi_n(x)\,e^{-iE_n t/\hbar}$</div>
+        <p style="font-size:14px">is also a valid solution, with normalization requiring $\sum_n|c_n|^2=1$.</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">Measurement Postulate</span>
+        <p style="font-size:14px">Measuring energy yields $E_n$ with probability $|c_n|^2$. <strong>Before</strong> measurement, the system is simultaneously in all components — not secretly in one definite state.</p>
+      </div>
+      <div class="tk tk-red"><span class="lab">Collapse</span>
+        <p style="font-size:14px">After measurement the system randomly jumps to eigenstate $\varphi_k$ with probability $|c_k|^2$. The remaining components <strong>irreversibly vanish</strong>. Collapse is not described by the TDSE — this is at the heart of the philosophical debates in quantum mechanics.</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd" style="border-left:3px solid var(--purple);border-radius:0">
+        <h3 style="color:var(--purple)">Interference Term — the Essence of Superposition</h3>
+        <p style="font-size:14px">For a two-state superposition, expand $|\psi|^2$:</p>
+        <div class="fm sfm" style="font-size:16px;margin:8px 0">$|\psi|^2 = |c_1|^2|\varphi_1|^2 + |c_2|^2|\varphi_2|^2 + 2\operatorname{Re}\!\left[c_1^*c_2\,\varphi_1^*\varphi_2\,e^{-i\frac{E_2-E_1}{\hbar}t}\right]$</div>
+        <p style="font-size:14px">The third term is the <strong class="purple">interference term</strong>, oscillating at the Bohr frequency:</p>
+        <div class="fm sfm" style="margin:6px 0;color:var(--amber)">$\nu_{21} = \dfrac{E_2 - E_1}{h}$</div>
+        <p style="font-size:14px">The frequency of light emitted by atoms and the emission color of OLEDs are both determined by this frequency.</p>
+      </div>
+      <canvas id="cIntf" class="vis" height="200"></canvas>
+      <div class="ct">
+        <button id="intfPlay" onclick="toggleIntf()" class="on">⏸ Pause</button>
+        <button onclick="resetIntf()">⟲ Reset</button>
+        <span class="leg">$|\psi(x,t)|^2$: interference oscillation of a two-level superposition</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S15 FREE PARTICLE & WAVE PACKET -->
+<section class="slide">
+  <div class="sh"><p class="ey">Part VIII · Free particle</p><h2>Free Particle · Wave Packet · Dispersion</h2></div>
+  <div class="cc" style="gap:12px">
+    <div class="tc" style="max-width:1200px">
+      <div class="stk">
+        <div class="cd em-cd">
+          <h3>$V=0$ → Plane Wave</h3>
+          <div class="fm sfm" style="margin:8px 0">$\psi_k = e^{i(kx-\omega t)},\quad E=\dfrac{\hbar^2 k^2}{2m}$</div>
+          <p style="font-size:14px">$k\in\mathbb{R}$ arbitrary → the energy spectrum is <strong class="accent">continuous</strong>, with no quantization. Boundary conditions are the source of quantization; a free particle has none.</p>
+        </div>
+        <div class="tk tk-red"><span class="lab">Plane Wave: Not Normalizable</span>
+          <p style="font-size:14px">$|\psi_k|^2=1$ everywhere, so the integral diverges. A plane wave is an ideal limit; real particles must be described by <strong>wave packets</strong>.</p>
+        </div>
+        <div class="cd">
+          <h3>Wave Packet = Fourier Superposition</h3>
+          <div class="fm sfm" style="font-size:16px;margin:6px 0">$\psi(x,t)=\dfrac{1}{\sqrt{2\pi}}\displaystyle\int\phi(k)\,e^{i[kx-\omega(k)t]}\,dk$</div>
+          <p style="font-size:14px"><strong class="accent">Group velocity</strong> $v_g=d\omega/dk=\hbar k/m=p/m$ (classical particle speed)<br>
+          <strong style="color:var(--fg3)">Phase velocity</strong> $v_p=\omega/k=\hbar k/2m$ (phase speed of individual components)</p>
+        </div>
+      </div>
+      <div class="stk">
+        <canvas id="cWp" class="vis" height="240"></canvas>
+        <div class="ct">
+          <button id="wpPlay" onclick="toggleWp()">▶ Play</button>
+          <button onclick="resetWp()">⟲ Reset</button>
+          <button onclick="setSigma(0.4)">Narrow σ₀</button>
+          <button onclick="setSigma(0.8)" class="on">Medium σ₀</button>
+          <button onclick="setSigma(1.6)">Wide σ₀</button>
+          <span id="wpT" style="font-size:12px;color:var(--fg3);font-family:'Fira Code'">t = 0.00</span>
+        </div>
+        <div class="tk tk-amber"><span class="lab">Why Does the Wave Packet Disperse?</span>
+          <p style="font-size:14px">$\omega(k)$ is nonlinear ($\propto k^2$), so components with different $k$ travel at different speeds and the envelope broadens in time. Smaller $\sigma_0$ means faster dispersion — fully consistent with the uncertainty principle: more localized in space means more spread in momentum, hence larger speed differences among components.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S16 SUMMARY -->
+<section class="slide">
+  <div class="sh"><p class="ey">Summary</p><h2>Five Key Points of This Lecture</h2></div>
+  <div class="cc" style="gap:14px">
+    <div class="t3" style="max-width:1150px">
+      <div class="cd" style="border-left:3px solid var(--purple);border-radius:0">
+        <div style="font-size:28px;font-weight:700;color:var(--purple)">I</div>
+        <h3>Wave Function + Born Interpretation</h3>
+        <p style="font-size:14px">$\psi\in\mathbb{C}$; $|\psi|^2$ is probability density; $\int|\psi|^2 dx=1$; overall phase has no meaning.</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--blue);border-radius:0">
+        <div style="font-size:28px;font-weight:700;color:var(--blue)">II</div>
+        <h3>Schrödinger Equation</h3>
+        <p style="font-size:14px">The TDSE is linear, first-order, and complex — a postulate. Given the initial state, evolution is uniquely determined and probability is conserved.</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--accent);border-radius:0">
+        <div style="font-size:28px;font-weight:700;color:var(--accent)">III</div>
+        <h3>Stationary States + Quantization</h3>
+        <p style="font-size:14px">TISE $\hat H\varphi=E\varphi$; boundary conditions → discrete $\{E_n\}$; stationary-state $|\psi|^2$ is time-independent.</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--amber);border-radius:0">
+        <div style="font-size:28px;font-weight:700;color:var(--amber)">IV</div>
+        <h3>Commutation → Uncertainty</h3>
+        <p style="font-size:14px">$[\hat x,\hat p]=i\hbar \Rightarrow \Delta x\Delta p\ge\hbar/2$; intrinsic constraint, not instrument error.</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--coral);border-radius:0">
+        <div style="font-size:28px;font-weight:700;color:var(--coral)">V</div>
+        <h3>Superposition + Wave Packet</h3>
+        <p style="font-size:14px">Superposition produces interference (Bohr frequency = transition light frequency); free particles are wave packets; group velocity = classical speed; dispersion arises from nonlinear dispersion relation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S17 QUESTIONS & NEXT -->
+<section class="slide">
+  <div class="sh"><p class="ey">Thinking questions</p><h2>Post-lecture Questions</h2></div>
+  <div class="cc" style="gap:16px">
+    <div class="qb" style="max-width:1050px;width:100%"><span>Question 1</span>
+      <p>How does the probability density of the superposition state $\psi=(\varphi_1+\varphi_2)/\sqrt{2}$ evolve in time? Expand $|\psi(x,t)|^2$, identify the interference term, and write down the oscillation frequency.</p>
+    </div>
+    <div class="qb" style="max-width:1050px;width:100%"><span>Question 2</span>
+      <p>The momentum eigenstate of a free particle is the plane wave $e^{ikx}$. Why is it completely delocalized in position space ($|\psi|^2$ uniform everywhere)? How is this related to $\Delta x\Delta p\ge\hbar/2$?</p>
+    </div>
+  </div>
+  <div style="height:20px"></div>
+  <p class="ey" style="font-size:11px;letter-spacing:1.8px">Next lecture</p>
+  <h1 style="font-size:clamp(32px,5vw,58px)">Particle in a Box<br><span class="accent">&amp; Conjugation Length</span></h1>
+  <p class="lead" style="font-size:clamp(16px,2vw,22px)">The first model to solve the TISE by hand: the infinite square well.<br>Use quantized energy levels to estimate the HOMO-LUMO gap of conjugated molecules and OLED emission color.</p>
+  <div class="of" style="margin-top:16px"><div class="ob oa"></div><div class="ob ob2"></div><div class="ob oc"></div><div class="nu"></div></div>
+</section>
+
+</main>
+<footer class="ft">
+  <button class="nb" onclick="go(-1)">← Prev</button>
+  <div class="ptr"><div class="pfill" id="pf" style="width:5%"></div></div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> fullscreen</span>
+    <button class="nb" onclick="location.href='../lecture01/index.html'">L1</button>
+    <button class="nb" onclick="location.href='./index.html'">L2 deck</button>
+    <button class="nb" onclick="go(1)">Next →</button>
+  </div>
+</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+const F='Playfair Display';
+let cur=0;const SL=document.querySelectorAll('.slide'),TN=SL.length;
+document.getElementById('ind').textContent='1 / '+TN;
+function goTo(n){if(n<0||n>=TN)return;SL[cur].classList.remove('active');SL[cur].classList.add('exit');const p=cur;cur=n;SL[cur].classList.add('active');setTimeout(()=>SL[p].classList.remove('exit'),450);document.getElementById('ind').textContent=(cur+1)+' / '+TN;document.getElementById('pf').style.width=((cur+1)/TN*100)+'%';drawStatic()}
+function go(d){goTo(cur+d)}
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();go(1)}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}
+  if(e.key==='f'||e.key==='F')document.documentElement.requestFullscreen?.()
+});
+document.querySelector('.deck').addEventListener('click',e=>{if(e.target.closest('.ct')||e.target.closest('button')||e.target.closest('input')||e.target.closest('canvas'))return;go(1)});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});
+document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60){d>0?go(-1):go(1)}});
+window.addEventListener('load',()=>{try{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false})}catch(e){}setTimeout(drawStatic,200)});
+
+function gC(id){const c=document.getElementById(id);if(!c||!c.offsetWidth)return null;const r=c.getBoundingClientRect();c.width=r.width*2;c.height=r.height*2;const x=c.getContext('2d');x.scale(2,2);return{c,x,w:r.width,h:r.height}}
+
+/* ===== Uncertainty Gaussian pair ===== */
+let unSg=30;
+function setUn(v){unSg=v;document.querySelectorAll('#cUn+.ct button, section .ct button').forEach(b=>{});drawUn()}
+function drawUn(){const r=gC('cUn');if(!r)return;const{x,w,h}=r;
+  x.clearRect(0,0,w,h);
+  const sg=unSg;const sX=sg*1.2,sP=700/sg,N=Math.round(w)-60,c1=h*.32,c2=h*.78,am=h*.22;
+  x.font=`13px "${F}"`;x.textAlign='left';x.fillStyle='#5ba4e6';x.fillText('|ψ(x)|² — position space',40,14);x.fillStyle='#6abf5e';x.fillText('|φ(p)|² — momentum space',40,h*.54);
+  x.strokeStyle='#1e231e';x.lineWidth=.5;x.beginPath();x.moveTo(30,c1);x.lineTo(w-10,c1);x.stroke();x.beginPath();x.moveTo(30,c2);x.lineTo(w-10,c2);x.stroke();
+  x.beginPath();x.moveTo(30,c1);for(let i=0;i<N;i++){const v=(i-N/2)/sX;x.lineTo(30+i,c1-Math.exp(-v*v/2)*am)}x.lineTo(30+N,c1);x.closePath();x.fillStyle='rgba(91,164,230,0.12)';x.fill();
+  x.beginPath();for(let i=0;i<N;i++){const v=(i-N/2)/sX;i?x.lineTo(30+i,c1-Math.exp(-v*v/2)*am):x.moveTo(30+i,c1-Math.exp(-v*v/2)*am)}x.strokeStyle='#5ba4e6';x.lineWidth=2.2;x.stroke();
+  x.beginPath();x.moveTo(30,c2);for(let i=0;i<N;i++){const v=(i-N/2)/sP;x.lineTo(30+i,c2-Math.exp(-v*v/2)*am)}x.lineTo(30+N,c2);x.closePath();x.fillStyle='rgba(106,191,94,0.12)';x.fill();
+  x.beginPath();for(let i=0;i<N;i++){const v=(i-N/2)/sP;i?x.lineTo(30+i,c2-Math.exp(-v*v/2)*am):x.moveTo(30+i,c2-Math.exp(-v*v/2)*am)}x.strokeStyle='#6abf5e';x.lineWidth=2.2;x.stroke();
+  x.font=`12px "${F}"`;x.fillStyle='#706c65';x.textAlign='right';x.fillText('Δx · Δp ≥ ℏ/2  (product ≈ const)',w-16,h-6);
+}
+
+/* ===== Interference: ψ = (φ1 + φ2)/√2 in infinite well ===== */
+let intfPlaying=true,intfT=0,intfLast=0;
+function toggleIntf(){intfPlaying=!intfPlaying;document.getElementById('intfPlay').textContent=intfPlaying?'⏸ Pause':'▶ Play';document.getElementById('intfPlay').classList.toggle('on',intfPlaying);intfLast=0}
+function resetIntf(){intfT=0}
+function drawIntf(ts){const r=gC('cIntf');if(!r)return;const{x,w,h}=r;
+  x.clearRect(0,0,w,h);
+  if(intfPlaying){if(!intfLast)intfLast=ts;intfT+=(ts-intfLast)/1000*1.3;intfLast=ts}
+  // L=1, infinite well, n=1,2. E_n ∝ n^2. set E1=1, E2=4, so Δω=3.
+  const L=1,N=400,pL=40,pR=20,pT=20,pB=26;const plotW=w-pL-pR,plotH=h-pT-pB;
+  // axes
+  x.strokeStyle='#333';x.lineWidth=1;x.beginPath();x.moveTo(pL,h-pB);x.lineTo(w-pR,h-pB);x.stroke();
+  x.beginPath();x.moveTo(pL,pT);x.lineTo(pL,h-pB);x.stroke();
+  x.font=`11px "${F}"`;x.fillStyle='#706c65';x.textAlign='center';x.fillText('x / L',w/2,h-6);
+  x.save();x.translate(14,h/2);x.rotate(-Math.PI/2);x.fillText('|ψ|²',0,0);x.restore();
+  // curve
+  const ymax=2.2;
+  function draw(fn,col,lw,fill){
+    x.beginPath();
+    for(let i=0;i<=N;i++){
+      const xv=i/N; const yv=fn(xv);
+      const px=pL+xv*plotW; const py=(h-pB)-(yv/ymax)*plotH;
+      if(i===0)x.moveTo(px,py);else x.lineTo(px,py);
+    }
+    x.strokeStyle=col;x.lineWidth=lw;x.stroke();
+    if(fill){x.lineTo(pL+plotW,h-pB);x.lineTo(pL,h-pB);x.closePath();x.fillStyle=fill;x.fill();}
+  }
+  // φ1=√2 sin(π x), φ2=√2 sin(2π x). ψ=(φ1+φ2 e^{-iΔω t})/√2 up to global phase
+  // |ψ|² = ½(φ1²+φ2²) + φ1 φ2 cos(Δω t)
+  const dw=3.0;
+  draw(xv=>{const p1=Math.sqrt(2)*Math.sin(Math.PI*xv);const p2=Math.sqrt(2)*Math.sin(2*Math.PI*xv);return 0.5*(p1*p1+p2*p2);},'#5ba4e6',1.2,null);
+  draw(xv=>{const p1=Math.sqrt(2)*Math.sin(Math.PI*xv);const p2=Math.sqrt(2)*Math.sin(2*Math.PI*xv);return 0.5*(p1*p1+p2*p2)+p1*p2*Math.cos(dw*intfT);},'#f59e0b',2.4,'rgba(245,158,11,0.10)');
+  // time label
+  x.font=`12px "Fira Code"`;x.textAlign='right';x.fillStyle='#ddb84a';x.fillText('t = '+intfT.toFixed(2)+'   ω₂₁ = '+dw.toFixed(1),w-10,pT+4);
+  x.fillStyle='#5ba4e6';x.textAlign='left';x.font=`12px "${F}"`;x.fillText('time average (no interference)',pL+8,pT+14);
+  x.fillStyle='#f59e0b';x.fillText('instantaneous |ψ(x,t)|² (with interference)',pL+8,pT+30);
+}
+
+/* ===== Wave packet animation ===== */
+let wpPlaying=false,wpT=0,wpLast=0,wpSigma=0.8;
+const wp_k0=4,wp_x0=-5;
+function toggleWp(){wpPlaying=!wpPlaying;document.getElementById('wpPlay').textContent=wpPlaying?'⏸ Pause':'▶ Play';document.getElementById('wpPlay').classList.toggle('on',wpPlaying);wpLast=0}
+function resetWp(){wpT=0}
+function setSigma(v){wpSigma=v;wpT=0}
+function wpPsi2(xv,t,sigma0){
+  const s2=sigma0*sigma0 + (t/(2*sigma0))*(t/(2*sigma0));
+  const xc=wp_x0 + wp_k0*t;
+  return (1/Math.sqrt(2*Math.PI*s2))*Math.exp(-(xv-xc)*(xv-xc)/(2*s2));
+}
+function drawWp(ts){const r=gC('cWp');if(!r)return;const{x,w,h}=r;
+  x.clearRect(0,0,w,h);
+  if(wpPlaying){if(!wpLast)wpLast=ts;const dt=(ts-wpLast)/1000;wpT+=dt*1.1;wpLast=ts;if(wpT>5){wpPlaying=false;document.getElementById('wpPlay').textContent='▶ 播放';document.getElementById('wpPlay').classList.remove('on')}}
+  const xMin=-10,xMax=24,pL=40,pR=20,pT=20,pB=26;
+  const plotW=w-pL-pR,plotH=h-pT-pB;
+  // axes
+  x.strokeStyle='#333';x.lineWidth=1;x.beginPath();x.moveTo(pL,h-pB);x.lineTo(w-pR,h-pB);x.stroke();
+  x.beginPath();x.moveTo(pL,pT);x.lineTo(pL,h-pB);x.stroke();
+  // x ticks
+  x.font=`10px "Fira Code"`;x.fillStyle='#706c65';x.textAlign='center';
+  for(let xv=-10;xv<=24;xv+=5){const px=pL+((xv-xMin)/(xMax-xMin))*plotW;x.beginPath();x.moveTo(px,h-pB);x.lineTo(px,h-pB+4);x.stroke();x.fillText(xv,px,h-pB+16)}
+  x.font=`11px "${F}"`;x.fillStyle='#706c65';x.textAlign='right';x.fillText('|ψ|²',pL-6,pT+10);x.fillText('x',w-pR,h-pB+16);
+  const maxY=1/Math.sqrt(2*Math.PI*wpSigma*wpSigma)*1.15;
+  function plot(fn,col,lw){x.beginPath();const N=500;
+    for(let i=0;i<=N;i++){const xv=xMin+(xMax-xMin)*i/N;const yv=fn(xv);const px=pL+((xv-xMin)/(xMax-xMin))*plotW;const py=(h-pB)-(yv/maxY)*plotH;i?x.lineTo(px,py):x.moveTo(px,py)}
+    x.strokeStyle=col;x.lineWidth=lw;x.stroke();}
+  plot(xv=>wpPsi2(xv,0,wpSigma),'#5ba4e6',1.6);
+  plot(xv=>wpPsi2(xv,wpT,wpSigma),'#f59e0b',2.4);
+  // center marker
+  const xc=wp_x0+wp_k0*wpT;const cx=pL+((xc-xMin)/(xMax-xMin))*plotW;
+  x.strokeStyle='rgba(245,158,11,0.3)';x.setLineDash([4,4]);x.beginPath();x.moveTo(cx,pT);x.lineTo(cx,h-pB);x.stroke();x.setLineDash([]);
+  document.getElementById('wpT').textContent='t = '+wpT.toFixed(2)+'   σ₀ = '+wpSigma.toFixed(2);
+}
+
+/* ===== Classical trajectory (deterministic projectile) ===== */
+function drawClassical(t){const r=gC('cCla');if(!r)return;const{x,w,h}=r;
+  x.clearRect(0,0,w,h);
+  const pL=36,pR=16,pT=18,pB=28;const plotW=w-pL-pR,plotH=h-pT-pB;
+  // ground
+  x.fillStyle='rgba(91,164,230,0.04)';x.fillRect(pL,pT,plotW,plotH);
+  x.strokeStyle='#2a3540';x.lineWidth=1;x.beginPath();x.moveTo(pL,h-pB);x.lineTo(w-pR,h-pB);x.stroke();
+  x.beginPath();x.moveTo(pL,pT);x.lineTo(pL,h-pB);x.stroke();
+  x.font=`10px "Fira Code"`;x.fillStyle='#706c65';x.textAlign='center';x.fillText('x',w-pR-4,h-pB+16);
+  x.save();x.translate(pL-22,pT+12);x.fillText('y',0,0);x.restore();
+  // parabolic trajectory: x(t) = v0x*t, y(t) = v0y*t - 0.5 g t^2
+  const v0x=0.6,v0y=1.3,g=0.8;
+  function xy(tt){return[pL+v0x*tt*plotW*0.35, (h-pB) - (v0y*tt - 0.5*g*tt*tt)*plotH*0.6]}
+  // full predicted trajectory (dashed)
+  x.strokeStyle='rgba(91,164,230,0.35)';x.lineWidth=1.3;x.setLineDash([4,4]);x.beginPath();
+  let started=false;
+  for(let tt=0;tt<=3.2;tt+=0.04){const[px,py]=xy(tt);if(py>h-pB)break;if(!started){x.moveTo(px,py);started=true}else x.lineTo(px,py)}
+  x.stroke();x.setLineDash([]);
+  // current ball position
+  const period=3.2,phase=((t||0)/1000)%period;
+  const[bx,by]=xy(phase);
+  // solid traced line up to current phase
+  x.strokeStyle='#5ba4e6';x.lineWidth=2.4;x.beginPath();
+  for(let tt=0;tt<=phase;tt+=0.02){const[px,py]=xy(tt);tt===0?x.moveTo(px,py):x.lineTo(px,py)}
+  x.stroke();
+  // initial point marker
+  const[sx,sy]=xy(0);
+  x.beginPath();x.arc(sx,sy,4,0,Math.PI*2);x.fillStyle='#5ba4e6';x.fill();
+  x.font=`11px "${F}"`;x.fillStyle='#5ba4e6';x.textAlign='left';x.fillText('(x₀, p₀)',sx+8,sy-4);
+  // ball
+  const bg=x.createRadialGradient(bx,by,0,bx,by,10);bg.addColorStop(0,'#cde4fa');bg.addColorStop(1,'#5ba4e600');
+  x.beginPath();x.arc(bx,by,10,0,Math.PI*2);x.fillStyle=bg;x.fill();
+  x.beginPath();x.arc(bx,by,5,0,Math.PI*2);x.fillStyle='#5ba4e6';x.fill();
+  // velocity arrow
+  const dt=0.05;const[nx,ny]=xy(Math.min(phase+dt,period));
+  const ax1=nx-bx,ay1=ny-by,aL=Math.hypot(ax1,ay1);
+  if(aL>0.1){const k=26/aL,ex=bx+ax1*k,ey=by+ay1*k;
+    x.strokeStyle='#ddb84a';x.lineWidth=1.8;x.beginPath();x.moveTo(bx,by);x.lineTo(ex,ey);x.stroke();
+    const ang=Math.atan2(ay1,ax1);x.beginPath();x.moveTo(ex,ey);x.lineTo(ex-6*Math.cos(ang-0.4),ey-6*Math.sin(ang-0.4));x.lineTo(ex-6*Math.cos(ang+0.4),ey-6*Math.sin(ang+0.4));x.closePath();x.fillStyle='#ddb84a';x.fill();
+  }
+  // annotation
+  x.font=`12px "${F}"`;x.fillStyle='#a8a49b';x.textAlign='right';
+  x.fillText('x(t) = x₀ + v₀t + ½at²',w-pR-6,pT+14);
+  x.fillStyle='#ddb84a';x.fillText('→ unique trajectory · fully predictable',w-pR-6,pT+30);
+}
+
+/* ===== Double-slit electron experiment (from Lecture 1) ===== */
+let dsHits=[],dsNe=0,dsFr=0,dsFlying=[];
+function drawQuantum(t){const r=gC('cQua');if(!r)return;const{x,w,h}=r;
+  dsFr++;
+  x.fillStyle='#0c0e0c';x.fillRect(0,0,w,h);
+  const barX=w*.34,scrX=w*.82,sGap=h*.13,s1=h*.5-sGap,s2=h*.5+sGap;
+  // barrier with two slits
+  x.fillStyle='#2a3028';
+  x.fillRect(barX-3,0,6,s1-9);x.fillRect(barX-3,s1+9,6,s2-s1-18);x.fillRect(barX-3,s2+9,6,h-s2-9);
+  x.fillStyle='rgba(176,126,232,0.14)';x.fillRect(barX-4,s1-9,8,18);x.fillRect(barX-4,s2-9,8,18);
+  // screen
+  x.fillStyle='#181c18';x.fillRect(scrX,h*.03,5,h*.94);
+  // electron gun
+  x.beginPath();x.arc(w*.04,h*.5,6,0,Math.PI*2);x.fillStyle='#b07ee8';x.fill();
+  x.font=`11px "${F}"`;x.fillStyle='#50564e';x.textAlign='center';x.fillText('e⁻ gun',w*.04,h*.5+18);
+  x.fillText('barrier',barX,h-3);x.fillText('screen',scrX+2,h-3);
+  // slit labels
+  x.fillStyle='#70605c';x.font=`10px "${F}"`;x.fillText('slit 1',barX,s1-14);x.fillText('slit 2',barX,s2+20);
+
+  // flying electrons: spawn at gun, move to barrier, then toward screen
+  if(dsFr%6===0){
+    dsFlying.push({x:w*.04,y:h*.5+(Math.random()-.5)*4,vx:w*.012,phase:0});
+  }
+  dsFlying=dsFlying.filter(e=>{
+    e.x+=e.vx;
+    if(e.phase===0 && e.x>=barX){
+      // passed barrier — pick destination on screen from interference distribution
+      const k=0.09,sig2=h*h*0.07;let hitY;
+      for(let at=0;at<60;at++){
+        hitY=h*.5+(Math.random()-.5)*h*.9;const dy=hitY-h*.5;
+        const prob=Math.pow(Math.cos(k*dy),2)*Math.exp(-dy*dy/sig2);
+        if(Math.random()<prob)break;
+      }
+      e.tgtY=hitY; e.phase=1;
+      const dx=scrX-barX, dy=hitY-e.y;
+      const len=Math.hypot(dx,dy); e.vx=dx/len*w*0.012; e.vy=dy/len*w*0.012;
+    }
+    if(e.phase===1){ e.y+=e.vy; }
+    if(e.x>=scrX){
+      dsHits.push({x:scrX+2+Math.random()*4,y:e.tgtY,age:0});
+      dsNe++;
+      return false;
+    }
+    if(e.x>w)return false;
+    // draw electron
+    x.beginPath();x.arc(e.x,e.y,2.5,0,Math.PI*2);x.fillStyle='rgba(176,126,232,0.9)';x.fill();
+    // soft trail
+    x.beginPath();x.arc(e.x-e.vx*2,e.y-(e.vy||0)*2,1.6,0,Math.PI*2);x.fillStyle='rgba(176,126,232,0.35)';x.fill();
+    return true;
+  });
+
+  // accumulated hits (persistent pattern)
+  dsHits.forEach(h2=>{h2.age++;
+    const al=h2.age<8?h2.age/8:.72;
+    x.beginPath();x.arc(h2.x,h2.y,1.5,0,Math.PI*2);x.fillStyle='rgba(176,126,232,'+al+')';x.fill();
+    if(h2.age<5){x.beginPath();x.arc(h2.x,h2.y,5-h2.age,0,Math.PI*2);x.fillStyle='rgba(176,126,232,'+((5-h2.age)/14)+')';x.fill()}
+  });
+  // cap memory
+  if(dsHits.length>800)dsHits.splice(0,dsHits.length-800);
+
+  // counter & annotation
+  x.font=`12px "Fira Code"`;x.textAlign='right';x.fillStyle='#b07ee8';
+  x.fillText(dsNe+' electrons',w-10,20);
+  x.font=`12px "${F}"`;x.fillStyle='#a8a49b';
+  x.fillText('fired one by one · hits build up interference fringes',w-10,36);
+  x.fillStyle='#e05454';x.fillText('→ impossible for classical particles',w-10,52);
+}
+
+/* ===== main loop ===== */
+let rafId;
+function loop(t){
+  const s=SL[cur];
+  if(s.querySelector('#cCla'))drawClassical(t);
+  if(s.querySelector('#cQua'))drawQuantum(t);
+  if(s.querySelector('#cIntf'))drawIntf(t);
+  if(s.querySelector('#cWp'))drawWp(t);
+  rafId=requestAnimationFrame(loop);
+}
+function drawStatic(){drawUn()}
+window.addEventListener('resize',drawStatic);
+setTimeout(()=>{drawStatic();rafId=requestAnimationFrame(loop)},300);
+</script>
+</body></html>
