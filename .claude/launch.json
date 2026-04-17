@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "lecture01",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "lecture01", "-l", "3456", "--no-clipboard"],
+      "port": 3456
+    }
+  ]
+}
