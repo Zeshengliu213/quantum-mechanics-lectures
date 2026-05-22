@@ -175,6 +175,13 @@ body.presenter-on .app{display:none}
 .pm-swatch.on{border-color:#fff}
 .pm-ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none;touch-action:none}
 .pm-ink.draw{pointer-events:auto;cursor:crosshair}
+/* 屏幕画笔工具栏（iPad / Apple Pencil 直接批注） */
+.deck-pen{position:fixed;right:14px;bottom:42px;z-index:60;display:flex;align-items:center;gap:6px;padding:7px 9px;background:rgba(18,22,18,0.86);border:1px solid rgba(255,255,255,0.14);border-radius:11px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.dp-btn{height:36px;min-width:38px;padding:0 8px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid rgba(255,255,255,0.16);border-radius:7px;color:#d6d2c8;cursor:pointer;font-size:16px;font-family:inherit;line-height:1}
+.dp-btn:active{background:rgba(255,255,255,0.1)}
+.dp-btn.on{background:var(--accent2);border-color:var(--accent);color:#fff}
+.dp-sw{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);cursor:pointer;padding:0}
+.dp-sw.on{border-color:#fff}
 </style>
 </head>
 <body>
@@ -1618,15 +1625,17 @@ setTimeout(()=>{drawStatic();aId=requestAnimationFrame(loop)},300);
     };
   }
 
-  /* 观众窗口：透明批注层，接收并显示演讲者画的笔迹 */
+  /* 观众 / iPad 窗口：透明批注层 —— 既接收演讲者笔迹，也支持 Apple Pencil 直接批注 */
   function setupAudienceInk(){
     var canvas = document.createElement('canvas');
     canvas.id = 'qm-anno';
-    canvas.style.cssText = 'position:fixed;left:0;top:0;z-index:50;pointer-events:none';
+    canvas.style.cssText = 'position:fixed;left:0;top:0;z-index:50;pointer-events:none;touch-action:none';
     document.body.appendChild(canvas);
     var ink = createInk(canvas, function(){ return { w: window.innerWidth, h: window.innerHeight }; });
     window.addEventListener('resize', function(){ ink.fit(); });
     ink.fit();
+
+    /* 接收演讲者窗口同步过来的笔迹 */
     window.addEventListener('message', function(e){
       var d = e.data;
       if (!d || typeof d !== 'object' || d.t !== 'qmink') return;
@@ -1636,6 +1645,58 @@ setTimeout(()=>{drawStatic();aId=requestAnimationFrame(loop)},300);
       else if (d.op === 'clear') ink.clear();
     });
     window.__inkClear = function(){ ink.clear(); };
+
+    /* 屏幕画笔工具栏：iPad 无需键盘，点 ✎ 即可用 Apple Pencil 在幻灯片上批注 */
+    var bar = document.createElement('div');
+    bar.className = 'deck-pen';
+    bar.innerHTML =
+      '<button class="dp-btn" data-act="pen" title="画笔">✎</button>' +
+      '<button class="dp-btn" data-act="eraser" title="橡皮擦">擦</button>' +
+      '<button class="dp-sw on" data-c="#ff5252" style="background:#ff5252" title="红色"></button>' +
+      '<button class="dp-sw" data-c="#ffd54a" style="background:#ffd54a" title="黄色"></button>' +
+      '<button class="dp-sw" data-c="#5ad1ff" style="background:#5ad1ff" title="蓝色"></button>' +
+      '<button class="dp-btn" data-act="clear" title="清除本页">清</button>';
+    document.body.appendChild(bar);
+
+    var penOn = false, tool = 'pen', color = '#ff5252', drawing = false;
+    function refresh(){
+      canvas.style.pointerEvents = penOn ? 'auto' : 'none';
+      bar.querySelector('[data-act="pen"]').classList.toggle('on', penOn && tool === 'pen');
+      bar.querySelector('[data-act="eraser"]').classList.toggle('on', penOn && tool === 'eraser');
+      Array.prototype.forEach.call(bar.querySelectorAll('.dp-sw'), function(sw){
+        sw.classList.toggle('on', sw.getAttribute('data-c') === color);
+      });
+    }
+    function pick(t){ if (penOn && tool === t) penOn = false; else { tool = t; penOn = true; } refresh(); }
+    bar.addEventListener('click', function(e){
+      var b = e.target && e.target.closest ? e.target.closest('.dp-btn, .dp-sw') : null;
+      if (!b) return;
+      if (b.classList.contains('dp-sw')) { color = b.getAttribute('data-c'); tool = 'pen'; penOn = true; refresh(); return; }
+      var act = b.getAttribute('data-act');
+      if (act === 'pen') pick('pen');
+      else if (act === 'eraser') pick('eraser');
+      else if (act === 'clear') ink.clear();
+    });
+
+    function norm(e){
+      var w = window.innerWidth || 1, h = window.innerHeight || 1;
+      return { x: e.clientX / w, y: e.clientY / h };
+    }
+    canvas.addEventListener('pointerdown', function(e){
+      if (!penOn || e.pointerType === 'touch') return;   /* 手指留给翻页手势，Apple Pencil / 鼠标用于书写 */
+      e.preventDefault();
+      try { canvas.setPointerCapture(e.pointerId); } catch(_){}
+      drawing = true;
+      ink.down({ tool: tool, color: color, w: tool === 'eraser' ? 30 : 3.8 }, norm(e));
+    });
+    canvas.addEventListener('pointermove', function(e){
+      if (!penOn || !drawing || e.pointerType === 'touch') return;
+      ink.move(norm(e));
+    });
+    function endStroke(){ if (drawing) { drawing = false; ink.up(); } }
+    canvas.addEventListener('pointerup', endStroke);
+    canvas.addEventListener('pointercancel', endStroke);
+    refresh();
   }
 
   function pad(n){ n = n | 0; return (n < 10 ? '0' : '') + n; }
