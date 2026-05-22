@@ -1,7 +1,7 @@
 <!DOCTYPE html>
-<html lang="zh-CN"><head><meta charset="UTF-8">
+<html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>专题 · 无限深方势阱</title>
+<title>Topic · Infinite Square Well</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Fira+Code&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
@@ -42,7 +42,7 @@ footer.ft{height:30px;background:var(--bg2);border-top:1px solid rgba(255,255,25
 .slide p{font-size:16px;line-height:1.62;color:var(--fg2)}
 .ey{font-size:13px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
 .sh{text-align:left;width:100%;max-width:1200px;margin-bottom:18px}
-.lead{font-size:clamp(17px,2.2vw,23px);color:var(--fg2);line-height:1.5;text-align:center;max-width:820px;margin-top:16px;font-style:italic}
+.lead{font-size:clamp(17px,2.2vw,23px);color:var(--fg2);line-height:1.5;text-align:center;max-width:840px;margin-top:16px;font-style:italic}
 .accent{color:var(--accent)}.blue{color:var(--blue)}.coral{color:var(--coral)}.purple{color:var(--purple)}.amber{color:var(--amber)}
 .cap{font-size:13px;color:var(--fg3);text-align:center;margin-top:10px}
 .fm{font-size:clamp(22px,3vw,38px);text-align:center;margin:14px 0}
@@ -111,15 +111,15 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
 <body>
 <div class="app">
 <header class="chrome">
-  <div style="display:flex;align-items:center;gap:8px"><span class="tag">Quantum Mechanics</span><span class="tsm">专题 · 无限深方势阱</span></div>
-  <span class="ind" id="ind">1 / 9</span>
+  <div style="display:flex;align-items:center;gap:8px"><span class="tag">Quantum Mechanics</span><span class="tsm">Topic · Infinite Square Well</span></div>
+  <span class="ind" id="ind">1 / 11</span>
 </header>
 <main class="deck" id="deck">
 
 <!-- S0 COVER -->
 <section class="slide active">
-  <p class="ey" style="font-size:15px">量子力学专题 · Particle in a Box</p>
-  <h1 style="font-style:italic;color:var(--accent);font-size:clamp(42px,6.6vw,78px)">无限深方势阱</h1>
+  <p class="ey" style="font-size:15px">Quantum Mechanics Topic · Particle in a Box</p>
+  <h1 style="font-style:italic;color:var(--accent);font-size:clamp(42px,6.6vw,78px)">The Infinite Square Well</h1>
   <div class="svgbox" style="max-width:520px;margin-top:22px;background:transparent;border:none">
     <svg viewBox="0 0 520 150">
       <line x1="70" y1="20" x2="70" y2="130" stroke="#6dbf5e" stroke-width="4"/>
@@ -129,18 +129,18 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
       <path id="cv2" fill="none" stroke="#b07ee8" stroke-width="2.5"/>
     </svg>
   </div>
-  <p class="lead" style="font-style:normal;font-size:clamp(17px,2.2vw,22px)">量子力学里最简单、也最重要的模型 ——<br>一个被关在盒子里的电子，第一次让我们亲眼看见<br><span class="accent">「能量量子化」是怎么自然冒出来的</span>。</p>
-  <p class="cap">← → 翻页 · 点击空白翻页 · <kbd>F</kbd> 全屏</p>
+  <p class="lead" style="font-style:normal;font-size:clamp(17px,2.2vw,22px)">The simplest — and most important — model in quantum mechanics:<br>a single electron trapped in a box, where we first see<br><span class="accent">how energy quantization arises all on its own</span>.</p>
+  <p class="cap">← → navigate · click empty space to advance · <kbd>F</kbd> fullscreen</p>
 </section>
 
-<!-- S1 物理设定 -->
+<!-- S1 PHYSICAL SETUP -->
 <section class="slide">
-  <div class="sh"><p class="ey">物理设定</p><h2>把一个电子关进一维盒子</h2></div>
+  <div class="sh"><p class="ey">Physical setup</p><h2>Trapping an electron in a 1D box</h2></div>
   <div class="tc">
     <div class="stk">
       <div class="cd">
-        <h3>模型</h3>
-        <p>一个电子被限制在宽度 $L$ 的一维区间内。盒子<strong class="accent">内部势能为零</strong>（电子自由），盒壁势能<strong class="coral">无穷高</strong>（电子绝对出不去）。</p>
+        <h3>The model</h3>
+        <p>An electron is confined to a one-dimensional interval of width $L$. Inside the box the <strong class="accent">potential is zero</strong> (the electron moves freely); at the walls the <strong class="coral">potential is infinitely high</strong> (the electron can never escape).</p>
         <div class="svgbox" style="margin-top:12px">
           <svg viewBox="0 0 560 230">
             <rect x="20" y="20" width="80" height="160" fill="rgba(232,115,74,0.14)"/>
@@ -154,7 +154,7 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
             <line x1="100" y1="205" x2="460" y2="205" stroke="#706c65" stroke-width="1"/>
             <text x="96" y="210" fill="#a8a49b" font-size="13" text-anchor="end">0</text>
             <text x="466" y="210" fill="#a8a49b" font-size="13">L</text>
-            <text x="280" y="222" fill="#a8a49b" font-size="13" text-anchor="middle">盒子宽度 L</text>
+            <text x="280" y="222" fill="#a8a49b" font-size="13" text-anchor="middle">box width L</text>
             <circle cx="250" cy="180" r="6" fill="#5ba4e6"/>
             <text x="262" y="172" fill="#5ba4e6" font-size="13">e⁻</text>
           </svg>
@@ -163,90 +163,90 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
     </div>
     <div class="stk">
       <div class="cd em-cd">
-        <h3>边界条件从哪来？</h3>
-        <p>波函数 $\psi(x)$ 必须<strong class="accent">处处连续</strong>。盒壁外势能无穷大 → 电子不可能出现在那里 → 那里 $\psi=0$。</p>
-        <p style="margin-top:8px">连续性要求盒内的 $\psi$ 在边界处与盒外接上，于是：</p>
+        <h3>Where do the boundary conditions come from?</h3>
+        <p>The wave function $\psi(x)$ must be <strong class="accent">continuous everywhere</strong>. Outside the walls the potential is infinite → the electron cannot be there → $\psi=0$ there.</p>
+        <p style="margin-top:8px">Continuity then forces the inside $\psi$ to match the outside at the edges:</p>
         <div class="fm sfm" style="margin:10px 0;color:var(--accent)">$\psi(0)=0,\qquad \psi(L)=0$</div>
-        <p>这两个看似不起眼的条件，正是后面<strong>所有量子化结果的源头</strong>。</p>
+        <p>These two unassuming conditions are the <strong>source of every quantization result</strong> that follows.</p>
       </div>
-      <div class="tk tk-blue"><span class="lab">为什么这个模型重要</span>
-        <p>它简单到能用手算出全部解，却已经包含量子力学最核心的三个特征：能量量子化、零点能、波函数节点。是理解一切更复杂体系的「第一块拼图」。</p>
+      <div class="tk tk-blue"><span class="lab">Why this model matters</span>
+        <p>It is simple enough to solve completely by hand, yet it already contains the three core features of quantum mechanics: energy quantization, zero-point energy, and wave-function nodes. It is the first piece of the puzzle for every more complex system.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- S2 解方程 -->
+<!-- S2 SOLVING THE EQUATION -->
 <section class="slide">
-  <div class="sh"><p class="ey">解方程 · 主线</p><h2>从薛定谔方程到一串离散能级</h2></div>
+  <div class="sh"><p class="ey">Solving it · main line</p><h2>From the Schrödinger equation to discrete energy levels</h2></div>
   <div class="tc">
     <div class="stk">
       <div class="cd">
-        <h3>盒内：方程变成「驻波方程」</h3>
-        <p>盒内 $V=0$，定态薛定谔方程只剩动能项：</p>
+        <h3>Inside the box: a standing-wave equation</h3>
+        <p>Inside the box $V=0$, so the time-independent Schrödinger equation keeps only the kinetic term:</p>
         <div class="fm sfm" style="margin:8px 0">$-\dfrac{\hbar^2}{2m}\,\psi'' = E\,\psi \;\;\Rightarrow\;\; \psi'' = -k^2\psi$</div>
-        <p>其中 $k^2 = 2mE/\hbar^2$。这正是描述<strong class="accent">驻波</strong>的方程，通解是正弦与余弦。</p>
+        <p>where $k^2 = 2mE/\hbar^2$. This is exactly the <strong class="accent">standing-wave</strong> equation — the general solution is sine and cosine.</p>
       </div>
       <div class="cd">
-        <h3>边界条件「挑出」离散的 k</h3>
-        <p>$\psi(0)=0$ 去掉余弦项；$\psi(L)=0$ 要求 $\sin(kL)=0$，于是 $k$ 只能取：</p>
+        <h3>Boundary conditions select discrete k</h3>
+        <p>$\psi(0)=0$ removes the cosine term; $\psi(L)=0$ requires $\sin(kL)=0$, so $k$ can only take:</p>
         <div class="fm sfm" style="margin:8px 0;color:var(--accent)">$k_n = \dfrac{n\pi}{L},\qquad n=1,2,3,\dots$</div>
-        <p>连续的 $k$ 被边界条件筛成了<strong class="accent">一串离散值</strong> —— 量子化在这里发生。</p>
+        <p>The continuous $k$ is filtered into a <strong class="accent">discrete set</strong> by the boundary conditions — this is where quantization happens.</p>
       </div>
     </div>
     <div class="stk">
       <div class="cd em-cd">
-        <h3>结论：能级与本征态</h3>
+        <h3>Result: energy levels and eigenstates</h3>
         <div class="fm" style="margin:10px 0;color:var(--accent);font-size:clamp(20px,2.7vw,30px)">$E_n = \dfrac{n^2 h^2}{8mL^2} = \dfrac{n^2\pi^2\hbar^2}{2mL^2}$</div>
         <div class="fm sfm" style="margin:6px 0">$\psi_n(x) = \sqrt{\dfrac{2}{L}}\,\sin\!\dfrac{n\pi x}{L}$</div>
-        <p style="font-size:14px;color:var(--fg3);text-align:center">能量只能取 $n^2$ 倍的离散值；$n$ 称为量子数。</p>
+        <p style="font-size:14px;color:var(--fg3);text-align:center">Energy can only take discrete values proportional to $n^2$; $n$ is the quantum number.</p>
       </div>
       <details class="dv">
-        <summary>展开完整推导（主线读者可跳过）</summary>
+        <summary>Show the full derivation (main-line readers may skip)</summary>
         <div class="dvb">
           <ol class="stp">
-            <li>盒内 $V=0$，定态方程：$-\dfrac{\hbar^2}{2m}\psi'' = E\psi$</li>
-            <li>整理为 $\psi'' = -k^2\psi$，其中 $k^2 = 2mE/\hbar^2$ —— 驻波方程</li>
-            <li>通解：$\psi(x) = A\sin(kx) + B\cos(kx)$</li>
-            <li>套 $\psi(0)=0$：因 $\cos 0 = 1$，必须 $B=0$，故 $\psi = A\sin(kx)$</li>
-            <li>套 $\psi(L)=0$：要求 $\sin(kL)=0$，即 $kL = n\pi$，得 $k_n = n\pi/L$</li>
-            <li>代回能量：$E_n = \dfrac{\hbar^2 k_n^2}{2m} = \dfrac{n^2\pi^2\hbar^2}{2mL^2} = \dfrac{n^2h^2}{8mL^2}$</li>
-            <li>归一化：$\displaystyle\int_0^L |A|^2\sin^2\!\dfrac{n\pi x}{L}\,dx = |A|^2\dfrac{L}{2} = 1 \;\Rightarrow\; A=\sqrt{2/L}$</li>
+            <li>Inside the box $V=0$, time-independent equation: $-\dfrac{\hbar^2}{2m}\psi'' = E\psi$</li>
+            <li>Rearrange to $\psi'' = -k^2\psi$, with $k^2 = 2mE/\hbar^2$ — a standing-wave equation</li>
+            <li>General solution: $\psi(x) = A\sin(kx) + B\cos(kx)$</li>
+            <li>Apply $\psi(0)=0$: since $\cos 0 = 1$, we need $B=0$, so $\psi = A\sin(kx)$</li>
+            <li>Apply $\psi(L)=0$: requires $\sin(kL)=0$, i.e. $kL = n\pi$, giving $k_n = n\pi/L$</li>
+            <li>Substitute back: $E_n = \dfrac{\hbar^2 k_n^2}{2m} = \dfrac{n^2\pi^2\hbar^2}{2mL^2} = \dfrac{n^2h^2}{8mL^2}$</li>
+            <li>Normalize: $\displaystyle\int_0^L |A|^2\sin^2\!\dfrac{n\pi x}{L}\,dx = |A|^2\dfrac{L}{2} = 1 \;\Rightarrow\; A=\sqrt{2/L}$</li>
           </ol>
-          <p style="font-size:13px;color:var(--fg3);margin-top:4px">注：$n=0$ 给出 $\psi\equiv0$（无粒子，无意义），负 $n$ 不产生新态 —— 所以 $n$ 从 1 开始。</p>
+          <p style="font-size:13px;color:var(--fg3);margin-top:4px">Note: $n=0$ gives $\psi\equiv0$ (no particle, meaningless), and negative $n$ produces no new states — so $n$ starts at 1.</p>
         </div>
       </details>
     </div>
   </div>
 </section>
 
-<!-- S3 交互1：L 滑块 -->
+<!-- S3 INTERACTIVE 1: L SLIDER -->
 <section class="slide">
-  <div class="sh"><p class="ey">交互 · 核心</p><h2>拖动滑块改变盒子宽度 L</h2></div>
+  <div class="sh"><p class="ey">Interactive · core</p><h2>Drag the slider to change the box width L</h2></div>
   <div class="cc" style="gap:10px">
     <div class="svgbox" style="max-width:1140px">
       <svg id="wellSvg" viewBox="0 0 820 440"></svg>
     </div>
     <div class="ct">
-      <label>盒子宽度 L：<input type="range" id="lSlider" min="4" max="12" step="0.5" value="6"><span class="vl" id="lVal">6.0 Å</span></label>
-      <span class="leg"><span class="sw" style="background:#6dbf5e"></span>能级 $E_n$ &nbsp; <span class="sw" style="background:#5ba4e6"></span>波函数 $\psi_n$ &nbsp; <span class="sw" style="background:#ddb84a;border-radius:50%;width:8px;height:8px"></span>节点</span>
+      <label>Box width L:<input type="range" id="lSlider" min="4" max="12" step="0.5" value="6"><span class="vl" id="lVal">6.0 Å</span></label>
+      <span class="leg"><span class="sw" style="background:#6dbf5e"></span>Energy levels $E_n$ &nbsp; <span class="sw" style="background:#5ba4e6"></span>Wave functions $\psi_n$ &nbsp; <span class="sw" style="background:#ddb84a;border-radius:50%;width:8px;height:8px"></span>Nodes</span>
     </div>
-    <p class="rdt">当前：$E_1$ = <b id="e1Out">1.04 eV</b> &nbsp;·&nbsp; 能级间距 $E_2-E_1$ = <b id="dEOut">3.13 eV</b></p>
-    <div class="tk tk-amber" style="max-width:1000px"><span class="lab">观察什么</span>
-      <p><strong>左侧能级图</strong>：L 增大时，所有能级一起<strong class="amber">下降并互相靠拢</strong>（因为 $E_n\propto 1/L^2$）。<strong>右侧波函数</strong>：盒子变宽，正弦波被横向拉长；第 $n$ 条波函数恰好有 <strong class="amber">$n-1$ 个节点</strong>（波函数穿过零点的内部位置）。</p>
+    <p class="rdt">Now: $E_1$ = <b id="e1Out">1.04 eV</b> &nbsp;·&nbsp; level spacing $E_2-E_1$ = <b id="dEOut">3.13 eV</b></p>
+    <div class="tk tk-amber" style="max-width:1000px"><span class="lab">What to watch</span>
+      <p><strong>Left — energy levels</strong>: as $L$ grows, every level <strong class="amber">drops and bunches together</strong> (because $E_n\propto 1/L^2$). <strong>Right — wave functions</strong>: the box widens and the sine waves stretch horizontally; the $n$-th wave function has exactly <strong class="amber">$n-1$ nodes</strong> (interior points where it crosses zero).</p>
     </div>
   </div>
 </section>
 
-<!-- S4 交互2：n 浏览器 -->
+<!-- S4 INTERACTIVE 2: n BROWSER -->
 <section class="slide">
-  <div class="sh"><p class="ey">交互 · 本征态浏览器</p><h2>切换量子数 n，看波函数与概率密度</h2></div>
+  <div class="sh"><p class="ey">Interactive · eigenstate browser</p><h2>Switch the quantum number n — wave function vs. probability density</h2></div>
   <div class="cc" style="gap:10px">
     <div class="svgbox" style="max-width:1140px">
       <svg id="psiSvg" viewBox="0 0 820 360"></svg>
     </div>
     <div class="ct" id="nBtns">
-      <span style="font-size:14px;color:var(--fg2)">量子数 n：</span>
+      <span style="font-size:14px;color:var(--fg2)">Quantum number n:</span>
       <button onclick="setN(1,this)">n = 1</button>
       <button class="on" onclick="setN(2,this)">n = 2</button>
       <button onclick="setN(3,this)">n = 3</button>
@@ -254,155 +254,155 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
       <button onclick="setN(5,this)">n = 5</button>
     </div>
     <p class="rdt" id="psiOut"></p>
-    <div class="tk" style="max-width:1000px"><span class="lab">节点规则</span>
-      <p>第 $n$ 个本征态 $\psi_n$ 有 <strong class="accent">$n-1$ 个节点</strong>。节点越多 → 波函数弯曲越剧烈 → 动能越大 → <strong class="accent">能量越高</strong>（$E_n\propto n^2$）。左图是 $\psi_n$（可正可负），右图是 $|\psi_n|^2$（处处非负，才是「在某处找到电子」的概率密度）。</p>
+    <div class="tk" style="max-width:1000px"><span class="lab">Node rule</span>
+      <p>The $n$-th eigenstate $\psi_n$ has <strong class="accent">$n-1$ nodes</strong>. More nodes → sharper bending of the wave function → larger kinetic energy → <strong class="accent">higher energy</strong> ($E_n\propto n^2$). The left plot is $\psi_n$ (can be positive or negative); the right plot is $|\psi_n|^2$ (always non-negative — the probability density of finding the electron).</p>
     </div>
   </div>
 </section>
 
-<!-- S5 三个关键特征 -->
+<!-- S5 THREE KEY FEATURES -->
 <section class="slide">
-  <div class="sh"><p class="ey">三个关键物理特征</p><h2>这个简单模型告诉我们什么</h2></div>
+  <div class="sh"><p class="ey">Three key physical features</p><h2>What this simple model teaches us</h2></div>
   <div class="t3">
     <div class="cd" style="border-left:3px solid var(--accent);border-radius:0">
-      <div class="yc">特征一 · 能量量子化</div>
-      <h3>能量只能取离散值</h3>
-      <p>能量不连续，<strong class="accent">不是人为假设</strong>，而是「波函数必须在边界为零」这个条件的数学后果 —— 只有特定波长的驻波能塞进盒子。</p>
-      <p style="margin-top:8px;font-size:13px;color:var(--fg3)">就像两端固定的吉他弦只能发出特定的几个音。</p>
+      <div class="yc">Feature 1 · Quantization</div>
+      <h3>Energy takes only discrete values</h3>
+      <p>Discreteness is <strong class="accent">not an assumption imposed by hand</strong>. It is the mathematical consequence of "the wave function must vanish at the walls" — only standing waves of particular wavelengths fit in the box.</p>
+      <p style="margin-top:8px;font-size:13px;color:var(--fg3)">Like a guitar string fixed at both ends — only certain notes are allowed.</p>
     </div>
     <div class="cd em-cd" style="border-left:3px solid var(--blue);border-radius:0">
-      <div class="yc" style="background:rgba(91,164,230,0.12);color:var(--blue)">特征二 · 零点能</div>
-      <h3>$E_1 \neq 0$，电子停不下来</h3>
-      <p>最低能量 $E_1 = h^2/8mL^2 > 0$。电子<strong class="blue">不可能完全静止</strong>地待在盒底。</p>
-      <p style="margin-top:8px">这与<strong>不确定性原理</strong>一致：把电子限制在宽度 $L$ 内（$\Delta x\sim L$），动量就必然有涨落（$\Delta p\gtrsim\hbar/L$），于是动能 $\sim(\Delta p)^2/2m>0$。</p>
+      <div class="yc" style="background:rgba(91,164,230,0.12);color:var(--blue)">Feature 2 · Zero-point energy</div>
+      <h3>$E_1 \neq 0$ — the electron can't stop</h3>
+      <p>The lowest energy $E_1 = h^2/8mL^2 > 0$. The electron <strong class="blue">can never sit perfectly still</strong> at the bottom of the box.</p>
+      <p style="margin-top:8px">This agrees with the <strong>uncertainty principle</strong>: confining the electron to width $L$ ($\Delta x\sim L$) forces momentum fluctuations ($\Delta p\gtrsim\hbar/L$), so the kinetic energy $\sim(\Delta p)^2/2m>0$.</p>
     </div>
     <div class="cd" style="border-left:3px solid var(--amber);border-radius:0">
-      <div class="yc" style="background:rgba(221,184,74,0.12);color:var(--amber)">特征三 · 节点</div>
-      <h3>波函数形状与节点数</h3>
-      <p>$\psi_n$ 有 $n-1$ 个<strong class="amber">节点</strong>（波函数为零的内部点）。</p>
-      <p style="margin-top:8px">节点数越多，波函数在盒内弯曲得越厉害，曲率越大 → 动能越大。这就是<strong class="amber">「节点越多、能量越高」</strong>的物理来源。</p>
+      <div class="yc" style="background:rgba(221,184,74,0.12);color:var(--amber)">Feature 3 · Nodes</div>
+      <h3>Wave-function shape and node count</h3>
+      <p>$\psi_n$ has $n-1$ <strong class="amber">nodes</strong> (interior points where the wave function is zero).</p>
+      <p style="margin-top:8px">More nodes → the wave function bends harder inside the box → larger curvature → larger kinetic energy. This is the physical origin of <strong class="amber">"more nodes, higher energy"</strong>.</p>
     </div>
   </div>
 </section>
 
-<!-- S6 数值感 -->
+<!-- S6 NUMERICAL FEEL -->
 <section class="slide">
-  <div class="sh"><p class="ey">数值感</p><h2>代入真实数字：能级落在什么能量范围？</h2></div>
+  <div class="sh"><p class="ey">Numerical feel</p><h2>Plug in real numbers: what energy range do the levels span?</h2></div>
   <div class="tc">
     <div class="stk">
       <div class="cd">
-        <h3>算一个典型尺度</h3>
-        <p>取电子质量 $m=9.11\times10^{-31}$ kg，盒宽 $L=5\,\text{Å}=5\times10^{-10}$ m。代入 $E_n=n^2h^2/8mL^2$：</p>
+        <h3>Work out a typical scale</h3>
+        <p>Take the electron mass $m=9.11\times10^{-31}$ kg and a box width $L=5\,\text{Å}=5\times10^{-10}$ m. Substituting into $E_n=n^2h^2/8mL^2$:</p>
         <table class="cmp">
-          <tr><th>量子数 n</th><th>能量 $E_n$</th><th>相对 $E_1$</th></tr>
+          <tr><th>Quantum number n</th><th>Energy $E_n$</th><th>Relative to $E_1$</th></tr>
           <tr><td>1</td><td>≈ 1.5 eV</td><td>1×</td></tr>
           <tr><td>2</td><td>≈ 6.0 eV</td><td>4×</td></tr>
           <tr><td>3</td><td>≈ 13.5 eV</td><td>9×</td></tr>
         </table>
-        <p style="margin-top:10px">最低跃迁 $E_2-E_1\approx 4.5$ eV。用 $\lambda(\text{nm})\approx 1240/E(\text{eV})$ 换算 → <strong class="purple">≈ 275 nm</strong>。</p>
+        <p style="margin-top:10px">The lowest transition $E_2-E_1\approx 4.5$ eV. Converting with $\lambda(\text{nm})\approx 1240/E(\text{eV})$ → <strong class="purple">≈ 275 nm</strong>.</p>
       </div>
     </div>
     <div class="stk">
       <div class="cd em-cd">
-        <h3>这个数字意味着什么</h3>
-        <p>4.5 eV / 275 nm 落在<strong class="purple">紫外波段</strong>（可见光约 1.6–3.1 eV）。</p>
-        <p style="margin-top:8px">一个 5 Å 的小盒子，能级间距太大，吸收在紫外 —— 肉眼看不到颜色。</p>
-        <div class="tk tk-blue" style="margin-top:12px"><span class="lab">关键直觉</span>
-          <p>因为 $E_n\propto 1/L^2$：要把吸收<strong>红移</strong>进可见区，就需要<strong class="blue">更大的 L</strong> —— 也就是更长的盒子。这正是下一屏「共轭链」的钥匙。</p>
+        <h3>What this number means</h3>
+        <p>4.5 eV / 275 nm falls in the <strong class="purple">ultraviolet</strong> (visible light is roughly 1.6–3.1 eV).</p>
+        <p style="margin-top:8px">A 5 Å box has level spacings too large; its absorption sits in the UV — no visible color.</p>
+        <div class="tk tk-blue" style="margin-top:12px"><span class="lab">Key intuition</span>
+          <p>Because $E_n\propto 1/L^2$: to <strong>redshift</strong> the absorption into the visible range you need a <strong class="blue">larger L</strong> — a longer box. That is the key to the next slide on conjugated chains.</p>
         </div>
       </div>
-      <div class="tk tk-amber"><span class="lab">量纲速记</span>
-        <p>$\lambda(\text{nm}) \approx 1240 / E(\text{eV})$ —— 光子能量与波长的换算，做光谱估算时极常用。</p>
+      <div class="tk tk-amber"><span class="lab">Handy conversion</span>
+        <p>$\lambda(\text{nm}) \approx 1240 / E(\text{eV})$ — the photon energy–wavelength conversion, extremely useful for quick spectral estimates.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- S7 有机电子学连接 -->
+<!-- S7 ORGANIC ELECTRONICS CONNECTION -->
 <section class="slide">
-  <div class="sh"><p class="ey">落到有机电子学</p><h2>为什么共轭链越长，吸收越红？</h2></div>
+  <div class="sh"><p class="ey">Into organic electronics</p><h2>Why does a longer conjugated chain absorb redder?</h2></div>
   <div class="tc">
     <div class="stk">
       <div class="cd em-cd">
-        <h3>π 电子 ≈ 盒中粒子</h3>
-        <p>共轭分子里离域的 $\pi$ 电子，可近似看作被关在一维「盒子」里的粒子。盒子的有效长度就是<strong class="accent">共轭链长</strong>：</p>
+        <h3>π electrons ≈ particle in a box</h3>
+        <p>The delocalized $\pi$ electrons of a conjugated molecule can be approximated as particles trapped in a 1D "box". The effective box length is the <strong class="accent">conjugation length</strong>:</p>
         <div class="fm sfm" style="margin:8px 0">$L \approx (N_C+1)\,d,\quad d\approx 1.4\,\text{Å}$</div>
-        <p style="font-size:14px;color:var(--fg3)">$N_C$ 为共轭碳原子数，$d$ 为平均 C–C 键长。</p>
+        <p style="font-size:14px;color:var(--fg3)">$N_C$ is the number of conjugated carbon atoms, $d$ the average C–C bond length.</p>
       </div>
-      <div class="tk tk-coral"><span class="lab">推理链</span>
-        <p>链越长 → $L$ 越大 → $E_n\propto 1/L^2$，HOMO–LUMO 间隙 $\Delta E$ 越小 → 吸收光子能量越低 → 波长 $\lambda\propto L^2$ 越长 → <strong class="coral">吸收红移</strong>。</p>
+      <div class="tk tk-coral"><span class="lab">The chain of reasoning</span>
+        <p>Longer chain → larger $L$ → since $E_n\propto 1/L^2$, the HOMO–LUMO gap $\Delta E$ shrinks → absorbed photon energy is lower → wavelength $\lambda\propto L^2$ is longer → <strong class="coral">absorption redshifts</strong>.</p>
       </div>
     </div>
     <div class="stk">
       <div class="cd">
-        <h3>实验检验：聚并苯系列</h3>
+        <h3>Experimental check: the polyacene series</h3>
         <table class="cmp">
-          <tr><th>分子</th><th>苯环数</th><th>吸收峰</th><th>颜色</th></tr>
-          <tr><td>萘</td><td>2</td><td>~220 nm</td><td>无色</td></tr>
-          <tr><td>蒽</td><td>3</td><td>~380 nm</td><td>无色</td></tr>
-          <tr><td>并四苯</td><td>4</td><td>~480 nm</td><td>橙色</td></tr>
-          <tr><td>并五苯</td><td>5</td><td>~580 nm</td><td>蓝紫色</td></tr>
+          <tr><th>Molecule</th><th>Rings</th><th>Absorption peak</th><th>Color</th></tr>
+          <tr><td>Naphthalene</td><td>2</td><td>~220 nm</td><td>colorless</td></tr>
+          <tr><td>Anthracene</td><td>3</td><td>~380 nm</td><td>colorless</td></tr>
+          <tr><td>Tetracene</td><td>4</td><td>~480 nm</td><td>orange</td></tr>
+          <tr><td>Pentacene</td><td>5</td><td>~580 nm</td><td>blue-violet</td></tr>
         </table>
-        <p style="margin-top:8px">环越多、链越长，吸收峰单调红移 —— 与 $\lambda\propto L^2$ 的趋势完全吻合。</p>
+        <p style="margin-top:8px">More rings, longer chain — the absorption peak redshifts monotonically, fully consistent with the $\lambda\propto L^2$ trend.</p>
       </div>
-      <div class="tk tk-amber"><span class="lab">模型的边界</span>
-        <p>自由电子模型<strong>定性正确、定量粗糙</strong>。偏差来自电子–电子排斥、键长交替、端点效应。更精确的处理是 Hückel 理论（第九讲）。</p>
+      <div class="tk tk-amber"><span class="lab">Limits of the model</span>
+        <p>The free-electron model is <strong>qualitatively right, quantitatively rough</strong>. Deviations come from electron–electron repulsion, bond-length alternation, and end effects. A more accurate treatment is Hückel theory (Lecture 9).</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- S8 有限深势阱 -->
+<!-- S8 FINITE SQUARE WELL -->
 <section class="slide">
-  <div class="sh"><p class="ey">拓展 · 更真实的盒子</p><h2>有限深势阱 —— 当盒壁不再无穷高</h2></div>
+  <div class="sh"><p class="ey">Extension · a more realistic box</p><h2>The finite square well — when the walls aren't infinitely high</h2></div>
   <div class="tc">
     <div class="stk">
       <div class="cd">
-        <h3>为什么需要它</h3>
-        <p>真实分子里束缚电子的势垒是<strong class="coral">有限高</strong>的。电子被束缚，但并非绝对出不去 —— 无限深势阱只是理想化的第一步近似。</p>
+        <h3>Why we need it</h3>
+        <p>In real molecules the barrier confining an electron is of <strong class="coral">finite height</strong>. The electron is bound, but not absolutely forbidden from leaving — the infinite well is only an idealized first approximation.</p>
       </div>
       <div class="cd em-cd">
-        <h3>四个关键变化</h3>
+        <h3>Four key changes</h3>
         <ul class="bl">
-          <li>波函数<strong class="blue">渗入势垒</strong>，墙外按指数衰减 $\psi\propto e^{-\kappa x}$，不再在壁上严格为零</li>
-          <li>束缚态<strong class="amber">数目有限</strong>（不再是无穷多个）</li>
-          <li>能级整体<strong>下移</strong>，波函数比无限深势阱更展开</li>
-          <li>有效盒长 &gt; 实际势阱宽度 → 对短共轭链，端点效应更显著</li>
+          <li>The wave function <strong class="blue">penetrates the barrier</strong>, decaying exponentially $\psi\propto e^{-\kappa x}$ outside; it no longer vanishes exactly at the walls</li>
+          <li>The number of bound states is <strong class="amber">finite</strong> (no longer infinite)</li>
+          <li>All energy levels shift <strong>down</strong>; the wave function is more spread out than in the infinite well</li>
+          <li>Effective box length &gt; actual well width → end effects matter more for short conjugated chains</li>
         </ul>
       </div>
-      <div class="tk tk-coral"><span class="lab">隧穿预告</span>
-        <p>波函数能「泄漏」进经典禁区，正是<strong class="coral">量子隧穿</strong>的前奏 —— 第五讲会讲电荷如何借此穿过金属/有机界面的势垒。</p>
+      <div class="tk tk-coral"><span class="lab">Tunneling preview</span>
+        <p>That the wave function can "leak" into the classically forbidden region is the prelude to <strong class="coral">quantum tunneling</strong> — Lecture 5 covers how charge crosses the barrier at metal/organic interfaces this way.</p>
       </div>
     </div>
     <div class="stk">
       <div class="cd">
-        <h3>无限深 vs 有限深（基态 ψ₁）</h3>
+        <h3>Infinite vs. finite well (ground state ψ₁)</h3>
         <div class="svgbox" style="margin-top:10px"><svg id="finSvg" viewBox="0 0 560 320"></svg></div>
-        <p style="font-size:13px;color:var(--fg3);margin-top:8px">绿色：无限深势阱，波函数在壁上严格归零。蓝色：有限深势阱，波函数在壁上不为零，并以指数尾巴渗到墙外。</p>
+        <p style="font-size:13px;color:var(--fg3);margin-top:8px">Green: infinite well — the wave function is exactly zero at the walls. Blue: finite well — the wave function is nonzero at the walls and leaks past them with an exponential tail.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- S9 二维三维势阱与量子点 -->
+<!-- S9 2D/3D WELLS AND QUANTUM DOTS -->
 <section class="slide">
-  <div class="sh"><p class="ey">拓展 · 模型的普适性</p><h2>从一维到三维 —— 盒中粒子与量子点</h2></div>
+  <div class="sh"><p class="ey">Extension · universality of the model</p><h2>From 1D to 3D — particle in a box and quantum dots</h2></div>
   <div class="tc">
     <div class="stk">
       <div class="cd">
-        <h3>三维势阱</h3>
-        <p>把粒子关进三维盒子，能级由三个量子数 $(n_x,n_y,n_z)$ 共同决定：</p>
+        <h3>The 3D well</h3>
+        <p>Confine the particle in a three-dimensional box and the energy is set by three quantum numbers $(n_x,n_y,n_z)$:</p>
         <div class="fm sfm" style="margin:10px 0">$E=\dfrac{\pi^2\hbar^2}{2m}\!\left(\dfrac{n_x^2}{L_x^2}+\dfrac{n_y^2}{L_y^2}+\dfrac{n_z^2}{L_z^2}\right)$</div>
-        <p style="font-size:14px;color:var(--fg3)">每个方向都是一维势阱，能量直接相加 —— 一维的结果原封不动地推广。</p>
+        <p style="font-size:14px;color:var(--fg3)">Each direction is its own 1D well; the energies simply add — the 1D result carries over unchanged.</p>
       </div>
-      <div class="tk tk-blue"><span class="lab">同一个 1/L² 定律</span>
-        <p>三维盒子里依然是 $E\propto 1/L^2$：盒子越小，能级间距越大。把「盒子」换成纳米晶体，物理一字不变。</p>
+      <div class="tk tk-blue"><span class="lab">The same 1/L² law</span>
+        <p>In a 3D box it is still $E\propto 1/L^2$: the smaller the box, the larger the level spacing. Replace "box" with "nanocrystal" and the physics is identical.</p>
       </div>
     </div>
     <div class="stk">
       <div class="cd em-cd">
-        <h3>量子点 —— 看得见的「盒中粒子」</h3>
-        <p><strong>CdSe 量子点</strong>是半导体纳米晶体，电子被限制在三维「盒子」里。只改变晶体尺寸，就能调出整条可见光谱：</p>
+        <h3>Quantum dots — particle-in-a-box you can see</h3>
+        <p><strong>CdSe quantum dots</strong> are semiconductor nanocrystals; the electron is confined in a 3D "box". Changing only the crystal size tunes emission across the whole visible spectrum:</p>
         <div class="svgbox" style="margin:10px 0;background:transparent;border:none">
           <svg viewBox="0 0 480 124">
             <circle cx="80" cy="60" r="16" fill="#5ba4e6"/>
@@ -411,47 +411,47 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
             <circle cx="234" cy="60" r="37" fill="none" stroke="#6dbf5e" stroke-width="1" opacity="0.35"/>
             <circle cx="398" cy="62" r="40" fill="#e8734a"/>
             <circle cx="398" cy="62" r="51" fill="none" stroke="#e8734a" stroke-width="1" opacity="0.35"/>
-            <text x="80" y="116" fill="#5ba4e6" font-size="12" text-anchor="middle">小 · 带隙大 · 蓝</text>
-            <text x="234" y="116" fill="#6dbf5e" font-size="12" text-anchor="middle">中 · 绿</text>
-            <text x="398" y="116" fill="#e8734a" font-size="12" text-anchor="middle">大 · 带隙小 · 红</text>
+            <text x="80" y="116" fill="#5ba4e6" font-size="12" text-anchor="middle">small · large gap · blue</text>
+            <text x="234" y="116" fill="#6dbf5e" font-size="12" text-anchor="middle">medium · green</text>
+            <text x="398" y="116" fill="#e8734a" font-size="12" text-anchor="middle">large · small gap · red</text>
           </svg>
         </div>
         <ul class="bl">
-          <li>尺寸越<strong>小</strong> → 盒子越小 → 带隙越<strong class="blue">大</strong> → 发射越<strong class="blue">蓝</strong></li>
-          <li>尺寸越<strong>大</strong> → 带隙越小 → 发射越<strong class="coral">红</strong></li>
+          <li>Smaller size → smaller box → <strong class="blue">larger</strong> band gap → <strong class="blue">bluer</strong> emission</li>
+          <li>Larger size → smaller band gap → <strong class="coral">redder</strong> emission</li>
         </ul>
       </div>
-      <div class="tk tk-amber"><span class="lab">2023 诺贝尔化学奖</span>
-        <p>授予量子点的发现与合成 —— 一个本科量子力学的「盒中粒子」模型，长成了显示屏与生物标记里的真实材料。</p>
+      <div class="tk tk-amber"><span class="lab">2023 Nobel Prize in Chemistry</span>
+        <p>Awarded for the discovery and synthesis of quantum dots — an undergraduate "particle in a box" model grown into a real material in displays and biological markers.</p>
       </div>
     </div>
   </div>
 </section>
 
-<!-- S10 小结 + 速查卡 -->
+<!-- S10 SUMMARY + CHEAT SHEET -->
 <section class="slide">
-  <div class="sh"><p class="ey">小结</p><h2>无限深方势阱 · 速查卡</h2></div>
+  <div class="sh"><p class="ey">Summary</p><h2>Infinite Square Well · Cheat Sheet</h2></div>
   <div class="tc">
     <div class="cd em-cd">
-      <h3 class="accent">核心公式</h3>
+      <h3 class="accent">Core formulas</h3>
       <div class="fm sfm" style="margin:10px 0">$E_n = \dfrac{n^2h^2}{8mL^2} = \dfrac{n^2\pi^2\hbar^2}{2mL^2}$</div>
       <div class="fm sfm" style="margin:10px 0">$\psi_n(x) = \sqrt{\dfrac{2}{L}}\,\sin\dfrac{n\pi x}{L}$</div>
       <ul class="bl" style="margin-top:10px">
-        <li><strong>节点规则</strong>：$\psi_n$ 有 $n-1$ 个节点</li>
-        <li><strong>零点能</strong>：$E_1 = h^2/8mL^2 \neq 0$</li>
-        <li><strong>尺寸定律</strong>：$E_n\propto 1/L^2$，$\;\lambda\propto L^2$</li>
-        <li><strong>能量换算</strong>：$\lambda(\text{nm})\approx 1240/E(\text{eV})$</li>
+        <li><strong>Node rule</strong>: $\psi_n$ has $n-1$ nodes</li>
+        <li><strong>Zero-point energy</strong>: $E_1 = h^2/8mL^2 \neq 0$</li>
+        <li><strong>Size law</strong>: $E_n\propto 1/L^2$, $\;\lambda\propto L^2$</li>
+        <li><strong>Energy conversion</strong>: $\lambda(\text{nm})\approx 1240/E(\text{eV})$</li>
       </ul>
     </div>
     <div class="stk">
-      <div class="tk"><span class="lab">一句话总结</span>
-        <p>「波函数必须在盒壁为零」这一个边界条件，就同时逼出了能量量子化、零点能和波函数节点 —— 量子力学的三个核心特征。</p>
+      <div class="tk"><span class="lab">In one sentence</span>
+        <p>A single boundary condition — "the wave function must vanish at the walls" — simultaneously forces energy quantization, zero-point energy, and wave-function nodes: the three core features of quantum mechanics.</p>
       </div>
-      <div class="tk tk-blue"><span class="lab">为什么对有机电子学重要</span>
-        <p>$E_n\propto 1/L^2$ 把「共轭链长度」和「带隙 / 吸收颜色」定量地连了起来 —— 这是理解有机半导体光学性质的第一块基石。</p>
+      <div class="tk tk-blue"><span class="lab">Why it matters for organic electronics</span>
+        <p>$E_n\propto 1/L^2$ quantitatively links conjugation length to band gap / absorption color — the first cornerstone for understanding the optical properties of organic semiconductors.</p>
       </div>
-      <div class="tk tk-amber"><span class="lab">下一讲预告</span>
-        <p>量子谐振子 —— 为什么有机半导体的吸收/发射谱总带着特征性的振动级数（vibronic progression）？关键词：Franck–Condon、Huang–Rhys 因子。</p>
+      <div class="tk tk-amber"><span class="lab">Next lecture</span>
+        <p>The quantum harmonic oscillator — why do the absorption/emission spectra of organic semiconductors always carry a characteristic vibrational progression? Keywords: Franck–Condon, Huang–Rhys factor.</p>
       </div>
     </div>
   </div>
@@ -459,13 +459,13 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
 
 </main>
 <footer class="ft">
-  <button class="nb" onclick="go(-1)">← 上一页</button>
-  <div class="ptr"><div class="pfill" id="pf" style="width:11%"></div></div>
+  <button class="nb" onclick="go(-1)">← Prev</button>
+  <div class="ptr"><div class="pfill" id="pf" style="width:9%"></div></div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> 全屏</span>
+    <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> fullscreen</span>
     <button class="nb" onclick="location.href='../lecture01/index.html'">L1</button>
     <button class="nb" onclick="location.href='../lecture02/index.html'">L2</button>
-    <button class="nb" onclick="go(1)">下一页 →</button>
+    <button class="nb" onclick="go(1)">Next →</button>
   </div>
 </footer>
 </div>
@@ -516,7 +516,7 @@ function drawWell(){
   let s='';
   /* --- region A: energy levels --- */
   const Emax=40,ay0=388,ay1=44,axL=92,axR=312,sc=(ay0-ay1)/Emax;
-  s+=`<text x="56" y="32" fill="#a8a49b" font-size="14">能级 Eₙ</text>`;
+  s+=`<text x="56" y="32" fill="#a8a49b" font-size="14">Energy levels Eₙ</text>`;
   s+=`<line x1="${axL}" y1="${ay1-8}" x2="${axL}" y2="${ay0}" stroke="#5a564e" stroke-width="1.5"/>`;
   s+=`<line x1="${axL}" y1="${ay0}" x2="${axR+12}" y2="${ay0}" stroke="#5a564e" stroke-width="1.5"/>`;
   s+=`<text x="${axL-6}" y="${ay1}" fill="#706c65" font-size="12" text-anchor="end">E</text>`;
@@ -527,7 +527,7 @@ function drawWell(){
   }
   /* --- region B: well + wavefunctions --- */
   const cx=585,boxW=140+(L-4)/8*240,xL=cx-boxW/2,xR=cx+boxW/2,bTop=58,bBot=400;
-  s+=`<text x="380" y="32" fill="#a8a49b" font-size="14">波函数 ψₙ（盒宽随 L 变化）</text>`;
+  s+=`<text x="380" y="32" fill="#a8a49b" font-size="14">Wave functions ψₙ (box width tracks L)</text>`;
   s+=`<rect x="${xL-26}" y="${bTop}" width="26" height="${bBot-bTop}" fill="rgba(232,115,74,0.12)"/>`;
   s+=`<rect x="${xR}" y="${bTop}" width="26" height="${bBot-bTop}" fill="rgba(232,115,74,0.12)"/>`;
   s+=`<line x1="${xL}" y1="${bTop-4}" x2="${xL}" y2="${bBot}" stroke="#e8734a" stroke-width="3.5"/>`;
@@ -560,7 +560,7 @@ function drawPsi(){
   const bTop=46,bBot=300,yc=(bTop+bBot)/2;
   /* left panel: psi_n */
   const lx0=88,lx1=386;
-  s+=`<text x="${(lx0+lx1)/2}" y="30" fill="#a8a49b" font-size="14" text-anchor="middle">波函数 ψ${SUB[n]}(x)</text>`;
+  s+=`<text x="${(lx0+lx1)/2}" y="30" fill="#a8a49b" font-size="14" text-anchor="middle">Wave function ψ${SUB[n]}(x)</text>`;
   s+=`<line x1="${lx0}" y1="${bTop}" x2="${lx0}" y2="${bBot}" stroke="#e8734a" stroke-width="3"/>`;
   s+=`<line x1="${lx1}" y1="${bTop}" x2="${lx1}" y2="${bBot}" stroke="#e8734a" stroke-width="3"/>`;
   s+=`<line x1="${lx0}" y1="${yc}" x2="${lx1}" y2="${yc}" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="5 5"/>`;
@@ -570,7 +570,7 @@ function drawPsi(){
   s+=`<text x="${lx1+6}" y="${bBot+18}" fill="#706c65" font-size="12" text-anchor="middle">L</text>`;
   /* right panel: |psi_n|^2 */
   const rx0=470,rx1=768;
-  s+=`<text x="${(rx0+rx1)/2}" y="30" fill="#a8a49b" font-size="14" text-anchor="middle">概率密度 |ψ${SUB[n]}(x)|²</text>`;
+  s+=`<text x="${(rx0+rx1)/2}" y="30" fill="#a8a49b" font-size="14" text-anchor="middle">Probability density |ψ${SUB[n]}(x)|²</text>`;
   s+=`<line x1="${rx0}" y1="${bTop}" x2="${rx0}" y2="${bBot}" stroke="#e8734a" stroke-width="3"/>`;
   s+=`<line x1="${rx1}" y1="${bTop}" x2="${rx1}" y2="${bBot}" stroke="#e8734a" stroke-width="3"/>`;
   s+=`<line x1="${rx0}" y1="${bBot}" x2="${rx1}" y2="${bBot}" stroke="#5a564e" stroke-width="1.5"/>`;
@@ -579,7 +579,7 @@ function drawPsi(){
   s+=`<text x="${rx0-6}" y="${bBot+18}" fill="#706c65" font-size="12" text-anchor="middle">0</text>`;
   s+=`<text x="${rx1+6}" y="${bBot+18}" fill="#706c65" font-size="12" text-anchor="middle">L</text>`;
   document.getElementById('psiSvg').innerHTML=s;
-  document.getElementById('psiOut').innerHTML=`n = <b>${n}</b> &nbsp;·&nbsp; 节点数 = <b>${n-1}</b> 个 &nbsp;·&nbsp; 能量 Eₙ = <b>${n}² E₁ = ${n*n} E₁</b>`;
+  document.getElementById('psiOut').innerHTML=`n = <b>${n}</b> &nbsp;·&nbsp; nodes = <b>${n-1}</b> &nbsp;·&nbsp; energy Eₙ = <b>${n}² E₁ = ${n*n} E₁</b>`;
 }
 
 /* ===== cover decoration ===== */
@@ -610,7 +610,7 @@ function drawFinite(){
   s+=`<path d="${df}" fill="none" stroke="#5ba4e6" stroke-width="2.6"/>`;
   s+=`<circle cx="${xL}" cy="${(yB-wallV).toFixed(1)}" r="3.5" fill="#5ba4e6"/>`;
   s+=`<circle cx="${xR}" cy="${(yB-wallV).toFixed(1)}" r="3.5" fill="#5ba4e6"/>`;
-  s+=`<text x="${xR+tail}" y="${(yB-wallV-10).toFixed(1)}" fill="#5ba4e6" font-size="11" text-anchor="end">泄漏尾巴 e⁻ᵏˣ</text>`;
+  s+=`<text x="${xR+tail}" y="${(yB-wallV-10).toFixed(1)}" fill="#5ba4e6" font-size="11" text-anchor="end">leakage tail e⁻ᵏˣ</text>`;
   svg.innerHTML=s;
 }
 
