@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Lecture 1 封面 · Bilibili 16:9 (1920×1080)</title>
+<!-- 全部使用系统字体，无需联网加载（兼容国内网络、离线可用） -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0d0b;--fg:#ede9e0;--fg2:#a8a49b;--fg3:#6f6b63;
+  --accent:#6dbf5e;--accent-deep:#3d8a35;--amber:#ddb84a;--blue:#5ba4e6;
+  --zh:'PingFang SC','Microsoft YaHei','Hiragino Sans GB','Heiti SC','Microsoft JhengHei',sans-serif;
+  --en:Georgia,'Times New Roman','Nimbus Roman',serif;
+}
+html,body{background:#000}
+body{display:flex;align-items:flex-start;justify-content:flex-start}
+
+.cover{
+  width:1920px;height:1080px;flex:none;position:relative;overflow:hidden;
+  color:var(--fg);font-family:var(--zh);
+  background:
+    radial-gradient(1300px 760px at 76% 30%,rgba(61,138,53,0.20),transparent 70%),
+    radial-gradient(900px 620px at 8% 96%,rgba(61,138,53,0.10),transparent 72%),
+    linear-gradient(158deg,#10150f 0%,#0b0d0b 56%,#070907 100%);
+}
+/* grid texture */
+.cover::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px);
+  background-size:66px 66px;
+  -webkit-mask-image:radial-gradient(1500px 980px at 58% 44%,#000,transparent 78%);
+          mask-image:radial-gradient(1500px 980px at 58% 44%,#000,transparent 78%);
+}
+/* ghost lecture number */
+.ghost{
+  position:absolute;right:-66px;bottom:-336px;
+  font-family:var(--en);font-style:italic;font-weight:700;
+  font-size:1040px;line-height:1;letter-spacing:-26px;
+  color:rgba(109,191,94,0.055);user-select:none;
+}
+/* poster frame */
+.frame{position:absolute;inset:40px;border:1px solid rgba(255,255,255,0.07)}
+.frame::before,.frame::after{
+  content:'';position:absolute;width:34px;height:34px;border:2px solid var(--accent);
+}
+.frame::before{left:-1px;top:-1px;border-right:0;border-bottom:0}
+.frame::after{right:-1px;bottom:-1px;border-left:0;border-top:0}
+
+/* ---- top row ---- */
+.eyebrow{
+  position:absolute;left:120px;top:92px;display:flex;align-items:center;gap:13px;
+  font-size:21px;letter-spacing:5px;color:var(--fg2);font-weight:500;
+}
+.eyebrow .dot{width:9px;height:9px;background:var(--accent);transform:rotate(45deg);
+  box-shadow:0 0 14px rgba(109,191,94,0.7)}
+.series{
+  position:absolute;right:120px;top:86px;text-align:right;font-family:var(--en);
+}
+.series .lab{font-size:16px;letter-spacing:4px;color:var(--fg3);text-transform:uppercase}
+.series .num{font-size:40px;color:var(--fg2);font-weight:600;margin-top:2px}
+.series .num b{color:var(--accent);font-weight:700}
+
+/* ---- hero ---- */
+.hero{position:absolute;left:120px;top:312px;max-width:1090px}
+.tag{
+  display:inline-flex;align-items:center;gap:12px;
+  border:1.5px solid rgba(109,191,94,0.42);border-radius:4px;
+  padding:9px 18px;font-size:22px;letter-spacing:3px;color:var(--accent);
+  font-family:var(--en);font-weight:600;
+}
+.tag .zh{font-family:var(--zh);font-weight:700;letter-spacing:2px}
+.h1{font-weight:800;font-size:182px;line-height:1.06;letter-spacing:6px;margin-top:30px}
+.h1 .g{color:var(--accent);
+  text-shadow:0 0 64px rgba(109,191,94,0.4)}
+.en{
+  font-family:var(--en);font-size:33px;letter-spacing:7px;color:var(--fg3);
+  margin-top:20px;text-transform:uppercase;font-weight:600;
+}
+
+/* ---- tagline ---- */
+.tagline{position:absolute;left:124px;top:828px;padding-left:26px}
+.tagline::before{
+  content:'';position:absolute;left:0;top:6px;bottom:6px;width:4px;
+  background:linear-gradient(var(--accent),var(--accent-deep));border-radius:2px;
+}
+.tl-small{font-family:var(--en);font-size:25px;letter-spacing:3px;color:var(--fg2);font-style:italic}
+.tl-big{font-size:38px;font-weight:700;color:var(--fg);margin-top:12px;letter-spacing:1px}
+.tl-big em{color:var(--amber);font-style:normal}
+
+/* ---- equations ---- */
+.eq{
+  position:absolute;left:120px;bottom:104px;display:flex;align-items:center;gap:30px;
+  font-family:var(--en);font-style:italic;font-size:30px;color:var(--fg2);
+}
+.eq .s{color:rgba(109,191,94,0.5);font-style:normal;font-size:22px}
+.eq b{color:var(--accent);font-weight:600}
+
+/* ---- credit ---- */
+.credit{
+  position:absolute;right:120px;bottom:104px;text-align:right;
+  font-size:21px;color:var(--fg3);letter-spacing:1px;
+}
+.credit b{color:var(--fg2);font-weight:700}
+
+/* ---- atom ---- */
+.atom{position:absolute;right:286px;top:50%;width:486px;height:486px;margin-top:-243px}
+.atom .glow{position:absolute;inset:-110px;border-radius:50%;
+  background:radial-gradient(circle,rgba(109,191,94,0.26),transparent 66%)}
+.ring{position:absolute;left:0;top:50%;width:100%;height:188px;margin-top:-94px;
+  border:2.6px solid rgba(109,191,94,0.34);border-radius:50%;transform-origin:center}
+.ring.r2{transform:rotate(61deg);border-color:rgba(91,164,230,0.30)}
+.ring.r3{transform:rotate(122deg);border-color:rgba(221,184,74,0.28)}
+.ring .e{position:absolute;right:-11px;top:50%;width:19px;height:19px;margin-top:-9.5px;
+  border-radius:50%;background:#d4ecca;box-shadow:0 0 18px 3px rgba(109,191,94,0.85)}
+.ring.r2 .e{background:#cfe1f5;box-shadow:0 0 18px 3px rgba(91,164,230,0.8)}
+.ring.r3 .e{background:#f1e3b6;box-shadow:0 0 18px 3px rgba(221,184,74,0.8)}
+.nucleus{position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px;
+  border-radius:50%;
+  background:radial-gradient(circle at 42% 38%,#d8f5cb,#6dbf5e 46%,rgba(61,138,53,0.1));
+  box-shadow:0 0 70px 18px rgba(109,191,94,0.5)}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="frame"></div>
+  <div class="ghost">01</div>
+
+  <div class="eyebrow"><span class="dot"></span>有机半导体中的量子力学应用</div>
+  <div class="series">
+    <div class="lab">Course Series</div>
+    <div class="num"><b>01</b> / 12</div>
+  </div>
+
+  <div class="atom">
+    <div class="glow"></div>
+    <div class="ring r1"><span class="e"></span></div>
+    <div class="ring r2"><span class="e"></span></div>
+    <div class="ring r3"><span class="e"></span></div>
+    <div class="nucleus"></div>
+  </div>
+
+  <div class="hero">
+    <span class="tag"><span class="zh">第 01 讲</span> · LECTURE 01</span>
+    <div class="h1">量子力学<br><span class="g">发展史</span></div>
+    <div class="en">History of Quantum Mechanics</div>
+  </div>
+
+  <div class="tagline">
+    <div class="tl-small">1900 普朗克　——　1927 狄拉克</div>
+    <div class="tl-big">经典物理的四根支柱，如何在<em>二十七年</em>里全部崩塌</div>
+  </div>
+
+  <div class="eq">
+    <span><b>E</b> = hν</span><span class="s">◆</span>
+    <span>λ = h/<b>p</b></span><span class="s">◆</span>
+    <span>Δx · Δp ≥ <b>ℏ</b>/2</span>
+  </div>
+  <div class="credit">主讲 · <b>Zesheng Liu</b><br>Linköping University</div>
+</div>
+</body>
+</html>
