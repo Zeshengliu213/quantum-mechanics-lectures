@@ -13,7 +13,7 @@ Interactive lecture slides for a graduate-level quantum mechanics course, with a
 | # | QM Core | OE Connection | Status |
 |---|---------|---------------|--------|
 | 01 | [History of QM](https://zeshengliu213.github.io/quantum-mechanics-lectures/lecture01/index.html) | Why classical physics fails for π-electrons | ✅ Complete |
-| 02 | [From Matter Waves to Schrödinger](lecture02/index.html) | Wave equation for quantum particles | ✅ Complete |
+| 02 | [From Matter Waves to Schrödinger](https://zeshengliu213.github.io/quantum-mechanics-lectures/lecture02/index.html) | Wave equation for quantum particles | ✅ Complete |
 | 03 | Particle in a Box | Conjugation length vs. bandgap | 📝 Planned |
 | 04 | Quantum Harmonic Oscillator | Franck-Condon, Huang-Rhys, vibronic spectra | 📝 Planned |
 | 05 | Tunneling | Charge injection at metal/organic interfaces, SAMs | 📝 Planned |
