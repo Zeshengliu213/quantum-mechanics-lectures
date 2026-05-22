@@ -352,7 +352,83 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
   </div>
 </section>
 
-<!-- S8 小结 + 速查卡 -->
+<!-- S8 有限深势阱 -->
+<section class="slide">
+  <div class="sh"><p class="ey">拓展 · 更真实的盒子</p><h2>有限深势阱 —— 当盒壁不再无穷高</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd">
+        <h3>为什么需要它</h3>
+        <p>真实分子里束缚电子的势垒是<strong class="coral">有限高</strong>的。电子被束缚，但并非绝对出不去 —— 无限深势阱只是理想化的第一步近似。</p>
+      </div>
+      <div class="cd em-cd">
+        <h3>四个关键变化</h3>
+        <ul class="bl">
+          <li>波函数<strong class="blue">渗入势垒</strong>，墙外按指数衰减 $\psi\propto e^{-\kappa x}$，不再在壁上严格为零</li>
+          <li>束缚态<strong class="amber">数目有限</strong>（不再是无穷多个）</li>
+          <li>能级整体<strong>下移</strong>，波函数比无限深势阱更展开</li>
+          <li>有效盒长 &gt; 实际势阱宽度 → 对短共轭链，端点效应更显著</li>
+        </ul>
+      </div>
+      <div class="tk tk-coral"><span class="lab">隧穿预告</span>
+        <p>波函数能「泄漏」进经典禁区，正是<strong class="coral">量子隧穿</strong>的前奏 —— 第五讲会讲电荷如何借此穿过金属/有机界面的势垒。</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd">
+        <h3>无限深 vs 有限深（基态 ψ₁）</h3>
+        <div class="svgbox" style="margin-top:10px"><svg id="finSvg" viewBox="0 0 560 320"></svg></div>
+        <p style="font-size:13px;color:var(--fg3);margin-top:8px">绿色：无限深势阱，波函数在壁上严格归零。蓝色：有限深势阱，波函数在壁上不为零，并以指数尾巴渗到墙外。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S9 二维三维势阱与量子点 -->
+<section class="slide">
+  <div class="sh"><p class="ey">拓展 · 模型的普适性</p><h2>从一维到三维 —— 盒中粒子与量子点</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd">
+        <h3>三维势阱</h3>
+        <p>把粒子关进三维盒子，能级由三个量子数 $(n_x,n_y,n_z)$ 共同决定：</p>
+        <div class="fm sfm" style="margin:10px 0">$E=\dfrac{\pi^2\hbar^2}{2m}\!\left(\dfrac{n_x^2}{L_x^2}+\dfrac{n_y^2}{L_y^2}+\dfrac{n_z^2}{L_z^2}\right)$</div>
+        <p style="font-size:14px;color:var(--fg3)">每个方向都是一维势阱，能量直接相加 —— 一维的结果原封不动地推广。</p>
+      </div>
+      <div class="tk tk-blue"><span class="lab">同一个 1/L² 定律</span>
+        <p>三维盒子里依然是 $E\propto 1/L^2$：盒子越小，能级间距越大。把「盒子」换成纳米晶体，物理一字不变。</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>量子点 —— 看得见的「盒中粒子」</h3>
+        <p><strong>CdSe 量子点</strong>是半导体纳米晶体，电子被限制在三维「盒子」里。只改变晶体尺寸，就能调出整条可见光谱：</p>
+        <div class="svgbox" style="margin:10px 0;background:transparent;border:none">
+          <svg viewBox="0 0 480 124">
+            <circle cx="80" cy="60" r="16" fill="#5ba4e6"/>
+            <circle cx="80" cy="60" r="25" fill="none" stroke="#5ba4e6" stroke-width="1" opacity="0.35"/>
+            <circle cx="234" cy="60" r="27" fill="#6dbf5e"/>
+            <circle cx="234" cy="60" r="37" fill="none" stroke="#6dbf5e" stroke-width="1" opacity="0.35"/>
+            <circle cx="398" cy="62" r="40" fill="#e8734a"/>
+            <circle cx="398" cy="62" r="51" fill="none" stroke="#e8734a" stroke-width="1" opacity="0.35"/>
+            <text x="80" y="116" fill="#5ba4e6" font-size="12" text-anchor="middle">小 · 带隙大 · 蓝</text>
+            <text x="234" y="116" fill="#6dbf5e" font-size="12" text-anchor="middle">中 · 绿</text>
+            <text x="398" y="116" fill="#e8734a" font-size="12" text-anchor="middle">大 · 带隙小 · 红</text>
+          </svg>
+        </div>
+        <ul class="bl">
+          <li>尺寸越<strong>小</strong> → 盒子越小 → 带隙越<strong class="blue">大</strong> → 发射越<strong class="blue">蓝</strong></li>
+          <li>尺寸越<strong>大</strong> → 带隙越小 → 发射越<strong class="coral">红</strong></li>
+        </ul>
+      </div>
+      <div class="tk tk-amber"><span class="lab">2023 诺贝尔化学奖</span>
+        <p>授予量子点的发现与合成 —— 一个本科量子力学的「盒中粒子」模型，长成了显示屏与生物标记里的真实材料。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S10 小结 + 速查卡 -->
 <section class="slide">
   <div class="sh"><p class="ey">小结</p><h2>无限深方势阱 · 速查卡</h2></div>
   <div class="tc">
@@ -513,9 +589,34 @@ function drawCover(){
   if(c2)c2.setAttribute('d',wavePath(70,450,90,2,46));
 }
 
+/* ===== finite vs infinite well comparison ===== */
+function drawFinite(){
+  const svg=document.getElementById('finSvg');if(!svg)return;
+  const xL=200,xR=410,yB=232,N=140,tail=70;
+  let s='';
+  s+=`<line x1="80" y1="${yB}" x2="500" y2="${yB}" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="5 5"/>`;
+  s+=`<line x1="${xL}" y1="44" x2="${xL}" y2="${yB+26}" stroke="#5a564e" stroke-width="2"/>`;
+  s+=`<line x1="${xR}" y1="44" x2="${xR}" y2="${yB+26}" stroke="#5a564e" stroke-width="2"/>`;
+  s+=`<text x="${xL}" y="${yB+44}" fill="#706c65" font-size="12" text-anchor="middle">0</text>`;
+  s+=`<text x="${xR}" y="${yB+44}" fill="#706c65" font-size="12" text-anchor="middle">L</text>`;
+  let di='';
+  for(let i=0;i<=N;i++){const t=i/N;const x=xL+t*(xR-xL);const y=yB-116*Math.sin(Math.PI*t);di+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);}
+  s+=`<path d="${di}" fill="none" stroke="#6dbf5e" stroke-width="2.6"/>`;
+  const c=2.4,peak=90,wallV=peak*Math.cos(c/2),kap=0.02;
+  let df='';
+  for(let i=0;i<=46;i++){const x=xL-tail+i/46*tail;const y=yB-wallV*Math.exp(-kap*(xL-x));df+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);}
+  for(let i=0;i<=N;i++){const t=i/N;const x=xL+t*(xR-xL);const y=yB-peak*Math.cos(c*(t-0.5));df+='L'+x.toFixed(1)+' '+y.toFixed(1);}
+  for(let i=0;i<=46;i++){const x=xR+i/46*tail;const y=yB-wallV*Math.exp(-kap*(x-xR));df+='L'+x.toFixed(1)+' '+y.toFixed(1);}
+  s+=`<path d="${df}" fill="none" stroke="#5ba4e6" stroke-width="2.6"/>`;
+  s+=`<circle cx="${xL}" cy="${(yB-wallV).toFixed(1)}" r="3.5" fill="#5ba4e6"/>`;
+  s+=`<circle cx="${xR}" cy="${(yB-wallV).toFixed(1)}" r="3.5" fill="#5ba4e6"/>`;
+  s+=`<text x="${xR+tail}" y="${(yB-wallV-10).toFixed(1)}" fill="#5ba4e6" font-size="11" text-anchor="end">泄漏尾巴 e⁻ᵏˣ</text>`;
+  svg.innerHTML=s;
+}
+
 window.addEventListener('load',()=>{
   try{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false})}catch(e){}
-  drawCover();drawWell();drawPsi();
+  drawCover();drawWell();drawPsi();drawFinite();
 });
 document.getElementById('lSlider').addEventListener('input',drawWell);
 </script>
