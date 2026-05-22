@@ -43,9 +43,9 @@ Interactive lecture slides for a graduate-level quantum mechanics course, with a
 - Uncertainty principle visualization
 
 ### Lecture 02 Animations
-- de Broglie wavelength explorer
-- Free particle wave packet dispersion
-- Schrödinger equation derivation walkthrough
+- Classical trajectory vs. double-slit electron interference
+- Uncertainty principle (position–momentum Gaussian pair)
+- Two-state superposition interference
 
 ## Navigation
 
