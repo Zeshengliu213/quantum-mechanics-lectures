@@ -107,6 +107,39 @@ table.cmp tr:last-child td{border-bottom:none}
   .tc,.t3{grid-template-columns:1fr}
   header.chrome .tsm{display:none}
 }
+
+/* ===== PRESENTER MODE (方案 A · 双屏演讲者视图) ===== */
+body.presenter-on .app{display:none}
+.pmode{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg);font-family:var(--ff);color:var(--fg)}
+.pm-head{height:60px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:var(--bg2);border-bottom:1px solid rgba(255,255,255,0.06)}
+.pm-head .pm-title{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent)}
+.pm-clocks{display:flex;align-items:center;gap:22px}
+.pm-metric{text-align:center;line-height:1}
+.pm-metric .v{font-family:var(--mono);font-size:24px;color:var(--fg);font-variant-numeric:tabular-nums}
+.pm-metric .l{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg3);margin-top:5px}
+.pm-metric.tm .v{color:var(--accent)}
+.pm-reset{align-self:center;background:none;border:1px solid rgba(255,255,255,0.12);color:var(--fg2);border-radius:5px;padding:6px 11px;font-size:11px;cursor:pointer;font-family:var(--ff)}
+.pm-reset:hover{background:rgba(255,255,255,0.06);color:var(--fg)}
+.pm-body{flex:1;min-height:0;display:grid;grid-template-columns:1.62fr 1fr;gap:16px;padding:16px}
+.pm-col{display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0}
+.pm-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg3);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-label b{color:var(--accent);font-weight:600}
+.pm-wrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.pm-col.nx .pm-wrap{flex:0 0 auto}
+.pv-stage{position:relative;width:100%;aspect-ratio:16/9;max-height:100%;background:#000;border:1px solid rgba(255,255,255,0.1);border-radius:8px;overflow:hidden}
+.pm-col.cur .pv-stage{border-color:var(--accent-dim);cursor:pointer}
+.pv-frame{position:absolute;top:0;left:0;width:1280px;height:720px;border:0;transform-origin:top left;pointer-events:none}
+.pv-end{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(12,14,12,0.94);color:var(--fg3);font-size:14px;letter-spacing:1px;z-index:2}
+.pv-end.on{display:flex}
+.pm-notes{flex:1;min-height:0;overflow-y:auto;background:var(--bg2);border:1px solid rgba(255,255,255,0.06);border-left:3px solid var(--accent);border-radius:6px;padding:15px 19px}
+.pm-notes h4{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+.pm-note-body{font-size:16px;line-height:1.74;color:var(--fg);white-space:pre-wrap}
+.pm-foot{height:54px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--bg2);border-top:1px solid rgba(255,255,255,0.06)}
+.pm-foot button.pm-nav{font-family:var(--ff);font-size:14px;padding:8px 22px;border:1px solid rgba(255,255,255,0.12);border-radius:6px;background:transparent;color:var(--fg);cursor:pointer;transition:all .2s}
+.pm-foot button.pm-nav:hover:not(:disabled){background:var(--accent2);border-color:var(--accent);color:#fff}
+.pm-foot button.pm-nav:disabled{opacity:.3;cursor:default}
+.pm-hint{font-size:11px;color:var(--fg3)}
+.pm-hint kbd{background:var(--bg3);padding:1px 6px;border-radius:3px;font-size:10px;border:1px solid rgba(255,255,255,0.08);margin:0 1px}
 </style>
 </head>
 <body>
@@ -123,7 +156,7 @@ table.cmp tr:last-child td{border-bottom:none}
   <h1 style="font-style:italic;color:var(--accent);font-size:clamp(46px,7vw,80px)">The Schrödinger Equation</h1>
   <p class="lead" style="font-style:normal;font-size:clamp(22px,3vw,30px)">Zesheng Liu<br>Linköping University</p>
   <div class="of" style="margin-top:20px"><div class="ob oa"></div><div class="ob ob2"></div><div class="ob oc"></div><div class="nu"></div></div>
-  <p class="cap" style="margin-top:20px;font-size:17px">Lecture 2 · Equation of Motion in the Quantum World · ←→ or click · <kbd>F</kbd> fullscreen</p>
+  <p class="cap" style="margin-top:20px;font-size:17px">Lecture 2 · Equation of Motion in the Quantum World · ←→ or click · <kbd>F</kbd> fullscreen · <kbd>S</kbd> presenter</p>
 </section>
 
 <!-- S1 CLASSICAL vs QUANTUM -->
@@ -658,7 +691,7 @@ table.cmp tr:last-child td{border-bottom:none}
   <button class="nb" onclick="go(-1)">← Prev</button>
   <div class="ptr"><div class="pfill" id="pf" style="width:5%"></div></div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> fullscreen</span>
+    <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> fullscreen · <kbd>S</kbd> presenter</span>
     <button class="nb" onclick="location.href='../lecture01/index.html'">L1</button>
     <button class="nb" onclick="location.href='./index.html'">L2 deck</button>
     <button class="nb" onclick="go(1)">Next →</button>
@@ -672,7 +705,7 @@ table.cmp tr:last-child td{border-bottom:none}
 const F='Playfair Display';
 let cur=0;const SL=document.querySelectorAll('.slide'),TN=SL.length;
 document.getElementById('ind').textContent='1 / '+TN;
-function goTo(n){if(n<0||n>=TN)return;SL[cur].classList.remove('active');SL[cur].classList.add('exit');const p=cur;cur=n;SL[cur].classList.add('active');setTimeout(()=>SL[p].classList.remove('exit'),450);document.getElementById('ind').textContent=(cur+1)+' / '+TN;document.getElementById('pf').style.width=((cur+1)/TN*100)+'%';drawStatic()}
+function goTo(n){if(n<0||n>=TN)return;SL[cur].classList.remove('active');SL[cur].classList.add('exit');const p=cur;cur=n;SL[cur].classList.add('active');setTimeout(()=>SL[p].classList.remove('exit'),450);document.getElementById('ind').textContent=(cur+1)+' / '+TN;document.getElementById('pf').style.width=((cur+1)/TN*100)+'%';drawStatic();if(window.__deckNavHook)window.__deckNavHook(cur)}
 function go(d){goTo(cur+d)}
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT')return;
@@ -865,5 +898,220 @@ function loop(t){
 function drawStatic(){drawUn()}
 window.addEventListener('resize',drawStatic);
 setTimeout(()=>{drawStatic();rafId=requestAnimationFrame(loop)},300);
+</script>
+<script>
+/* ===== PRESENTER MODE (方案 A · 双屏演讲者视图) =====
+   在观众窗口按 S 打开演讲者窗口：左=当前页，右上=下一页预览，右下=演讲备注 + 计时器。
+   两个窗口通过 postMessage 同步，本地文件与 GitHub Pages 均可用。 */
+(function(){
+  "use strict";
+  var params = new URLSearchParams(location.search);
+  var IS_PRESENTER = params.has('presenter');
+  var IS_TOP = (window.self === window.top);
+  /* 在线服务器用目录形式 URL（避免 index.html 重定向丢掉查询串）；
+     本地 file:// 必须保留 index.html，否则会打开目录列表 */
+  var BASE = location.href.split('?')[0].split('#')[0];
+  if (location.protocol !== 'file:') BASE = BASE.replace(/index\.html?$/i, '');
+  var MSG = 'qmnav';
+
+  /* 每页演讲备注，按幻灯片序号 0..15。可自行编辑。 */
+  var SPEAKER_NOTES = [
+    "第 2 讲开场。先回顾第 1 讲的结论：经典物理的四根支柱都倒了。\n今天进入正题——量子力学到底用什么方程描述粒子的运动。这一讲是整门课的数学基石。\n说明本讲会先讲方程的由来，再讲它的物理内容。",
+    "用一组对比开场：经典世界有确定轨迹，量子世界没有。\n左边牛顿力学——给定初始条件就有唯一轨迹，拉普拉斯妖能预言整个未来；右边双缝电子实验——电子一个个打，却出现干涉条纹。\n抛出核心问题：如果轨迹失效了，用什么来描述粒子的「状态」？答案就是波函数 ψ。",
+    "讲薛定谔方程的由来故事，1925 年冬到 1926 年春。\n三个关键节点：① 德拜布置任务「要认真对待波，就得有波动方程」；② 阿罗萨度假期间解出氢原子，能级与玻尔公式完全吻合；③ 半年内四篇论文，方程定型。\n这段故事让听众记住：方程不是凭空降临，是被一个具体问题逼出来的。",
+    "展示 1926 年原始论文的扫描页。\n左页是标题页与开篇的代换；右页是 p.371——「于是得到了众所周知的玻尔能级」，这是新理论的决定性胜利。\n可点开图片放大，或给出 PDF 链接。这一页节奏可以快些，主要是给听众历史实感。",
+    "正式亮出薛定谔方程，先让它在屏幕上停留几秒，让听众「看见」它。\n然后分三块讲：左边是时间演化项（一阶时间导数 + 虚数 i）；右边第一项是动能项（二阶空间导数 ↔ 曲率 ↔ p²/2m）；第二项是势能项 Vψ。\n强调 ψ 是复数函数——这一点后面反复用到。",
+    "讲薛定谔「怎么猜出」这个方程。五步：① 从德布罗意关系 E=ℏω、p=ℏk 出发；② 试最简单的平面波，求两次导；③ 把 ω 和 k² 翻译成对 ψ 的微分操作；④ 代入经典能量关系 E=p²/2m+V；⑤ 因为方程线性，可推广到任意波包。\n务必强调最后那个红框：这不是严格推导，是类比加灵感猜测，最终靠实验（氢原子能级）验证。",
+    "进入 Part I「态」。波函数 ψ(x,t) 就是量子粒子的状态。\n核心：经典的 (x(t),p(t)) 描述被一个复值函数取代。复数提供两个自由度——振幅和相位，相位正是干涉的关键。\n再带出玻恩诠释 |ψ|² 是概率密度、归一化条件，以及波函数的基本要求（单值、连续、平方可积）。",
+    "Part II「诠释」。这一页聚焦玻恩本人与他 1926 年的核心主张。\n关键句：方程解出 ψ，但 ψ 到底是什么？玻恩回答——ψ 本身不可观测（它是复数），可观测的是模方 |ψ|²，即概率密度。\n这是量子力学从「决定论」转向「概率」的转折点，玻恩 1954 年因此获诺奖。",
+    "Part III「性质」。把薛定谔方程的六条基本性质过一遍。\n① 线性→叠加原理（干涉的来源）；② 时间一阶→初态唯一决定演化；③ 复值→纯实 ψ 不可能；④ 概率守恒；⑤ 埃伦费斯特定理→宏观极限回到牛顿方程；⑥ 它是一条公设，与 F=ma 同级，不能从更深的东西推出。\n第 ⑤、⑥ 点最值得多停留。",
+    "Part IV「定态」。用分离变量法从含时方程推出定态方程。\n关键逻辑：设 ψ=φ(x)T(t)，两边除以 φT 后，左边只含 t、右边只含 x，两者恒等所以都等于常数 E。时间部分解出 T=e^(−iEt/ℏ)，空间部分就是定态薛定谔方程 Ĥφ=Eφ。\n落点：定态的 |ψ|² 不随时间变化——原子轨道为何稳定就在这里；能量量子化来自边界条件。",
+    "Part V「可观测量」。引入算符的概念。\n三个算符：位置 x̂（乘以 x）、动量 p̂=−iℏ∂/∂x、哈密顿量 Ĥ=p̂²/2m+V。\n然后讲期望值 ⟨Â⟩=∫ψ*Âψ dx——量子力学里「平均测量结果」。强调为何需要算符：位置、动量不再是一个数，而是一个可能取值的分布。",
+    "Part VI「对易子」。一步步推导 [x̂,p̂]=iℏ。\n对任意函数 f(x)：先算 x̂p̂f，再算 p̂x̂f（这里要用乘积法则），相减得到 iℏf，因为 f 任意所以 [x̂,p̂]=iℏ。\n物理意义：对易=0 两个量可同时确定；对易≠0 则不能。x̂ 与 p̂ 不对易，这直接导出不确定性原理——测量顺序不能交换是自然的内禀结构。",
+    "海森堡不确定性原理 1927，Δx·Δp≥ℏ/2。\n强调它是从对易关系来的——罗伯逊不等式代入 [x̂,p̂]=iℏ 立刻得到。可点按钮演示：位置波包压窄，动量波包必然变宽。\n再次强调：这不是测量误差，再精密的仪器也逃不掉；它是 x̂ 与 p̂ 的结构性不相容。ℏ→0 时回到经典。",
+    "Part VII「叠加」。线性导致叠加：能量本征态的任意线性组合 ψ=Σcₙφₙe^(−iEₙt/ℏ) 仍是解。\n测量公设：测能量得到 Eₙ 的概率是 |cₙ|²；测量前系统同时处于所有分量。测量后坍缩到某个本征态，其余分量不可逆消失——坍缩不被薛定谔方程描述，是量子力学哲学争论的核心。\n右边干涉项按玻尔频率 ν₂₁=(E₂−E₁)/h 振荡——原子发光、OLED 发光颜色都由它决定。可播放动画。",
+    "本讲五个要点：① 波函数 + 玻恩诠释；② 薛定谔方程（线性、一阶、复值，是公设）；③ 定态 + 量子化；④ 对易→不确定性；⑤ 叠加原理。\n建议请听众合上屏幕，自己复述这五点。强调第 ⑤ 点的玻尔频率会接到下一讲与有机半导体发光。",
+    "两道思考题留给听众：① 叠加态 (φ₁+φ₂)/√2 的概率密度如何随时间演化、干涉项与振荡频率；② 自由粒子平面波 e^(ikx) 为何在位置空间完全弥散，与 Δx·Δp≥ℏ/2 的关系。\n预告第 3 讲：一维无限深势阱——第一个亲手求解 TISE 的模型，并用量子化能级估算共轭分子的 HOMO-LUMO 能隙与 OLED 发光颜色。\n留出时间提问，收尾。"
+  ];
+
+  if (IS_PRESENTER) {
+    if (document.readyState === 'loading')
+      document.addEventListener('DOMContentLoaded', initPresenter);
+    else initPresenter();
+  } else {
+    initDeckReceiver();
+    if (IS_TOP) initAudience();
+  }
+
+  /* 普通幻灯片（观众窗口 + 预览 iframe）：接收 goto 消息并翻页 */
+  function initDeckReceiver(){
+    window.addEventListener('message', function(e){
+      var d = e.data;
+      if (!d || typeof d !== 'object' || d.t !== MSG) return;
+      window.__remoteApply = true;
+      try { if (typeof window.goTo === 'function') window.goTo(d.i | 0); } catch(_){}
+      window.__remoteApply = false;
+    });
+  }
+
+  /* 观众窗口：S 键打开演讲者窗口，并把本地翻页同步回去 */
+  function initAudience(){
+    var presenterWin = null;
+    window.__deckNavHook = function(i){
+      if (window.__remoteApply) return;
+      if (presenterWin && !presenterWin.closed) {
+        try { presenterWin.postMessage({ t: MSG, i: i }, '*'); } catch(_){}
+      }
+    };
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 's' && e.key !== 'S') return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.target && e.target.tagName === 'INPUT') return;
+      e.preventDefault();
+      if (presenterWin && !presenterWin.closed) { presenterWin.focus(); return; }
+      var idx = (typeof cur === 'number') ? cur : 0;
+      presenterWin = window.open(BASE + '?presenter&i=' + idx, 'qmPresenter', 'width=1280,height=860');
+      if (!presenterWin) alert('演讲者窗口被浏览器拦截了。\n请允许本页弹出窗口后，再按一次 S 键。');
+    });
+  }
+
+  /* 演讲者窗口 */
+  function initPresenter(){
+    document.title = '演讲者模式 · ' + document.title;
+    document.body.classList.add('presenter-on');
+
+    var slides = document.querySelectorAll('.slide');
+    var TOTAL = slides.length;
+    var TITLES = Array.prototype.map.call(slides, function(s){
+      var el = s.querySelector('h1, h2');
+      return el ? el.textContent.replace(/\s+/g, ' ').trim() : 'Slide';
+    });
+
+    var pcur = parseInt(params.get('i'), 10);
+    if (isNaN(pcur) || pcur < 0) pcur = 0;
+    if (pcur > TOTAL - 1) pcur = TOTAL - 1;
+
+    var root = document.createElement('div');
+    root.className = 'pmode';
+    root.innerHTML =
+      '<div class="pm-head">' +
+        '<div class="pm-title">演讲者模式 · Lecture 2 Schrödinger</div>' +
+        '<div class="pm-clocks">' +
+          '<div class="pm-metric"><div class="v" id="pmCount">--</div><div class="l">幻灯片</div></div>' +
+          '<div class="pm-metric tm"><div class="v" id="pmTimer">00:00</div><div class="l">已用时</div></div>' +
+          '<button class="pm-reset" id="pmReset">重置</button>' +
+          '<div class="pm-metric"><div class="v" id="pmClock">--:--</div><div class="l">时间</div></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pm-body">' +
+        '<div class="pm-col cur">' +
+          '<div class="pm-label">当前页 · <b id="pmCurT"></b></div>' +
+          '<div class="pm-wrap"><div class="pv-stage" id="pmStageCur"></div></div>' +
+        '</div>' +
+        '<div class="pm-col nx">' +
+          '<div class="pm-label">下一页 · <b id="pmNextT"></b></div>' +
+          '<div class="pm-wrap"><div class="pv-stage" id="pmStageNext"><div class="pv-end" id="pmEnd">演示结束 · 已是最后一页</div></div></div>' +
+          '<div class="pm-notes"><h4>演讲备注</h4><div class="pm-note-body" id="pmNote"></div></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pm-foot">' +
+        '<button class="pm-nav" id="pmPrev">← 上一页</button>' +
+        '<div class="pm-hint"><kbd>←</kbd><kbd>→</kbd> 翻页 · 点击当前页前进 · <kbd>Esc</kbd> 关闭窗口</div>' +
+        '<button class="pm-nav" id="pmNext">下一页 →</button>' +
+      '</div>';
+    document.body.appendChild(root);
+
+    var elCount = root.querySelector('#pmCount'),
+        elTimer = root.querySelector('#pmTimer'),
+        elClock = root.querySelector('#pmClock'),
+        elReset = root.querySelector('#pmReset'),
+        elCurT  = root.querySelector('#pmCurT'),
+        elNextT = root.querySelector('#pmNextT'),
+        elNote  = root.querySelector('#pmNote'),
+        elEnd   = root.querySelector('#pmEnd'),
+        elPrev  = root.querySelector('#pmPrev'),
+        elNext  = root.querySelector('#pmNext'),
+        stageCur  = root.querySelector('#pmStageCur'),
+        stageNext = root.querySelector('#pmStageNext');
+
+    var curPv  = makePreview(stageCur,  function(){ return pcur; });
+    var nextPv = makePreview(stageNext, function(){ return pcur + 1; });
+
+    function render(){
+      elCount.textContent = pad(pcur + 1) + ' / ' + pad(TOTAL);
+      elCurT.textContent  = TITLES[pcur] || '';
+      elNextT.textContent = (pcur + 1 < TOTAL) ? (TITLES[pcur + 1] || '') : '— 演示结束';
+      elNote.textContent  = SPEAKER_NOTES[pcur] || '（本页暂无演讲备注，可自行补充）';
+      elEnd.classList.toggle('on', pcur + 1 >= TOTAL);
+      elPrev.disabled = (pcur <= 0);
+      elNext.disabled = (pcur >= TOTAL - 1);
+      curPv.show(); nextPv.show();
+    }
+    function go(i, fromAudience){
+      i = Math.max(0, Math.min(i, TOTAL - 1));
+      if (i === pcur) return;
+      pcur = i;
+      render();
+      if (!fromAudience) postAudience();
+    }
+    function postAudience(){
+      try {
+        if (window.opener && !window.opener.closed)
+          window.opener.postMessage({ t: MSG, i: pcur }, '*');
+      } catch(_){}
+    }
+
+    window.addEventListener('message', function(e){
+      var d = e.data;
+      if (!d || typeof d !== 'object' || d.t !== MSG) return;
+      go(d.i | 0, true);
+    });
+    document.addEventListener('keydown', function(e){
+      var k = e.key;
+      if (k==='ArrowRight'||k==='PageDown'||k===' '||k==='Enter'){ e.preventDefault(); go(pcur+1); }
+      else if (k==='ArrowLeft'||k==='PageUp'){ e.preventDefault(); go(pcur-1); }
+      else if (k==='Home'){ e.preventDefault(); go(0); }
+      else if (k==='End'){ e.preventDefault(); go(TOTAL-1); }
+      else if (k==='Escape'){ window.close(); }
+    });
+    elPrev.onclick   = function(){ go(pcur-1); };
+    elNext.onclick   = function(){ go(pcur+1); };
+    stageCur.onclick = function(){ go(pcur+1); };
+    elReset.onclick  = function(){ t0 = Date.now(); tick(); };
+
+    var t0 = Date.now();
+    function tick(){
+      var s = Math.max(0, Math.floor((Date.now() - t0) / 1000));
+      elTimer.textContent = pad((s/60)|0) + ':' + pad(s%60);
+      var d = new Date();
+      elClock.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes());
+    }
+    setInterval(tick, 500); tick();
+    render();
+
+    function makePreview(stage, indexFn){
+      var frame = document.createElement('iframe');
+      frame.className = 'pv-frame';
+      frame.setAttribute('scrolling', 'no');
+      var loaded = false;
+      frame.addEventListener('load', function(){ loaded = true; show(); });
+      frame.src = BASE;
+      stage.insertBefore(frame, stage.firstChild);
+      function show(){
+        if (!loaded) return;
+        var i = indexFn();
+        if (i < 0 || i > TOTAL - 1) return;
+        try { frame.contentWindow.postMessage({ t: MSG, i: i }, '*'); } catch(_){}
+      }
+      function fit(){ frame.style.transform = 'scale(' + (stage.clientWidth / 1280) + ')'; }
+      if (window.ResizeObserver) new ResizeObserver(fit).observe(stage);
+      window.addEventListener('resize', fit);
+      fit();
+      return { show: show };
+    }
+  }
+
+  function pad(n){ n = n | 0; return (n < 10 ? '0' : '') + n; }
+})();
 </script>
 </body></html>
