@@ -6,6 +6,12 @@
       "runtimeExecutable": "npx",
       "runtimeArgs": ["serve", "lecture01", "-l", "3456", "--no-clipboard"],
       "port": 3456
+    },
+    {
+      "name": "lectures",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", ".", "-l", "3457", "--no-clipboard"],
+      "port": 3457
     }
   ]
 }
