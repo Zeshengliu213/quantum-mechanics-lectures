@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="zh-CN"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>专题 · 无限深方势阱</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Fira+Code&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+:root{
+  --bg:#0c0e0c;--bg2:#151915;--bg3:#1e231e;
+  --fg:#ede9e0;--fg2:#a8a49b;--fg3:#706c65;
+  --accent:#6dbf5e;--accent2:#3d8a35;--accent-dim:#2a5a24;
+  --blue:#5ba4e6;--coral:#e8734a;--purple:#b07ee8;--amber:#ddb84a;--red:#e05454;
+  --ff:'Playfair Display','Noto Serif SC',Georgia,serif;
+  --mono:'Fira Code',monospace;
+  --radius:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--ff);font-size:18px;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent2);color:#fff}
+.app{width:100%;height:100%;display:flex;flex-direction:column}
+header.chrome{height:32px;background:var(--bg2);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;z-index:20}
+.chrome .tag{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);opacity:0.6}
+.chrome .tsm{font-size:11px;color:var(--fg3);margin-left:14px}
+.chrome .ind{font-size:11px;color:var(--fg3);font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.deck{flex:1;position:relative;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px 5vw 36px;opacity:0;pointer-events:none;transform:translateX(40px);transition:opacity 0.4s,transform 0.4s;overflow-y:auto}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+.slide.exit{opacity:0;transform:translateX(-40px)}
+footer.ft{height:30px;background:var(--bg2);border-top:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0;z-index:20}
+.ptr{flex:1;height:2px;background:rgba(255,255,255,0.05);border-radius:2px;margin:0 14px}
+.pfill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.3s}
+.ft .ht{font-size:10px;color:var(--fg3)}
+.ft .ht kbd{background:var(--bg3);padding:1px 4px;border-radius:3px;font-size:9px;border:1px solid rgba(255,255,255,0.08)}
+.ft .nb{background:none;border:1px solid rgba(255,255,255,0.1);color:var(--fg2);font-family:var(--ff);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s}
+.ft .nb:hover{background:rgba(255,255,255,0.05)}
+
+.slide h1{font-size:clamp(34px,5.2vw,62px);font-weight:700;line-height:1.12;text-align:center;letter-spacing:-0.5px;max-width:1100px}
+.slide h2{font-size:clamp(26px,3.7vw,46px);font-weight:700;line-height:1.15;max-width:1150px}
+.slide h3{font-size:19px;font-weight:600;margin-bottom:8px}
+.slide p{font-size:16px;line-height:1.62;color:var(--fg2)}
+.ey{font-size:13px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.sh{text-align:left;width:100%;max-width:1200px;margin-bottom:18px}
+.lead{font-size:clamp(17px,2.2vw,23px);color:var(--fg2);line-height:1.5;text-align:center;max-width:820px;margin-top:16px;font-style:italic}
+.accent{color:var(--accent)}.blue{color:var(--blue)}.coral{color:var(--coral)}.purple{color:var(--purple)}.amber{color:var(--amber)}
+.cap{font-size:13px;color:var(--fg3);text-align:center;margin-top:10px}
+.fm{font-size:clamp(22px,3vw,38px);text-align:center;margin:14px 0}
+.sfm{font-size:clamp(17px,2vw,24px)}
+
+.cd{background:var(--bg2);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:18px 22px}
+.cd h3{font-size:17px;font-weight:600;margin-bottom:8px}
+.cd p{font-size:15px;line-height:1.6;color:var(--fg2)}
+.em-cd{border-color:var(--accent-dim);background:rgba(42,90,36,0.07)}
+.tk{border-left:3px solid var(--accent);background:rgba(42,90,36,0.05);padding:12px 16px;margin-top:10px}
+.tk span.lab{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:4px}
+.tk p{font-size:14px}
+.tk-blue{border-left-color:var(--blue);background:rgba(91,164,230,0.06)}
+.tk-blue span.lab{color:var(--blue)}
+.tk-amber{border-left-color:var(--amber);background:rgba(221,184,74,0.06)}
+.tk-amber span.lab{color:var(--amber)}
+.tk-coral{border-left-color:var(--coral);background:rgba(232,115,74,0.06)}
+.tk-coral span.lab{color:var(--coral)}
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:16px;margin-bottom:6px;font-size:15px;line-height:1.55;color:var(--fg2)}
+ul.bl li::before{content:'';position:absolute;left:0;top:7px;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.yc{display:inline-block;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);padding:2px 8px;border-radius:4px;margin-bottom:6px}
+
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:1200px}
+.t3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%;max-width:1200px}
+.stk{display:flex;flex-direction:column;gap:12px}
+.cc{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:1200px}
+
+.stp{counter-reset:s;list-style:none;padding:0}
+.stp li{position:relative;padding:7px 0 7px 38px;counter-increment:s;font-size:14px;line-height:1.55;color:var(--fg2)}
+.stp li::before{content:counter(s);position:absolute;left:0;top:6px;width:24px;height:24px;border-radius:50%;background:var(--accent-dim);color:var(--accent);font-family:var(--mono);font-size:12px;text-align:center;line-height:24px;font-weight:600}
+
+table.cmp{width:100%;border-collapse:collapse;margin-top:6px}
+table.cmp th,table.cmp td{padding:8px 12px;font-size:14px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--fg2)}
+table.cmp th{color:var(--fg);font-weight:600;background:rgba(255,255,255,0.02)}
+table.cmp tr:last-child td{border-bottom:none}
+
+details.dv{border:1px solid var(--accent-dim);border-radius:6px;background:rgba(42,90,36,0.06);margin-top:12px;overflow:hidden}
+details.dv summary{cursor:pointer;padding:10px 16px;font-size:14px;font-weight:600;color:var(--accent);list-style:none;user-select:none}
+details.dv summary::-webkit-details-marker{display:none}
+details.dv summary::before{content:'▸  ';font-size:11px}
+details.dv[open] summary::before{content:'▾  '}
+details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
+
+.svgbox{width:100%;background:rgba(0,0,0,0.22);border-radius:6px;border:1px solid rgba(255,255,255,0.05)}
+.svgbox svg{display:block;width:100%;height:auto}
+.ct{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:8px}
+.ct label{font-size:14px;color:var(--fg2);display:flex;align-items:center;gap:8px}
+.ct input[type=range]{width:200px;accent-color:var(--accent)}
+.ct .vl{font-size:13px;color:var(--accent);min-width:54px;text-align:left;font-family:var(--mono)}
+.ct button{font-family:var(--ff);font-size:14px;padding:6px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;background:transparent;color:var(--fg2);cursor:pointer;transition:all 0.2s}
+.ct button:hover,.ct button.on{background:var(--accent2);border-color:var(--accent);color:#fff}
+.ct .leg{font-size:12px;color:var(--fg3)}
+.ct .sw{display:inline-block;width:14px;height:3px;vertical-align:middle;margin-right:4px;border-radius:2px}
+.rdt{font-family:var(--mono);font-size:14px;color:var(--fg2);text-align:center;margin-top:6px}
+.rdt b{color:var(--accent)}
+
+@media(max-width:768px){
+  .slide{padding:16px 16px 28px}
+  .tc,.t3{grid-template-columns:1fr}
+  header.chrome .tsm{display:none}
+  .ct input[type=range]{width:140px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="chrome">
+  <div style="display:flex;align-items:center;gap:8px"><span class="tag">Quantum Mechanics</span><span class="tsm">专题 · 无限深方势阱</span></div>
+  <span class="ind" id="ind">1 / 9</span>
+</header>
+<main class="deck" id="deck">
+
+<!-- S0 COVER -->
+<section class="slide active">
+  <p class="ey" style="font-size:15px">量子力学专题 · Particle in a Box</p>
+  <h1 style="font-style:italic;color:var(--accent);font-size:clamp(42px,6.6vw,78px)">无限深方势阱</h1>
+  <div class="svgbox" style="max-width:520px;margin-top:22px;background:transparent;border:none">
+    <svg viewBox="0 0 520 150">
+      <line x1="70" y1="20" x2="70" y2="130" stroke="#6dbf5e" stroke-width="4"/>
+      <line x1="450" y1="20" x2="450" y2="130" stroke="#6dbf5e" stroke-width="4"/>
+      <line x1="70" y1="130" x2="450" y2="130" stroke="#3a3a32" stroke-width="2"/>
+      <path id="cv1" fill="none" stroke="#5ba4e6" stroke-width="2.5"/>
+      <path id="cv2" fill="none" stroke="#b07ee8" stroke-width="2.5"/>
+    </svg>
+  </div>
+  <p class="lead" style="font-style:normal;font-size:clamp(17px,2.2vw,22px)">量子力学里最简单、也最重要的模型 ——<br>一个被关在盒子里的电子，第一次让我们亲眼看见<br><span class="accent">「能量量子化」是怎么自然冒出来的</span>。</p>
+  <p class="cap">← → 翻页 · 点击空白翻页 · <kbd>F</kbd> 全屏</p>
+</section>
+
+<!-- S1 物理设定 -->
+<section class="slide">
+  <div class="sh"><p class="ey">物理设定</p><h2>把一个电子关进一维盒子</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd">
+        <h3>模型</h3>
+        <p>一个电子被限制在宽度 $L$ 的一维区间内。盒子<strong class="accent">内部势能为零</strong>（电子自由），盒壁势能<strong class="coral">无穷高</strong>（电子绝对出不去）。</p>
+        <div class="svgbox" style="margin-top:12px">
+          <svg viewBox="0 0 560 230">
+            <rect x="20" y="20" width="80" height="160" fill="rgba(232,115,74,0.14)"/>
+            <rect x="460" y="20" width="80" height="160" fill="rgba(232,115,74,0.14)"/>
+            <line x1="100" y1="14" x2="100" y2="186" stroke="#e8734a" stroke-width="4"/>
+            <line x1="460" y1="14" x2="460" y2="186" stroke="#e8734a" stroke-width="4"/>
+            <line x1="100" y1="180" x2="460" y2="180" stroke="#6dbf5e" stroke-width="3"/>
+            <text x="60" y="105" fill="#e8734a" font-size="15" text-anchor="middle" font-style="italic">V = ∞</text>
+            <text x="500" y="105" fill="#e8734a" font-size="15" text-anchor="middle" font-style="italic">V = ∞</text>
+            <text x="280" y="120" fill="#6dbf5e" font-size="15" text-anchor="middle" font-style="italic">V = 0</text>
+            <line x1="100" y1="205" x2="460" y2="205" stroke="#706c65" stroke-width="1"/>
+            <text x="96" y="210" fill="#a8a49b" font-size="13" text-anchor="end">0</text>
+            <text x="466" y="210" fill="#a8a49b" font-size="13">L</text>
+            <text x="280" y="222" fill="#a8a49b" font-size="13" text-anchor="middle">盒子宽度 L</text>
+            <circle cx="250" cy="180" r="6" fill="#5ba4e6"/>
+            <text x="262" y="172" fill="#5ba4e6" font-size="13">e⁻</text>
+          </svg>
+        </div>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>边界条件从哪来？</h3>
+        <p>波函数 $\psi(x)$ 必须<strong class="accent">处处连续</strong>。盒壁外势能无穷大 → 电子不可能出现在那里 → 那里 $\psi=0$。</p>
+        <p style="margin-top:8px">连续性要求盒内的 $\psi$ 在边界处与盒外接上，于是：</p>
+        <div class="fm sfm" style="margin:10px 0;color:var(--accent)">$\psi(0)=0,\qquad \psi(L)=0$</div>
+        <p>这两个看似不起眼的条件，正是后面<strong>所有量子化结果的源头</strong>。</p>
+      </div>
+      <div class="tk tk-blue"><span class="lab">为什么这个模型重要</span>
+        <p>它简单到能用手算出全部解，却已经包含量子力学最核心的三个特征：能量量子化、零点能、波函数节点。是理解一切更复杂体系的「第一块拼图」。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2 解方程 -->
+<section class="slide">
+  <div class="sh"><p class="ey">解方程 · 主线</p><h2>从薛定谔方程到一串离散能级</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd">
+        <h3>盒内：方程变成「驻波方程」</h3>
+        <p>盒内 $V=0$，定态薛定谔方程只剩动能项：</p>
+        <div class="fm sfm" style="margin:8px 0">$-\dfrac{\hbar^2}{2m}\,\psi'' = E\,\psi \;\;\Rightarrow\;\; \psi'' = -k^2\psi$</div>
+        <p>其中 $k^2 = 2mE/\hbar^2$。这正是描述<strong class="accent">驻波</strong>的方程，通解是正弦与余弦。</p>
+      </div>
+      <div class="cd">
+        <h3>边界条件「挑出」离散的 k</h3>
+        <p>$\psi(0)=0$ 去掉余弦项；$\psi(L)=0$ 要求 $\sin(kL)=0$，于是 $k$ 只能取：</p>
+        <div class="fm sfm" style="margin:8px 0;color:var(--accent)">$k_n = \dfrac{n\pi}{L},\qquad n=1,2,3,\dots$</div>
+        <p>连续的 $k$ 被边界条件筛成了<strong class="accent">一串离散值</strong> —— 量子化在这里发生。</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>结论：能级与本征态</h3>
+        <div class="fm" style="margin:10px 0;color:var(--accent);font-size:clamp(20px,2.7vw,30px)">$E_n = \dfrac{n^2 h^2}{8mL^2} = \dfrac{n^2\pi^2\hbar^2}{2mL^2}$</div>
+        <div class="fm sfm" style="margin:6px 0">$\psi_n(x) = \sqrt{\dfrac{2}{L}}\,\sin\!\dfrac{n\pi x}{L}$</div>
+        <p style="font-size:14px;color:var(--fg3);text-align:center">能量只能取 $n^2$ 倍的离散值；$n$ 称为量子数。</p>
+      </div>
+      <details class="dv">
+        <summary>展开完整推导（主线读者可跳过）</summary>
+        <div class="dvb">
+          <ol class="stp">
+            <li>盒内 $V=0$，定态方程：$-\dfrac{\hbar^2}{2m}\psi'' = E\psi$</li>
+            <li>整理为 $\psi'' = -k^2\psi$，其中 $k^2 = 2mE/\hbar^2$ —— 驻波方程</li>
+            <li>通解：$\psi(x) = A\sin(kx) + B\cos(kx)$</li>
+            <li>套 $\psi(0)=0$：因 $\cos 0 = 1$，必须 $B=0$，故 $\psi = A\sin(kx)$</li>
+            <li>套 $\psi(L)=0$：要求 $\sin(kL)=0$，即 $kL = n\pi$，得 $k_n = n\pi/L$</li>
+            <li>代回能量：$E_n = \dfrac{\hbar^2 k_n^2}{2m} = \dfrac{n^2\pi^2\hbar^2}{2mL^2} = \dfrac{n^2h^2}{8mL^2}$</li>
+            <li>归一化：$\displaystyle\int_0^L |A|^2\sin^2\!\dfrac{n\pi x}{L}\,dx = |A|^2\dfrac{L}{2} = 1 \;\Rightarrow\; A=\sqrt{2/L}$</li>
+          </ol>
+          <p style="font-size:13px;color:var(--fg3);margin-top:4px">注：$n=0$ 给出 $\psi\equiv0$（无粒子，无意义），负 $n$ 不产生新态 —— 所以 $n$ 从 1 开始。</p>
+        </div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- S3 交互1：L 滑块 -->
+<section class="slide">
+  <div class="sh"><p class="ey">交互 · 核心</p><h2>拖动滑块改变盒子宽度 L</h2></div>
+  <div class="cc" style="gap:10px">
+    <div class="svgbox" style="max-width:1140px">
+      <svg id="wellSvg" viewBox="0 0 820 440"></svg>
+    </div>
+    <div class="ct">
+      <label>盒子宽度 L：<input type="range" id="lSlider" min="4" max="12" step="0.5" value="6"><span class="vl" id="lVal">6.0 Å</span></label>
+      <span class="leg"><span class="sw" style="background:#6dbf5e"></span>能级 $E_n$ &nbsp; <span class="sw" style="background:#5ba4e6"></span>波函数 $\psi_n$ &nbsp; <span class="sw" style="background:#ddb84a;border-radius:50%;width:8px;height:8px"></span>节点</span>
+    </div>
+    <p class="rdt">当前：$E_1$ = <b id="e1Out">1.04 eV</b> &nbsp;·&nbsp; 能级间距 $E_2-E_1$ = <b id="dEOut">3.13 eV</b></p>
+    <div class="tk tk-amber" style="max-width:1000px"><span class="lab">观察什么</span>
+      <p><strong>左侧能级图</strong>：L 增大时，所有能级一起<strong class="amber">下降并互相靠拢</strong>（因为 $E_n\propto 1/L^2$）。<strong>右侧波函数</strong>：盒子变宽，正弦波被横向拉长；第 $n$ 条波函数恰好有 <strong class="amber">$n-1$ 个节点</strong>（波函数穿过零点的内部位置）。</p>
+    </div>
+  </div>
+</section>
+
+<!-- S4 交互2：n 浏览器 -->
+<section class="slide">
+  <div class="sh"><p class="ey">交互 · 本征态浏览器</p><h2>切换量子数 n，看波函数与概率密度</h2></div>
+  <div class="cc" style="gap:10px">
+    <div class="svgbox" style="max-width:1140px">
+      <svg id="psiSvg" viewBox="0 0 820 360"></svg>
+    </div>
+    <div class="ct" id="nBtns">
+      <span style="font-size:14px;color:var(--fg2)">量子数 n：</span>
+      <button onclick="setN(1,this)">n = 1</button>
+      <button class="on" onclick="setN(2,this)">n = 2</button>
+      <button onclick="setN(3,this)">n = 3</button>
+      <button onclick="setN(4,this)">n = 4</button>
+      <button onclick="setN(5,this)">n = 5</button>
+    </div>
+    <p class="rdt" id="psiOut"></p>
+    <div class="tk" style="max-width:1000px"><span class="lab">节点规则</span>
+      <p>第 $n$ 个本征态 $\psi_n$ 有 <strong class="accent">$n-1$ 个节点</strong>。节点越多 → 波函数弯曲越剧烈 → 动能越大 → <strong class="accent">能量越高</strong>（$E_n\propto n^2$）。左图是 $\psi_n$（可正可负），右图是 $|\psi_n|^2$（处处非负，才是「在某处找到电子」的概率密度）。</p>
+    </div>
+  </div>
+</section>
+
+<!-- S5 三个关键特征 -->
+<section class="slide">
+  <div class="sh"><p class="ey">三个关键物理特征</p><h2>这个简单模型告诉我们什么</h2></div>
+  <div class="t3">
+    <div class="cd" style="border-left:3px solid var(--accent);border-radius:0">
+      <div class="yc">特征一 · 能量量子化</div>
+      <h3>能量只能取离散值</h3>
+      <p>能量不连续，<strong class="accent">不是人为假设</strong>，而是「波函数必须在边界为零」这个条件的数学后果 —— 只有特定波长的驻波能塞进盒子。</p>
+      <p style="margin-top:8px;font-size:13px;color:var(--fg3)">就像两端固定的吉他弦只能发出特定的几个音。</p>
+    </div>
+    <div class="cd em-cd" style="border-left:3px solid var(--blue);border-radius:0">
+      <div class="yc" style="background:rgba(91,164,230,0.12);color:var(--blue)">特征二 · 零点能</div>
+      <h3>$E_1 \neq 0$，电子停不下来</h3>
+      <p>最低能量 $E_1 = h^2/8mL^2 > 0$。电子<strong class="blue">不可能完全静止</strong>地待在盒底。</p>
+      <p style="margin-top:8px">这与<strong>不确定性原理</strong>一致：把电子限制在宽度 $L$ 内（$\Delta x\sim L$），动量就必然有涨落（$\Delta p\gtrsim\hbar/L$），于是动能 $\sim(\Delta p)^2/2m>0$。</p>
+    </div>
+    <div class="cd" style="border-left:3px solid var(--amber);border-radius:0">
+      <div class="yc" style="background:rgba(221,184,74,0.12);color:var(--amber)">特征三 · 节点</div>
+      <h3>波函数形状与节点数</h3>
+      <p>$\psi_n$ 有 $n-1$ 个<strong class="amber">节点</strong>（波函数为零的内部点）。</p>
+      <p style="margin-top:8px">节点数越多，波函数在盒内弯曲得越厉害，曲率越大 → 动能越大。这就是<strong class="amber">「节点越多、能量越高」</strong>的物理来源。</p>
+    </div>
+  </div>
+</section>
+
+<!-- S6 数值感 -->
+<section class="slide">
+  <div class="sh"><p class="ey">数值感</p><h2>代入真实数字：能级落在什么能量范围？</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd">
+        <h3>算一个典型尺度</h3>
+        <p>取电子质量 $m=9.11\times10^{-31}$ kg，盒宽 $L=5\,\text{Å}=5\times10^{-10}$ m。代入 $E_n=n^2h^2/8mL^2$：</p>
+        <table class="cmp">
+          <tr><th>量子数 n</th><th>能量 $E_n$</th><th>相对 $E_1$</th></tr>
+          <tr><td>1</td><td>≈ 1.5 eV</td><td>1×</td></tr>
+          <tr><td>2</td><td>≈ 6.0 eV</td><td>4×</td></tr>
+          <tr><td>3</td><td>≈ 13.5 eV</td><td>9×</td></tr>
+        </table>
+        <p style="margin-top:10px">最低跃迁 $E_2-E_1\approx 4.5$ eV。用 $\lambda(\text{nm})\approx 1240/E(\text{eV})$ 换算 → <strong class="purple">≈ 275 nm</strong>。</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>这个数字意味着什么</h3>
+        <p>4.5 eV / 275 nm 落在<strong class="purple">紫外波段</strong>（可见光约 1.6–3.1 eV）。</p>
+        <p style="margin-top:8px">一个 5 Å 的小盒子，能级间距太大，吸收在紫外 —— 肉眼看不到颜色。</p>
+        <div class="tk tk-blue" style="margin-top:12px"><span class="lab">关键直觉</span>
+          <p>因为 $E_n\propto 1/L^2$：要把吸收<strong>红移</strong>进可见区，就需要<strong class="blue">更大的 L</strong> —— 也就是更长的盒子。这正是下一屏「共轭链」的钥匙。</p>
+        </div>
+      </div>
+      <div class="tk tk-amber"><span class="lab">量纲速记</span>
+        <p>$\lambda(\text{nm}) \approx 1240 / E(\text{eV})$ —— 光子能量与波长的换算，做光谱估算时极常用。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S7 有机电子学连接 -->
+<section class="slide">
+  <div class="sh"><p class="ey">落到有机电子学</p><h2>为什么共轭链越长，吸收越红？</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>π 电子 ≈ 盒中粒子</h3>
+        <p>共轭分子里离域的 $\pi$ 电子，可近似看作被关在一维「盒子」里的粒子。盒子的有效长度就是<strong class="accent">共轭链长</strong>：</p>
+        <div class="fm sfm" style="margin:8px 0">$L \approx (N_C+1)\,d,\quad d\approx 1.4\,\text{Å}$</div>
+        <p style="font-size:14px;color:var(--fg3)">$N_C$ 为共轭碳原子数，$d$ 为平均 C–C 键长。</p>
+      </div>
+      <div class="tk tk-coral"><span class="lab">推理链</span>
+        <p>链越长 → $L$ 越大 → $E_n\propto 1/L^2$，HOMO–LUMO 间隙 $\Delta E$ 越小 → 吸收光子能量越低 → 波长 $\lambda\propto L^2$ 越长 → <strong class="coral">吸收红移</strong>。</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd">
+        <h3>实验检验：聚并苯系列</h3>
+        <table class="cmp">
+          <tr><th>分子</th><th>苯环数</th><th>吸收峰</th><th>颜色</th></tr>
+          <tr><td>萘</td><td>2</td><td>~220 nm</td><td>无色</td></tr>
+          <tr><td>蒽</td><td>3</td><td>~380 nm</td><td>无色</td></tr>
+          <tr><td>并四苯</td><td>4</td><td>~480 nm</td><td>橙色</td></tr>
+          <tr><td>并五苯</td><td>5</td><td>~580 nm</td><td>蓝紫色</td></tr>
+        </table>
+        <p style="margin-top:8px">环越多、链越长，吸收峰单调红移 —— 与 $\lambda\propto L^2$ 的趋势完全吻合。</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">模型的边界</span>
+        <p>自由电子模型<strong>定性正确、定量粗糙</strong>。偏差来自电子–电子排斥、键长交替、端点效应。更精确的处理是 Hückel 理论（第九讲）。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8 小结 + 速查卡 -->
+<section class="slide">
+  <div class="sh"><p class="ey">小结</p><h2>无限深方势阱 · 速查卡</h2></div>
+  <div class="tc">
+    <div class="cd em-cd">
+      <h3 class="accent">核心公式</h3>
+      <div class="fm sfm" style="margin:10px 0">$E_n = \dfrac{n^2h^2}{8mL^2} = \dfrac{n^2\pi^2\hbar^2}{2mL^2}$</div>
+      <div class="fm sfm" style="margin:10px 0">$\psi_n(x) = \sqrt{\dfrac{2}{L}}\,\sin\dfrac{n\pi x}{L}$</div>
+      <ul class="bl" style="margin-top:10px">
+        <li><strong>节点规则</strong>：$\psi_n$ 有 $n-1$ 个节点</li>
+        <li><strong>零点能</strong>：$E_1 = h^2/8mL^2 \neq 0$</li>
+        <li><strong>尺寸定律</strong>：$E_n\propto 1/L^2$，$\;\lambda\propto L^2$</li>
+        <li><strong>能量换算</strong>：$\lambda(\text{nm})\approx 1240/E(\text{eV})$</li>
+      </ul>
+    </div>
+    <div class="stk">
+      <div class="tk"><span class="lab">一句话总结</span>
+        <p>「波函数必须在盒壁为零」这一个边界条件，就同时逼出了能量量子化、零点能和波函数节点 —— 量子力学的三个核心特征。</p>
+      </div>
+      <div class="tk tk-blue"><span class="lab">为什么对有机电子学重要</span>
+        <p>$E_n\propto 1/L^2$ 把「共轭链长度」和「带隙 / 吸收颜色」定量地连了起来 —— 这是理解有机半导体光学性质的第一块基石。</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">下一讲预告</span>
+        <p>量子谐振子 —— 为什么有机半导体的吸收/发射谱总带着特征性的振动级数（vibronic progression）？关键词：Franck–Condon、Huang–Rhys 因子。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="ft">
+  <button class="nb" onclick="go(-1)">← 上一页</button>
+  <div class="ptr"><div class="pfill" id="pf" style="width:11%"></div></div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> 全屏</span>
+    <button class="nb" onclick="location.href='../lecture01/index.html'">L1</button>
+    <button class="nb" onclick="location.href='../lecture02/index.html'">L2</button>
+    <button class="nb" onclick="go(1)">下一页 →</button>
+  </div>
+</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+/* ===== navigation ===== */
+let cur=0;const SL=document.querySelectorAll('.slide'),TN=SL.length;
+document.getElementById('ind').textContent='1 / '+TN;
+function goTo(n){if(n<0||n>=TN)return;SL[cur].classList.remove('active');SL[cur].classList.add('exit');const p=cur;cur=n;SL[cur].classList.add('active');setTimeout(()=>SL[p].classList.remove('exit'),450);document.getElementById('ind').textContent=(cur+1)+' / '+TN;document.getElementById('pf').style.width=((cur+1)/TN*100)+'%'}
+function go(d){goTo(cur+d)}
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();go(1)}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}
+  if(e.key==='f'||e.key==='F')document.documentElement.requestFullscreen?.()
+});
+document.querySelector('.deck').addEventListener('click',e=>{
+  if(e.target.closest('.ct')||e.target.closest('button')||e.target.closest('input')||e.target.closest('label')||e.target.closest('.svgbox')||e.target.closest('details'))return;
+  go(1)
+});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});
+document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60){d>0?go(-1):go(1)}});
+
+/* ===== physics + helpers ===== */
+const SUB=['','₁','₂','₃','₄','₅'];
+function e1eV(L){return 37.6/(L*L);}              /* L in Å → E1 in eV */
+function wavePath(x0,x1,yc,n,amp){
+  const N=160;let d='';
+  for(let i=0;i<=N;i++){const t=i/N;const x=x0+t*(x1-x0);const y=yc-amp*Math.sin(n*Math.PI*t);d+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);}
+  return d;
+}
+function sqPath(x0,x1,yb,n,amp){
+  const N=160;let d='M'+x0.toFixed(1)+' '+yb.toFixed(1);
+  for(let i=0;i<=N;i++){const t=i/N;const x=x0+t*(x1-x0);const s=Math.sin(n*Math.PI*t);const y=yb-amp*s*s;d+='L'+x.toFixed(1)+' '+y.toFixed(1);}
+  d+='L'+x1.toFixed(1)+' '+yb.toFixed(1)+'Z';return d;
+}
+
+/* ===== Widget 1: L-slider energy diagram ===== */
+function drawWell(){
+  const L=+document.getElementById('lSlider').value;
+  const E1=e1eV(L);
+  document.getElementById('lVal').textContent=L.toFixed(1)+' Å';
+  document.getElementById('e1Out').textContent=E1.toFixed(2)+' eV';
+  document.getElementById('dEOut').textContent=(3*E1).toFixed(2)+' eV';
+  const cols=['#6dbf5e','#5ba4e6','#b07ee8','#ddb84a'];
+  let s='';
+  /* --- region A: energy levels --- */
+  const Emax=40,ay0=388,ay1=44,axL=92,axR=312,sc=(ay0-ay1)/Emax;
+  s+=`<text x="56" y="32" fill="#a8a49b" font-size="14">能级 Eₙ</text>`;
+  s+=`<line x1="${axL}" y1="${ay1-8}" x2="${axL}" y2="${ay0}" stroke="#5a564e" stroke-width="1.5"/>`;
+  s+=`<line x1="${axL}" y1="${ay0}" x2="${axR+12}" y2="${ay0}" stroke="#5a564e" stroke-width="1.5"/>`;
+  s+=`<text x="${axL-6}" y="${ay1}" fill="#706c65" font-size="12" text-anchor="end">E</text>`;
+  for(let n=4;n>=1;n--){
+    const E=n*n*E1,y=ay0-E*sc;
+    s+=`<line x1="${axL}" y1="${y}" x2="${axR}" y2="${y}" stroke="${cols[n-1]}" stroke-width="2.6"/>`;
+    s+=`<text x="${axL+6}" y="${y-6}" fill="${cols[n-1]}" font-size="12">E${SUB[n]} = ${E.toFixed(1)} eV</text>`;
+  }
+  /* --- region B: well + wavefunctions --- */
+  const cx=585,boxW=140+(L-4)/8*240,xL=cx-boxW/2,xR=cx+boxW/2,bTop=58,bBot=400;
+  s+=`<text x="380" y="32" fill="#a8a49b" font-size="14">波函数 ψₙ（盒宽随 L 变化）</text>`;
+  s+=`<rect x="${xL-26}" y="${bTop}" width="26" height="${bBot-bTop}" fill="rgba(232,115,74,0.12)"/>`;
+  s+=`<rect x="${xR}" y="${bTop}" width="26" height="${bBot-bTop}" fill="rgba(232,115,74,0.12)"/>`;
+  s+=`<line x1="${xL}" y1="${bTop-4}" x2="${xL}" y2="${bBot}" stroke="#e8734a" stroke-width="3.5"/>`;
+  s+=`<line x1="${xR}" y1="${bTop-4}" x2="${xR}" y2="${bBot}" stroke="#e8734a" stroke-width="3.5"/>`;
+  const slots=[348,262,176,90];
+  for(let n=1;n<=4;n++){
+    const yc=slots[n-1];
+    s+=`<line x1="${xL}" y1="${yc}" x2="${xR}" y2="${yc}" stroke="rgba(255,255,255,0.10)" stroke-width="1" stroke-dasharray="4 4"/>`;
+    s+=`<path d="${wavePath(xL,xR,yc,n,30)}" fill="none" stroke="${cols[1]}" stroke-width="2.4"/>`;
+    for(let j=1;j<n;j++){const nx=xL+j/n*boxW;s+=`<circle cx="${nx.toFixed(1)}" cy="${yc}" r="4" fill="#ddb84a"/>`;}
+    s+=`<text x="${xR+8}" y="${yc+4}" fill="${cols[1]}" font-size="12">ψ${SUB[n]}</text>`;
+    s+=`<text x="${xL-32}" y="${yc+4}" fill="#706c65" font-size="11" text-anchor="end">n=${n}</text>`;
+  }
+  s+=`<line x1="${xL}" y1="${bBot+14}" x2="${xR}" y2="${bBot+14}" stroke="#706c65" stroke-width="1"/>`;
+  s+=`<text x="${cx}" y="${bBot+30}" fill="#a8a49b" font-size="12" text-anchor="middle">L = ${L.toFixed(1)} Å</text>`;
+  document.getElementById('wellSvg').innerHTML=s;
+}
+
+/* ===== Widget 2: n eigenstate browser ===== */
+let psiN=2;
+function setN(n,btn){
+  psiN=n;
+  document.querySelectorAll('#nBtns button').forEach(b=>b.classList.remove('on'));
+  if(btn)btn.classList.add('on');
+  drawPsi();
+}
+function drawPsi(){
+  const n=psiN;
+  let s='';
+  const bTop=46,bBot=300,yc=(bTop+bBot)/2;
+  /* left panel: psi_n */
+  const lx0=88,lx1=386;
+  s+=`<text x="${(lx0+lx1)/2}" y="30" fill="#a8a49b" font-size="14" text-anchor="middle">波函数 ψ${SUB[n]}(x)</text>`;
+  s+=`<line x1="${lx0}" y1="${bTop}" x2="${lx0}" y2="${bBot}" stroke="#e8734a" stroke-width="3"/>`;
+  s+=`<line x1="${lx1}" y1="${bTop}" x2="${lx1}" y2="${bBot}" stroke="#e8734a" stroke-width="3"/>`;
+  s+=`<line x1="${lx0}" y1="${yc}" x2="${lx1}" y2="${yc}" stroke="rgba(255,255,255,0.12)" stroke-width="1" stroke-dasharray="5 5"/>`;
+  s+=`<path d="${wavePath(lx0,lx1,yc,n,108)}" fill="none" stroke="#6dbf5e" stroke-width="3"/>`;
+  for(let j=1;j<n;j++){const nx=lx0+j/n*(lx1-lx0);s+=`<circle cx="${nx.toFixed(1)}" cy="${yc}" r="5.5" fill="#ddb84a"/>`;}
+  s+=`<text x="${lx0-6}" y="${bBot+18}" fill="#706c65" font-size="12" text-anchor="middle">0</text>`;
+  s+=`<text x="${lx1+6}" y="${bBot+18}" fill="#706c65" font-size="12" text-anchor="middle">L</text>`;
+  /* right panel: |psi_n|^2 */
+  const rx0=470,rx1=768;
+  s+=`<text x="${(rx0+rx1)/2}" y="30" fill="#a8a49b" font-size="14" text-anchor="middle">概率密度 |ψ${SUB[n]}(x)|²</text>`;
+  s+=`<line x1="${rx0}" y1="${bTop}" x2="${rx0}" y2="${bBot}" stroke="#e8734a" stroke-width="3"/>`;
+  s+=`<line x1="${rx1}" y1="${bTop}" x2="${rx1}" y2="${bBot}" stroke="#e8734a" stroke-width="3"/>`;
+  s+=`<line x1="${rx0}" y1="${bBot}" x2="${rx1}" y2="${bBot}" stroke="#5a564e" stroke-width="1.5"/>`;
+  s+=`<path d="${sqPath(rx0,rx1,bBot,n,220)}" fill="rgba(91,164,230,0.22)" stroke="#5ba4e6" stroke-width="2.6"/>`;
+  for(let j=1;j<n;j++){const nx=rx0+j/n*(rx1-rx0);s+=`<circle cx="${nx.toFixed(1)}" cy="${bBot}" r="5" fill="#ddb84a"/>`;}
+  s+=`<text x="${rx0-6}" y="${bBot+18}" fill="#706c65" font-size="12" text-anchor="middle">0</text>`;
+  s+=`<text x="${rx1+6}" y="${bBot+18}" fill="#706c65" font-size="12" text-anchor="middle">L</text>`;
+  document.getElementById('psiSvg').innerHTML=s;
+  document.getElementById('psiOut').innerHTML=`n = <b>${n}</b> &nbsp;·&nbsp; 节点数 = <b>${n-1}</b> 个 &nbsp;·&nbsp; 能量 Eₙ = <b>${n}² E₁ = ${n*n} E₁</b>`;
+}
+
+/* ===== cover decoration ===== */
+function drawCover(){
+  const c1=document.getElementById('cv1'),c2=document.getElementById('cv2');
+  if(c1)c1.setAttribute('d',wavePath(70,450,90,1,46));
+  if(c2)c2.setAttribute('d',wavePath(70,450,90,2,46));
+}
+
+window.addEventListener('load',()=>{
+  try{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false})}catch(e){}
+  drawCover();drawWell();drawPsi();
+});
+document.getElementById('lSlider').addEventListener('input',drawWell);
+</script>
+</body></html>
