@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="UTF-8">
+<title>Lecture 1 封面 · 抖音 9:16 (1080×1920)</title>
+<!-- 全部使用系统字体，无需联网加载（兼容国内网络、离线可用） -->
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#0b0d0b;--fg:#ede9e0;--fg2:#a8a49b;--fg3:#6f6b63;
+  --accent:#6dbf5e;--accent-deep:#3d8a35;--amber:#ddb84a;--blue:#5ba4e6;
+  --zh:'PingFang SC','Microsoft YaHei','Hiragino Sans GB','Heiti SC','Microsoft JhengHei',sans-serif;
+  --en:Georgia,'Times New Roman','Nimbus Roman',serif;
+}
+html,body{background:#000}
+body{display:flex;align-items:flex-start;justify-content:flex-start}
+
+.cover{
+  width:1080px;height:1920px;flex:none;position:relative;overflow:hidden;
+  color:var(--fg);font-family:var(--zh);text-align:center;
+  background:
+    radial-gradient(900px 760px at 50% 24%,rgba(61,138,53,0.22),transparent 68%),
+    radial-gradient(800px 700px at 84% 100%,rgba(61,138,53,0.10),transparent 70%),
+    linear-gradient(168deg,#10150f 0%,#0b0d0b 54%,#070907 100%);
+}
+.cover::before{
+  content:'';position:absolute;inset:0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.022) 1px,transparent 1px),
+    linear-gradient(90deg,rgba(255,255,255,0.022) 1px,transparent 1px);
+  background-size:60px 60px;
+  -webkit-mask-image:radial-gradient(820px 1180px at 50% 46%,#000,transparent 80%);
+          mask-image:radial-gradient(820px 1180px at 50% 46%,#000,transparent 80%);
+}
+.ghost{
+  position:absolute;left:50%;bottom:-218px;transform:translateX(-50%);
+  font-family:var(--en);font-style:italic;font-weight:700;
+  font-size:880px;line-height:1;letter-spacing:-30px;
+  color:rgba(109,191,94,0.055);user-select:none;
+}
+.frame{position:absolute;inset:38px;border:1px solid rgba(255,255,255,0.07)}
+.frame::before,.frame::after{
+  content:'';position:absolute;width:38px;height:38px;border:2px solid var(--accent);
+}
+.frame::before{left:-1px;top:-1px;border-right:0;border-bottom:0}
+.frame::after{right:-1px;bottom:-1px;border-left:0;border-top:0}
+
+.eyebrow{
+  position:absolute;left:0;right:0;top:128px;
+  display:flex;align-items:center;justify-content:center;gap:18px;
+  font-size:24px;letter-spacing:5px;color:var(--fg2);font-weight:500;
+}
+.eyebrow .dot{width:9px;height:9px;background:var(--accent);transform:rotate(45deg);
+  box-shadow:0 0 14px rgba(109,191,94,0.7)}
+
+/* atom */
+.atom{position:absolute;left:50%;top:296px;width:412px;height:412px;margin-left:-206px}
+.atom .glow{position:absolute;inset:-130px;border-radius:50%;
+  background:radial-gradient(circle,rgba(109,191,94,0.28),transparent 64%)}
+.ring{position:absolute;left:0;top:50%;width:100%;height:160px;margin-top:-80px;
+  border:2.6px solid rgba(109,191,94,0.34);border-radius:50%;transform-origin:center}
+.ring.r2{transform:rotate(61deg);border-color:rgba(91,164,230,0.30)}
+.ring.r3{transform:rotate(122deg);border-color:rgba(221,184,74,0.28)}
+.ring .e{position:absolute;right:-10px;top:50%;width:18px;height:18px;margin-top:-9px;
+  border-radius:50%;background:#d4ecca;box-shadow:0 0 17px 3px rgba(109,191,94,0.85)}
+.ring.r2 .e{background:#cfe1f5;box-shadow:0 0 17px 3px rgba(91,164,230,0.8)}
+.ring.r3 .e{background:#f1e3b6;box-shadow:0 0 17px 3px rgba(221,184,74,0.8)}
+.nucleus{position:absolute;left:50%;top:50%;width:50px;height:50px;margin:-25px;
+  border-radius:50%;
+  background:radial-gradient(circle at 42% 38%,#d8f5cb,#6dbf5e 46%,rgba(61,138,53,0.1));
+  box-shadow:0 0 66px 16px rgba(109,191,94,0.5)}
+
+/* tag */
+.tag{position:absolute;left:0;right:0;top:798px}
+.tag span{
+  display:inline-flex;align-items:center;gap:13px;
+  border:1.5px solid rgba(109,191,94,0.42);border-radius:5px;
+  padding:11px 24px;font-size:25px;letter-spacing:3px;color:var(--accent);
+  font-family:var(--en);font-weight:600;
+}
+.tag b{font-family:var(--zh);font-weight:700;letter-spacing:3px}
+
+/* hero */
+.hero{position:absolute;left:0;right:0;top:892px}
+.h1{font-weight:800;font-size:162px;line-height:1.1;letter-spacing:8px}
+.h1 .g{color:var(--accent);text-shadow:0 0 70px rgba(109,191,94,0.45)}
+.en{
+  font-family:var(--en);font-size:31px;letter-spacing:6px;color:var(--fg3);
+  margin-top:26px;text-transform:uppercase;font-weight:600;
+}
+
+/* timeline */
+.timeline{
+  position:absolute;left:0;right:0;top:1336px;
+  font-family:var(--en);font-style:italic;font-size:28px;letter-spacing:2px;color:var(--fg2);
+}
+.timeline .bar{
+  display:block;width:96px;height:3px;margin:0 auto 22px;
+  background:linear-gradient(90deg,transparent,var(--accent),transparent);
+}
+
+/* punch */
+.punch{
+  position:absolute;left:0;right:0;top:1432px;
+  font-size:50px;font-weight:700;line-height:1.34;letter-spacing:2px;
+}
+.punch em{color:var(--amber);font-style:normal}
+
+/* equations */
+.eq{
+  position:absolute;left:0;right:0;top:1644px;
+  display:flex;align-items:center;justify-content:center;gap:26px;
+  font-family:var(--en);font-style:italic;font-size:30px;color:var(--fg2);
+}
+.eq .s{color:rgba(109,191,94,0.5);font-style:normal;font-size:20px}
+.eq b{color:var(--accent);font-weight:600}
+
+/* credit */
+.credit{
+  position:absolute;left:0;right:0;bottom:112px;
+  font-size:23px;color:var(--fg3);letter-spacing:2px;
+}
+.credit b{color:var(--fg2);font-weight:700}
+.credit .sep{color:var(--accent);margin:0 12px}
+</style>
+</head>
+<body>
+<div class="cover">
+  <div class="frame"></div>
+  <div class="ghost">01</div>
+
+  <div class="eyebrow"><span class="dot"></span>有机半导体中的量子力学应用<span class="dot"></span></div>
+
+  <div class="atom">
+    <div class="glow"></div>
+    <div class="ring r1"><span class="e"></span></div>
+    <div class="ring r2"><span class="e"></span></div>
+    <div class="ring r3"><span class="e"></span></div>
+    <div class="nucleus"></div>
+  </div>
+
+  <div class="tag"><span><b>第 01 讲</b> · LECTURE 01</span></div>
+
+  <div class="hero">
+    <div class="h1">量子力学<br><span class="g">发展史</span></div>
+    <div class="en">History of Quantum Mechanics</div>
+  </div>
+
+  <div class="timeline"><span class="bar"></span>1900 普朗克　——　1927 狄拉克</div>
+
+  <div class="punch">经典物理的四根支柱<br>如何在<em>二十七年</em>里全部崩塌</div>
+
+  <div class="eq">
+    <span><b>E</b> = hν</span><span class="s">◆</span>
+    <span>λ = h/<b>p</b></span><span class="s">◆</span>
+    <span>Δx·Δp ≥ <b>ℏ</b>/2</span>
+  </div>
+
+  <div class="credit">主讲 <b>Zesheng Liu</b><span class="sep">·</span>Linköping University<span class="sep">·</span>系列 01 / 12</div>
+</div>
+</body>
+</html>
