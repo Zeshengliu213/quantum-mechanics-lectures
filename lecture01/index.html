@@ -165,6 +165,16 @@ body.presenter-on .app{display:none}
 .pm-foot button.pm-nav:disabled{opacity:.3;cursor:default}
 .pm-hint{font-size:11px;color:var(--fg3)}
 .pm-hint kbd{background:var(--bg3);padding:1px 6px;border-radius:3px;font-size:10px;border:1px solid rgba(255,255,255,0.08);margin:0 1px}
+.pm-label-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pm-label-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.pm-toolbar{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.pm-tool{height:25px;min-width:27px;padding:0 6px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid rgba(255,255,255,0.14);border-radius:5px;color:var(--fg2);cursor:pointer;font-size:13px;font-family:var(--ff);line-height:1}
+.pm-tool:hover{background:rgba(255,255,255,0.07);color:var(--fg)}
+.pm-tool.on{background:var(--accent2);border-color:var(--accent);color:#fff}
+.pm-swatch{width:17px;height:17px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);cursor:pointer;padding:0;flex-shrink:0}
+.pm-swatch.on{border-color:#fff}
+.pm-ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none;touch-action:none}
+.pm-ink.draw{pointer-events:auto;cursor:crosshair}
 </style>
 </head>
 <body>
@@ -1330,7 +1340,9 @@ setTimeout(()=>{drawStatic();aId=requestAnimationFrame(loop)},300);
   /* 观众窗口：S 键打开演讲者窗口，并把本地翻页同步回去 */
   function initAudience(){
     var presenterWin = null;
+    setupAudienceInk();
     window.__deckNavHook = function(i){
+      if (window.__inkClear) window.__inkClear();
       if (window.__remoteApply) return;
       if (presenterWin && !presenterWin.closed) {
         try { presenterWin.postMessage({ t: MSG, i: i }, '*'); } catch(_){}
@@ -1377,7 +1389,17 @@ setTimeout(()=>{drawStatic();aId=requestAnimationFrame(loop)},300);
       '</div>' +
       '<div class="pm-body">' +
         '<div class="pm-col cur">' +
-          '<div class="pm-label">当前页 · <b id="pmCurT"></b></div>' +
+          '<div class="pm-label pm-label-row">' +
+            '<span class="pm-label-txt">当前页 · <b id="pmCurT"></b></span>' +
+            '<span class="pm-toolbar">' +
+              '<button class="pm-tool" id="pmPen" title="画笔 (P)">✎</button>' +
+              '<button class="pm-tool" id="pmEraser" title="橡皮擦">擦</button>' +
+              '<button class="pm-swatch on" data-c="#ff5252" style="background:#ff5252" title="红色"></button>' +
+              '<button class="pm-swatch" data-c="#ffd54a" style="background:#ffd54a" title="黄色"></button>' +
+              '<button class="pm-swatch" data-c="#5ad1ff" style="background:#5ad1ff" title="蓝色"></button>' +
+              '<button class="pm-tool" id="pmClear" title="清除本页批注">清</button>' +
+            '</span>' +
+          '</div>' +
           '<div class="pm-wrap"><div class="pv-stage" id="pmStageCur"></div></div>' +
         '</div>' +
         '<div class="pm-col nx">' +
@@ -1388,7 +1410,7 @@ setTimeout(()=>{drawStatic();aId=requestAnimationFrame(loop)},300);
       '</div>' +
       '<div class="pm-foot">' +
         '<button class="pm-nav" id="pmPrev">← 上一页</button>' +
-        '<div class="pm-hint"><kbd>←</kbd><kbd>→</kbd> 翻页 · 点击当前页前进 · <kbd>Esc</kbd> 关闭窗口</div>' +
+        '<div class="pm-hint"><kbd>←</kbd><kbd>→</kbd> 翻页 · <kbd>P</kbd> 画笔 · 点击当前页前进 · <kbd>Esc</kbd> 关闭</div>' +
         '<button class="pm-nav" id="pmNext">下一页 →</button>' +
       '</div>';
     document.body.appendChild(root);
@@ -1408,6 +1430,7 @@ setTimeout(()=>{drawStatic();aId=requestAnimationFrame(loop)},300);
 
     var curPv  = makePreview(stageCur,  function(){ return pcur; });
     var nextPv = makePreview(stageNext, function(){ return pcur + 1; });
+    var inkApi = setupInk();
 
     function render(){
       elCount.textContent = pad(pcur + 1) + ' / ' + pad(TOTAL);
@@ -1423,6 +1446,7 @@ setTimeout(()=>{drawStatic();aId=requestAnimationFrame(loop)},300);
       i = Math.max(0, Math.min(i, TOTAL - 1));
       if (i === pcur) return;
       pcur = i;
+      inkApi.clearForNav();
       render();
       if (!fromAudience) postAudience();
     }
@@ -1444,6 +1468,7 @@ setTimeout(()=>{drawStatic();aId=requestAnimationFrame(loop)},300);
       else if (k==='ArrowLeft'||k==='PageUp'){ e.preventDefault(); go(pcur-1); }
       else if (k==='Home'){ e.preventDefault(); go(0); }
       else if (k==='End'){ e.preventDefault(); go(TOTAL-1); }
+      else if (k==='p'||k==='P'){ e.preventDefault(); inkApi.togglePen(); }
       else if (k==='Escape'){ window.close(); }
     });
     elPrev.onclick   = function(){ go(pcur-1); };
@@ -1481,6 +1506,136 @@ setTimeout(()=>{drawStatic();aId=requestAnimationFrame(loop)},300);
       fit();
       return { show: show };
     }
+
+    function setupInk(){
+      var canvas = document.createElement('canvas');
+      canvas.className = 'pm-ink';
+      stageCur.appendChild(canvas);
+      var ink = createInk(canvas, function(){ return { w: stageCur.clientWidth, h: stageCur.clientHeight }; });
+      var penOn = false, tool = 'pen', color = '#ff5252', drawing = false;
+      var btnPen = root.querySelector('#pmPen'),
+          btnEraser = root.querySelector('#pmEraser'),
+          btnClear = root.querySelector('#pmClear'),
+          swatches = root.querySelectorAll('.pm-swatch');
+      function refresh(){
+        canvas.classList.toggle('draw', penOn);
+        btnPen.classList.toggle('on', penOn && tool === 'pen');
+        btnEraser.classList.toggle('on', penOn && tool === 'eraser');
+        Array.prototype.forEach.call(swatches, function(sw){
+          sw.classList.toggle('on', sw.getAttribute('data-c') === color);
+        });
+      }
+      function pick(t){ if (penOn && tool === t) penOn = false; else { tool = t; penOn = true; } refresh(); }
+      function sendInk(m){
+        m.t = 'qmink';
+        try { if (window.opener && !window.opener.closed) window.opener.postMessage(m, '*'); } catch(_){}
+      }
+      function norm(e){
+        var r = canvas.getBoundingClientRect();
+        return { x: (e.clientX - r.left) / (r.width || 1), y: (e.clientY - r.top) / (r.height || 1) };
+      }
+      canvas.addEventListener('pointerdown', function(e){
+        if (!penOn) return;
+        e.preventDefault();
+        try { canvas.setPointerCapture(e.pointerId); } catch(_){}
+        drawing = true;
+        var p = norm(e), st = { tool: tool, color: color, w: tool === 'eraser' ? 30 : 3.8 };
+        ink.down(st, p);
+        sendInk({ op: 'down', x: p.x, y: p.y, tool: st.tool, color: st.color, w: st.w });
+      });
+      canvas.addEventListener('pointermove', function(e){
+        if (!penOn || !drawing) return;
+        var p = norm(e);
+        ink.move(p);
+        sendInk({ op: 'move', x: p.x, y: p.y });
+      });
+      function endStroke(){ if (!drawing) return; drawing = false; ink.up(); sendInk({ op: 'up' }); }
+      canvas.addEventListener('pointerup', endStroke);
+      canvas.addEventListener('pointercancel', endStroke);
+      canvas.addEventListener('click', function(e){ if (penOn) e.stopPropagation(); });
+      btnPen.addEventListener('click', function(){ pick('pen'); });
+      btnEraser.addEventListener('click', function(){ pick('eraser'); });
+      btnClear.addEventListener('click', function(){ ink.clear(); sendInk({ op: 'clear' }); });
+      Array.prototype.forEach.call(swatches, function(sw){
+        sw.addEventListener('click', function(){
+          color = sw.getAttribute('data-c'); tool = 'pen'; penOn = true; refresh();
+        });
+      });
+      if (window.ResizeObserver) new ResizeObserver(function(){ ink.fit(); }).observe(stageCur);
+      window.addEventListener('resize', function(){ ink.fit(); });
+      ink.fit();
+      return {
+        clearForNav: function(){ ink.clear(); },
+        togglePen: function(){ pick('pen'); }
+      };
+    }
+  }
+
+  /* 画笔图层：把笔迹画到一块 canvas 上，演讲者窗口与观众窗口共用 */
+  function createInk(canvas, sizeFn){
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var REF = 1280;
+    var strokes = [], cur = null;
+    function applyStyle(st){
+      if (st.tool === 'eraser') { ctx.globalCompositeOperation = 'destination-out'; ctx.strokeStyle = '#000'; }
+      else { ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = st.color; }
+      ctx.lineWidth = st.w * (sizeFn().w / REF);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    }
+    function seg(st, a, b){
+      var s = sizeFn();
+      applyStyle(st);
+      ctx.beginPath();
+      ctx.moveTo(a.x * s.w, a.y * s.h);
+      ctx.lineTo(b.x * s.w, b.y * s.h);
+      ctx.stroke();
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    function dot(st, p){ seg(st, p, { x: p.x + 0.0006, y: p.y }); }
+    function redraw(){
+      var s = sizeFn();
+      ctx.clearRect(0, 0, s.w, s.h);
+      strokes.forEach(function(st){
+        if (st.pts.length === 1) { dot(st, st.pts[0]); return; }
+        for (var i = 1; i < st.pts.length; i++) seg(st, st.pts[i-1], st.pts[i]);
+      });
+    }
+    function fit(){
+      var s = sizeFn();
+      if (!s.w || !s.h) return;
+      canvas.width = s.w * dpr; canvas.height = s.h * dpr;
+      canvas.style.width = s.w + 'px'; canvas.style.height = s.h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      redraw();
+    }
+    return {
+      fit: fit, redraw: redraw,
+      down: function(st, p){ cur = { tool: st.tool, color: st.color, w: st.w, pts: [p] }; strokes.push(cur); dot(cur, p); },
+      move: function(p){ if (!cur) return; var l = cur.pts[cur.pts.length-1]; cur.pts.push(p); seg(cur, l, p); },
+      up: function(){ cur = null; },
+      clear: function(){ strokes = []; cur = null; redraw(); }
+    };
+  }
+
+  /* 观众窗口：透明批注层，接收并显示演讲者画的笔迹 */
+  function setupAudienceInk(){
+    var canvas = document.createElement('canvas');
+    canvas.id = 'qm-anno';
+    canvas.style.cssText = 'position:fixed;left:0;top:0;z-index:50;pointer-events:none';
+    document.body.appendChild(canvas);
+    var ink = createInk(canvas, function(){ return { w: window.innerWidth, h: window.innerHeight }; });
+    window.addEventListener('resize', function(){ ink.fit(); });
+    ink.fit();
+    window.addEventListener('message', function(e){
+      var d = e.data;
+      if (!d || typeof d !== 'object' || d.t !== 'qmink') return;
+      if (d.op === 'down') ink.down({ tool: d.tool, color: d.color, w: d.w }, { x: d.x, y: d.y });
+      else if (d.op === 'move') ink.move({ x: d.x, y: d.y });
+      else if (d.op === 'up') ink.up();
+      else if (d.op === 'clear') ink.clear();
+    });
+    window.__inkClear = function(){ ink.clear(); };
   }
 
   function pad(n){ n = n | 0; return (n < 10 ? '0' : '') + n; }
