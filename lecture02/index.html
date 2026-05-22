@@ -969,12 +969,62 @@ setTimeout(()=>{drawStatic();rafId=requestAnimationFrame(loop)},300);
       try { if (typeof window.goTo === 'function') window.goTo(d.i | 0); } catch(_){}
       window.__remoteApply = false;
     });
+    /* 预览 iframe：拦截会导致自行翻页的点击，并把幻灯片控件的交互上报给演讲者窗口 */
+    if (!IS_TOP) setupPreviewRelay();
+  }
+
+  /* 在预览 iframe 内运行：让演讲者能操作幻灯片里的互动控件，并把操作转发出去 */
+  function setupPreviewRelay(){
+    function isControl(t){
+      return t && t.closest && t.closest('.slide') && t.closest('button, input, select, label');
+    }
+    /* 捕获阶段吞掉非控件点击 —— 避免预览自己翻页（翻页只由演讲者窗口控制） */
+    document.addEventListener('click', function(e){
+      if (!isControl(e.target)) e.stopPropagation();
+    }, true);
+    function report(kind, t, extra){
+      var m = { t: 'qmact-up', kind: kind, id: t.id || null,
+                idx: Array.prototype.indexOf.call(document.getElementsByTagName('*'), t) };
+      if (extra) for (var k in extra) m[k] = extra[k];
+      try { parent.postMessage(m, '*'); } catch(_){}
+    }
+    document.addEventListener('click', function(e){
+      var b = e.target.closest ? e.target.closest('button') : null;
+      if (b && b.closest('.slide')) report('click', b);
+    });
+    document.addEventListener('input', function(e){
+      var t = e.target;
+      if (t && t.closest && t.closest('.slide') && (t.tagName === 'INPUT' || t.tagName === 'SELECT'))
+        report('input', t, { value: t.value });
+    });
+    document.addEventListener('change', function(e){
+      var t = e.target;
+      if (t && t.closest && t.closest('.slide') && (t.tagName === 'INPUT' || t.tagName === 'SELECT'))
+        report('change', t, { value: t.value, checked: !!t.checked });
+    });
   }
 
   /* 观众窗口：S 键打开演讲者窗口，并把本地翻页同步回去 */
   function initAudience(){
     var presenterWin = null;
     setupAudienceInk();
+    /* 重放演讲者在预览里对互动控件的操作（按钮 / 滑块 / 下拉 / 勾选） */
+    window.addEventListener('message', function(e){
+      var d = e.data;
+      if (!d || typeof d !== 'object' || d.t !== 'qmact') return;
+      var el = d.id ? document.getElementById(d.id) : document.getElementsByTagName('*')[d.idx];
+      if (!el) return;
+      try {
+        if (d.kind === 'click') el.click();
+        else if (d.kind === 'input') { el.value = d.value; el.dispatchEvent(new Event('input', { bubbles: true })); }
+        else if (d.kind === 'change') {
+          if (el.type === 'checkbox') el.checked = !!d.checked;
+          else if (d.value !== undefined) el.value = d.value;
+          el.dispatchEvent(new Event('change', { bubbles: true }));
+          el.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      } catch(_){}
+    });
     window.__deckNavHook = function(i){
       if (window.__inkClear) window.__inkClear();
       if (window.__remoteApply) return;
@@ -1063,8 +1113,8 @@ setTimeout(()=>{drawStatic();rafId=requestAnimationFrame(loop)},300);
         stageCur  = root.querySelector('#pmStageCur'),
         stageNext = root.querySelector('#pmStageNext');
 
-    var curPv  = makePreview(stageCur,  function(){ return pcur; });
-    var nextPv = makePreview(stageNext, function(){ return pcur + 1; });
+    var curPv  = makePreview(stageCur,  function(){ return pcur; }, true);
+    var nextPv = makePreview(stageNext, function(){ return pcur + 1; }, false);
     var inkApi = setupInk();
 
     function render(){
@@ -1094,8 +1144,15 @@ setTimeout(()=>{drawStatic();rafId=requestAnimationFrame(loop)},300);
 
     window.addEventListener('message', function(e){
       var d = e.data;
-      if (!d || typeof d !== 'object' || d.t !== MSG) return;
-      go(d.i | 0, true);
+      if (!d || typeof d !== 'object') return;
+      if (d.t === MSG) { go(d.i | 0, true); return; }
+      /* 预览里操作了互动控件 —— 转发给观众/投影窗口 */
+      if (d.t === 'qmact-up' && curPv.frame && e.source === curPv.frame.contentWindow) {
+        if (window.opener && !window.opener.closed) {
+          d.t = 'qmact';
+          try { window.opener.postMessage(d, '*'); } catch(_){}
+        }
+      }
     });
     document.addEventListener('keydown', function(e){
       var k = e.key;
@@ -1108,7 +1165,6 @@ setTimeout(()=>{drawStatic();rafId=requestAnimationFrame(loop)},300);
     });
     elPrev.onclick   = function(){ go(pcur-1); };
     elNext.onclick   = function(){ go(pcur+1); };
-    stageCur.onclick = function(){ go(pcur+1); };
     elReset.onclick  = function(){ t0 = Date.now(); tick(); };
 
     var t0 = Date.now();
@@ -1121,10 +1177,11 @@ setTimeout(()=>{drawStatic();rafId=requestAnimationFrame(loop)},300);
     setInterval(tick, 500); tick();
     render();
 
-    function makePreview(stage, indexFn){
+    function makePreview(stage, indexFn, interactive){
       var frame = document.createElement('iframe');
       frame.className = 'pv-frame';
       frame.setAttribute('scrolling', 'no');
+      if (interactive) frame.style.pointerEvents = 'auto';
       var loaded = false;
       frame.addEventListener('load', function(){ loaded = true; show(); });
       frame.src = BASE;
@@ -1139,7 +1196,7 @@ setTimeout(()=>{drawStatic();rafId=requestAnimationFrame(loop)},300);
       if (window.ResizeObserver) new ResizeObserver(fit).observe(stage);
       window.addEventListener('resize', fit);
       fit();
-      return { show: show };
+      return { show: show, frame: frame };
     }
 
     function setupInk(){
