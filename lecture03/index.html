@@ -87,6 +87,91 @@ details.dv summary::before{content:'▸  ';font-size:11px}
 details.dv[open] summary::before{content:'▾  '}
 details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
 
+.derive{display:grid;grid-template-columns:minmax(0,1fr) 320px;gap:18px;width:100%;max-width:1200px}
+.derive-main{min-height:520px;cursor:pointer}
+.derive-main:focus{outline:2px solid var(--accent);outline-offset:3px}
+.derive-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
+.derive-head h3{margin-bottom:0}
+.derive-count{font-family:var(--mono);font-size:12px;color:var(--accent);background:rgba(42,90,36,0.18);border:1px solid var(--accent-dim);border-radius:4px;padding:4px 8px;white-space:nowrap}
+.derive-steps{display:flex;flex-direction:column;gap:9px}
+.derive-empty{border:1px dashed rgba(109,191,94,0.35);background:rgba(42,90,36,0.05);border-radius:6px;padding:20px;text-align:center;color:var(--fg3);font-size:15px}
+.dstep{display:none;grid-template-columns:34px minmax(0,1fr);gap:12px;padding:11px 12px;border:1px solid rgba(255,255,255,0.07);background:rgba(255,255,255,0.025);border-left:3px solid var(--accent-dim);border-radius:6px;animation:stepIn .22s ease-out}
+.dstep.on{display:grid}
+.dstep.hot{border-left-color:var(--accent);background:rgba(42,90,36,0.09)}
+.dnum{width:26px;height:26px;border-radius:50%;background:var(--accent-dim);color:var(--accent);font-family:var(--mono);font-size:12px;font-weight:600;text-align:center;line-height:26px}
+.dstep h4{font-size:14px;font-weight:600;margin:0 0 4px;color:var(--fg)}
+.dstep p{font-size:14px;line-height:1.48}
+.dstep .fm{margin:6px 0;text-align:left}
+.derive-side{display:flex;flex-direction:column;gap:12px}
+.derive-actions{display:flex;gap:8px;flex-wrap:wrap}
+.derive-actions button{font-family:var(--ff);font-size:14px;padding:7px 12px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;background:transparent;color:var(--fg2);cursor:pointer;transition:all 0.2s}
+.derive-actions button:hover{background:var(--accent2);border-color:var(--accent);color:#fff}
+.derive-actions button:disabled{opacity:.42;cursor:not-allowed}
+.derive-actions button:disabled:hover{background:transparent;color:var(--fg2);border-color:rgba(255,255,255,0.1)}
+@keyframes stepIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:1200px}
+.qcard{border:1px solid rgba(255,255,255,0.07);background:var(--bg2);border-radius:var(--radius);overflow:hidden}
+.qcard summary{cursor:pointer;list-style:none;padding:14px 16px;color:var(--fg);font-size:16px;font-weight:600}
+.qcard summary::-webkit-details-marker{display:none}
+.qcard summary::before{content:'?';display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--accent-dim);color:var(--accent);font-family:var(--mono);font-size:13px;line-height:22px;text-align:center;margin-right:9px}
+.qcard[open] summary::before{content:'✓';background:rgba(109,191,94,0.22)}
+.qcard div{border-top:1px solid rgba(255,255,255,0.06);padding:12px 16px}
+.qcard p{font-size:14px}
+.board{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:1200px}
+.chalk{background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:14px 16px}
+.chalk .fm{text-align:left}
+.big-rel{font-size:clamp(30px,5vw,58px);line-height:1;text-align:center;color:var(--accent);font-variant-numeric:tabular-nums}
+
+/* ===== PRESENTER MODE ===== */
+body.presenter-on .app{display:none}
+.pmode{position:fixed;inset:0;display:flex;flex-direction:column;background:var(--bg);font-family:var(--ff);color:var(--fg)}
+.pm-head{height:60px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 22px;background:var(--bg2);border-bottom:1px solid rgba(255,255,255,0.06)}
+.pm-head .pm-title{font-size:11px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent)}
+.pm-clocks{display:flex;align-items:center;gap:22px}
+.pm-metric{text-align:center;line-height:1}
+.pm-metric .v{font-family:var(--mono);font-size:24px;color:var(--fg);font-variant-numeric:tabular-nums}
+.pm-metric .l{font-size:9px;letter-spacing:1.5px;text-transform:uppercase;color:var(--fg3);margin-top:5px}
+.pm-metric.tm .v{color:var(--accent)}
+.pm-reset{align-self:center;background:none;border:1px solid rgba(255,255,255,0.12);color:var(--fg2);border-radius:5px;padding:6px 11px;font-size:11px;cursor:pointer;font-family:var(--ff)}
+.pm-reset:hover{background:rgba(255,255,255,0.06);color:var(--fg)}
+.pm-body{flex:1;min-height:0;display:grid;grid-template-columns:1.62fr 1fr;gap:16px;padding:16px}
+.pm-col{display:flex;flex-direction:column;gap:8px;min-width:0;min-height:0}
+.pm-label{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--fg3);flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pm-label b{color:var(--accent);font-weight:600}
+.pm-wrap{flex:1;display:flex;align-items:center;justify-content:center;min-height:0}
+.pm-col.nx .pm-wrap{flex:0 0 auto}
+.pv-stage{position:relative;width:100%;aspect-ratio:16/9;max-height:100%;background:#000;border:1px solid rgba(255,255,255,0.1);border-radius:8px;overflow:hidden}
+.pm-col.cur .pv-stage{border-color:var(--accent-dim)}
+.pv-frame{position:absolute;top:0;left:0;width:1280px;height:720px;border:0;transform-origin:top left;pointer-events:none}
+.pv-end{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(12,14,12,0.94);color:var(--fg3);font-size:14px;letter-spacing:1px;z-index:2}
+.pv-end.on{display:flex}
+.pm-notes{flex:1;min-height:0;overflow-y:auto;background:var(--bg2);border:1px solid rgba(255,255,255,0.06);border-left:3px solid var(--accent);border-radius:6px;padding:15px 19px}
+.pm-notes h4{font-size:10px;font-weight:600;letter-spacing:2px;text-transform:uppercase;color:var(--accent);margin-bottom:9px}
+.pm-note-body{font-size:16px;line-height:1.74;color:var(--fg);white-space:pre-wrap}
+.pm-foot{height:54px;flex-shrink:0;display:flex;align-items:center;justify-content:space-between;padding:0 20px;background:var(--bg2);border-top:1px solid rgba(255,255,255,0.06)}
+.pm-foot button.pm-nav{font-family:var(--ff);font-size:14px;padding:8px 22px;border:1px solid rgba(255,255,255,0.12);border-radius:6px;background:transparent;color:var(--fg);cursor:pointer;transition:all .2s}
+.pm-foot button.pm-nav:hover:not(:disabled){background:var(--accent2);border-color:var(--accent);color:#fff}
+.pm-foot button.pm-nav:disabled{opacity:.3;cursor:default}
+.pm-hint{font-size:11px;color:var(--fg3)}
+.pm-hint kbd{background:var(--bg3);padding:1px 6px;border-radius:3px;font-size:10px;border:1px solid rgba(255,255,255,0.08);margin:0 1px}
+.pm-label-row{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.pm-label-txt{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.pm-toolbar{display:flex;align-items:center;gap:5px;flex-shrink:0}
+.pm-tool{height:25px;min-width:27px;padding:0 6px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid rgba(255,255,255,0.14);border-radius:5px;color:var(--fg2);cursor:pointer;font-size:13px;font-family:var(--ff);line-height:1}
+.pm-tool:hover{background:rgba(255,255,255,0.07);color:var(--fg)}
+.pm-tool.on{background:var(--accent2);border-color:var(--accent);color:#fff}
+.pm-swatch{width:17px;height:17px;border-radius:50%;border:2px solid rgba(255,255,255,0.25);cursor:pointer;padding:0;flex-shrink:0}
+.pm-swatch.on{border-color:#fff}
+.pm-ink{position:absolute;left:0;top:0;z-index:3;pointer-events:none;touch-action:none}
+.pm-ink.draw{pointer-events:auto;cursor:crosshair}
+.deck-pen{position:fixed;right:14px;bottom:42px;z-index:60;display:flex;align-items:center;gap:6px;padding:7px 9px;background:rgba(18,22,18,0.86);border:1px solid rgba(255,255,255,0.14);border-radius:11px;-webkit-backdrop-filter:blur(6px);backdrop-filter:blur(6px)}
+.dp-btn{height:36px;min-width:38px;padding:0 8px;display:flex;align-items:center;justify-content:center;background:none;border:1px solid rgba(255,255,255,0.16);border-radius:7px;color:#d6d2c8;cursor:pointer;font-size:16px;font-family:inherit;line-height:1}
+.dp-btn:active{background:rgba(255,255,255,0.1)}
+.dp-btn.on{background:var(--accent2);border-color:var(--accent);color:#fff}
+.dp-sw{width:26px;height:26px;border-radius:50%;border:2px solid rgba(255,255,255,0.3);cursor:pointer;padding:0}
+.dp-sw.on{border-color:#fff}
+
 .svgbox{width:100%;background:rgba(0,0,0,0.22);border-radius:6px;border:1px solid rgba(255,255,255,0.05)}
 .svgbox svg{display:block;width:100%;height:auto}
 .ct{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:8px}
@@ -102,7 +187,8 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
 
 @media(max-width:768px){
   .slide{padding:16px 16px 28px}
-  .tc,.t3{grid-template-columns:1fr}
+  .tc,.t3,.derive,.qgrid,.board{grid-template-columns:1fr}
+  .derive-main{min-height:0}
   header.chrome .tsm{display:none}
   .ct input[type=range]{width:140px}
 }
@@ -112,13 +198,13 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
 <div class="app">
 <header class="chrome">
   <div style="display:flex;align-items:center;gap:8px"><span class="tag">Quantum Mechanics</span><span class="tsm">Topic · Infinite Square Well</span></div>
-  <span class="ind" id="ind">1 / 11</span>
+  <span class="ind" id="ind">1 / 15</span>
 </header>
 <main class="deck" id="deck">
 
 <!-- S0 COVER -->
 <section class="slide active">
-  <p class="ey" style="font-size:15px">Quantum Mechanics Topic · Particle in a Box</p>
+  <p class="ey" style="font-size:15px">Quantum Mechanics Topic · Conjugation and Band Gap</p>
   <h1 style="font-style:italic;color:var(--accent);font-size:clamp(42px,6.6vw,78px)">The Infinite Square Well</h1>
   <div class="svgbox" style="max-width:520px;margin-top:22px;background:transparent;border:none">
     <svg viewBox="0 0 520 150">
@@ -129,8 +215,51 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
       <path id="cv2" fill="none" stroke="#b07ee8" stroke-width="2.5"/>
     </svg>
   </div>
-  <p class="lead" style="font-style:normal;font-size:clamp(17px,2.2vw,22px)">The simplest — and most important — model in quantum mechanics:<br>a single electron trapped in a box, where we first see<br><span class="accent">how energy quantization arises all on its own</span>.</p>
-  <p class="cap">← → navigate · click empty space to advance · <kbd>F</kbd> fullscreen</p>
+  <p class="lead" style="font-style:normal;font-size:clamp(17px,2.2vw,22px)">Why does increasing conjugation usually make the band gap smaller?<br>We use the simplest quantum model — <span class="accent">an electron in a box</span> — to build a qualitative answer.</p>
+  <p class="cap">← → navigate · click empty space to advance · <kbd>F</kbd> fullscreen · <kbd>S</kbd> presenter · ✎ pen</p>
+</section>
+
+<!-- S1 ORGANIC MOTIVATION -->
+<section class="slide">
+  <div class="sh"><p class="ey">Motivation · organic electronics</p><h2>Why does a more conjugated molecule have a smaller band gap?</h2></div>
+  <div class="tc">
+    <div class="cd">
+      <h3>The chemical observation</h3>
+      <p>As a $\pi$ system becomes more conjugated, its electronic absorption usually shifts to longer wavelength. In molecular-orbital language, the <strong class="accent">HOMO-LUMO gap becomes smaller</strong>.</p>
+      <div class="svgbox" style="margin-top:12px;background:transparent;border:none">
+        <svg viewBox="0 0 560 250">
+          <defs>
+            <marker id="gaparr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#e8734a"/></marker>
+          </defs>
+          <text x="105" y="34" fill="#a8a49b" font-size="13" text-anchor="middle">short conjugation</text>
+          <line x1="42" y1="92" x2="168" y2="92" stroke="#5ba4e6" stroke-width="3"/>
+          <line x1="42" y1="174" x2="168" y2="174" stroke="#6dbf5e" stroke-width="3"/>
+          <path d="M185 170 L185 96" stroke="#e8734a" stroke-width="2.5" marker-end="url(#gaparr)"/>
+          <text x="205" y="138" fill="#e8734a" font-size="13">large gap</text>
+          <text x="105" y="214" fill="#a8a49b" font-size="13" text-anchor="middle">absorbs bluer / higher energy</text>
+          <text x="410" y="34" fill="#a8a49b" font-size="13" text-anchor="middle">long conjugation</text>
+          <line x1="330" y1="114" x2="490" y2="114" stroke="#5ba4e6" stroke-width="3"/>
+          <line x1="330" y1="158" x2="490" y2="158" stroke="#6dbf5e" stroke-width="3"/>
+          <path d="M508 154 L508 118" stroke="#e8734a" stroke-width="2.5" marker-end="url(#gaparr)"/>
+          <text x="466" y="140" fill="#e8734a" font-size="13" text-anchor="end">small gap</text>
+          <text x="410" y="214" fill="#a8a49b" font-size="13" text-anchor="middle">absorbs redder / lower energy</text>
+          <path d="M250 136 L298 136" stroke="#ddb84a" stroke-width="2.5" marker-end="url(#gaparr)"/>
+          <text x="274" y="122" fill="#ddb84a" font-size="13" text-anchor="middle">more delocalized</text>
+        </svg>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>The model answer we want</h3>
+        <p>A longer conjugated segment lets the $\pi$ electron wave spread over a larger distance. Larger spatial extent means <strong class="accent">more closely spaced standing waves</strong>.</p>
+        <div class="fm sfm" style="margin:10px 0;color:var(--accent)">larger conjugation length $L$ → smaller level spacing</div>
+        <p>The infinite square well is not a precise molecular theory. It is a clean way to understand this trend qualitatively.</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">Question to pose</span>
+        <p>If an electron wave has more room to spread out, should adjacent allowed energies move closer together or farther apart?</p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- S1 PHYSICAL SETUP -->
@@ -179,44 +308,172 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
 <!-- S2 SOLVING THE EQUATION -->
 <section class="slide">
   <div class="sh"><p class="ey">Solving it · main line</p><h2>From the Schrödinger equation to discrete energy levels</h2></div>
-  <div class="tc">
-    <div class="stk">
-      <div class="cd">
-        <h3>Inside the box: a standing-wave equation</h3>
-        <p>Inside the box $V=0$, so the time-independent Schrödinger equation keeps only the kinetic term:</p>
-        <div class="fm sfm" style="margin:8px 0">$-\dfrac{\hbar^2}{2m}\,\psi'' = E\,\psi \;\;\Rightarrow\;\; \psi'' = -k^2\psi$</div>
-        <p>where $k^2 = 2mE/\hbar^2$. This is exactly the <strong class="accent">standing-wave</strong> equation — the general solution is sine and cosine.</p>
+  <div class="derive" id="deriveBox">
+    <div class="cd derive-main" id="deriveMain" role="button" tabindex="0" aria-label="Click to reveal the next derivation step">
+      <div class="derive-head">
+        <h3>Click to reveal the derivation, one line at a time</h3>
+        <span class="derive-count" id="deriveCount">0 / 10</span>
       </div>
-      <div class="cd">
-        <h3>Boundary conditions select discrete k</h3>
-        <p>$\psi(0)=0$ removes the cosine term; $\psi(L)=0$ requires $\sin(kL)=0$, so $k$ can only take:</p>
-        <div class="fm sfm" style="margin:8px 0;color:var(--accent)">$k_n = \dfrac{n\pi}{L},\qquad n=1,2,3,\dots$</div>
-        <p>The continuous $k$ is filtered into a <strong class="accent">discrete set</strong> by the boundary conditions — this is where quantization happens.</p>
-      </div>
-    </div>
-    <div class="stk">
-      <div class="cd em-cd">
-        <h3>Result: energy levels and eigenstates</h3>
-        <div class="fm" style="margin:10px 0;color:var(--accent);font-size:clamp(20px,2.7vw,30px)">$E_n = \dfrac{n^2 h^2}{8mL^2} = \dfrac{n^2\pi^2\hbar^2}{2mL^2}$</div>
-        <div class="fm sfm" style="margin:6px 0">$\psi_n(x) = \sqrt{\dfrac{2}{L}}\,\sin\!\dfrac{n\pi x}{L}$</div>
-        <p style="font-size:14px;color:var(--fg3);text-align:center">Energy can only take discrete values proportional to $n^2$; $n$ is the quantum number.</p>
-      </div>
-      <details class="dv">
-        <summary>Show the full derivation (main-line readers may skip)</summary>
-        <div class="dvb">
-          <ol class="stp">
-            <li>Inside the box $V=0$, time-independent equation: $-\dfrac{\hbar^2}{2m}\psi'' = E\psi$</li>
-            <li>Rearrange to $\psi'' = -k^2\psi$, with $k^2 = 2mE/\hbar^2$ — a standing-wave equation</li>
-            <li>General solution: $\psi(x) = A\sin(kx) + B\cos(kx)$</li>
-            <li>Apply $\psi(0)=0$: since $\cos 0 = 1$, we need $B=0$, so $\psi = A\sin(kx)$</li>
-            <li>Apply $\psi(L)=0$: requires $\sin(kL)=0$, i.e. $kL = n\pi$, giving $k_n = n\pi/L$</li>
-            <li>Substitute back: $E_n = \dfrac{\hbar^2 k_n^2}{2m} = \dfrac{n^2\pi^2\hbar^2}{2mL^2} = \dfrac{n^2h^2}{8mL^2}$</li>
-            <li>Normalize: $\displaystyle\int_0^L |A|^2\sin^2\!\dfrac{n\pi x}{L}\,dx = |A|^2\dfrac{L}{2} = 1 \;\Rightarrow\; A=\sqrt{2/L}$</li>
-          </ol>
-          <p style="font-size:13px;color:var(--fg3);margin-top:4px">Note: $n=0$ gives $\psi\equiv0$ (no particle, meaningless), and negative $n$ produces no new states — so $n$ starts at 1.</p>
+      <div class="derive-steps">
+        <div class="derive-empty" id="deriveEmpty">Click this panel or press the button to show Step 1.</div>
+        <div class="dstep" data-step="1">
+          <div class="dnum">1</div>
+          <div>
+            <h4>Start from the time-independent Schrödinger equation</h4>
+            <div class="fm sfm">$\left[-\dfrac{\hbar^2}{2m}\dfrac{d^2}{dx^2}+V(x)\right]\psi(x)=E\psi(x)$</div>
+            <p>This says kinetic energy plus potential energy acting on $\psi$ gives the allowed total energy $E$.</p>
+          </div>
         </div>
-      </details>
+        <div class="dstep" data-step="2">
+          <div class="dnum">2</div>
+          <div>
+            <h4>Use the inside-the-box potential</h4>
+            <div class="fm sfm">$0&lt;x&lt;L:\quad V(x)=0$</div>
+            <div class="fm sfm">$-\dfrac{\hbar^2}{2m}\psi''(x)=E\psi(x)$</div>
+            <p>Inside the well the electron is free, so only the curvature term remains.</p>
+          </div>
+        </div>
+        <div class="dstep" data-step="3">
+          <div class="dnum">3</div>
+          <div>
+            <h4>Rearrange into a standing-wave equation</h4>
+            <div class="fm sfm">$\psi''(x)=-\dfrac{2mE}{\hbar^2}\psi(x)$</div>
+            <div class="fm sfm">$k^2\equiv\dfrac{2mE}{\hbar^2}\quad\Rightarrow\quad \psi''(x)=-k^2\psi(x)$</div>
+            <p>The unknown energy has been packaged into the wave number $k$.</p>
+          </div>
+        </div>
+        <div class="dstep" data-step="4">
+          <div class="dnum">4</div>
+          <div>
+            <h4>Solve the differential equation</h4>
+            <div class="fm sfm">$r^2=-k^2\quad\Rightarrow\quad r=\pm ik$</div>
+            <div class="fm sfm">$\psi(x)=A\sin(kx)+B\cos(kx)$</div>
+            <p>The allowed shape must be a mixture of sine and cosine waves.</p>
+          </div>
+        </div>
+        <div class="dstep" data-step="5">
+          <div class="dnum">5</div>
+          <div>
+            <h4>Apply the left boundary condition</h4>
+            <div class="fm sfm">$\psi(0)=A\sin0+B\cos0=B=0$</div>
+            <div class="fm sfm">$\Rightarrow\quad \psi(x)=A\sin(kx)$</div>
+            <p>The cosine piece is removed because the wave function must vanish at $x=0$.</p>
+          </div>
+        </div>
+        <div class="dstep" data-step="6">
+          <div class="dnum">6</div>
+          <div>
+            <h4>Apply the right boundary condition</h4>
+            <div class="fm sfm">$\psi(L)=A\sin(kL)=0$</div>
+            <div class="fm sfm">$A\neq0\quad\Rightarrow\quad \sin(kL)=0$</div>
+            <p>$A=0$ would mean no particle at all, so the sine factor must be zero.</p>
+          </div>
+        </div>
+        <div class="dstep" data-step="7">
+          <div class="dnum">7</div>
+          <div>
+            <h4>Turn the boundary condition into allowed wave numbers</h4>
+            <div class="fm sfm">$\sin(kL)=0\quad\Rightarrow\quad kL=n\pi$</div>
+            <div class="fm sfm">$k_n=\dfrac{n\pi}{L},\qquad n=1,2,3,\dots$</div>
+            <p>$n=0$ gives $\psi\equiv0$; negative $n$ only changes the overall sign, so the physical states start at $1$.</p>
+          </div>
+        </div>
+        <div class="dstep" data-step="8">
+          <div class="dnum">8</div>
+          <div>
+            <h4>Convert allowed wave numbers into allowed energies</h4>
+            <div class="fm sfm">$k^2=\dfrac{2mE}{\hbar^2}\quad\Rightarrow\quad E=\dfrac{\hbar^2k^2}{2m}$</div>
+            <div class="fm sfm">$E_n=\dfrac{\hbar^2}{2m}\left(\dfrac{n\pi}{L}\right)^2=\dfrac{n^2\pi^2\hbar^2}{2mL^2}$</div>
+            <p>The energy becomes discrete because $k$ became discrete.</p>
+          </div>
+        </div>
+        <div class="dstep" data-step="9">
+          <div class="dnum">9</div>
+          <div>
+            <h4>Write the same energy using $h$ instead of $\hbar$</h4>
+            <div class="fm sfm">$\hbar=\dfrac{h}{2\pi}\quad\Rightarrow\quad \pi^2\hbar^2=\dfrac{h^2}{4}$</div>
+            <div class="fm sfm">$E_n=\dfrac{n^2h^2}{8mL^2}$</div>
+            <p>These two forms are identical; use whichever constant is more convenient.</p>
+          </div>
+        </div>
+        <div class="dstep" data-step="10">
+          <div class="dnum">10</div>
+          <div>
+            <h4>Normalize the wave function</h4>
+            <div class="fm sfm">$\int_0^L|\psi_n(x)|^2dx=1$</div>
+            <div class="fm sfm">$|A|^2\int_0^L\sin^2\!\dfrac{n\pi x}{L}\,dx=|A|^2\dfrac{L}{2}=1$</div>
+            <div class="fm sfm">$\psi_n(x)=\sqrt{\dfrac{2}{L}}\sin\!\dfrac{n\pi x}{L}$</div>
+            <p>The coefficient is fixed by requiring total probability inside the box to be $1$.</p>
+          </div>
+        </div>
+      </div>
     </div>
+    <div class="derive-side">
+      <div class="cd">
+        <h3>Infinite square well</h3>
+        <div class="svgbox" style="margin-top:8px;background:transparent;border:none">
+          <svg viewBox="0 0 360 180">
+            <rect x="18" y="22" width="64" height="112" fill="rgba(232,115,74,0.14)"/>
+            <rect x="278" y="22" width="64" height="112" fill="rgba(232,115,74,0.14)"/>
+            <line x1="82" y1="18" x2="82" y2="138" stroke="#e8734a" stroke-width="4"/>
+            <line x1="278" y1="18" x2="278" y2="138" stroke="#e8734a" stroke-width="4"/>
+            <line x1="82" y1="134" x2="278" y2="134" stroke="#6dbf5e" stroke-width="3"/>
+            <text x="50" y="82" fill="#e8734a" font-size="13" text-anchor="middle" font-style="italic">V = ∞</text>
+            <text x="310" y="82" fill="#e8734a" font-size="13" text-anchor="middle" font-style="italic">V = ∞</text>
+            <text x="180" y="103" fill="#6dbf5e" font-size="13" text-anchor="middle" font-style="italic">V = 0</text>
+            <path d="M82 96 C131 36 229 156 278 96" fill="none" stroke="#5ba4e6" stroke-width="2.4"/>
+            <circle cx="82" cy="96" r="4" fill="#ddb84a"/>
+            <circle cx="278" cy="96" r="4" fill="#ddb84a"/>
+            <line x1="82" y1="156" x2="278" y2="156" stroke="#706c65" stroke-width="1"/>
+            <text x="78" y="170" fill="#a8a49b" font-size="12" text-anchor="end">0</text>
+            <text x="282" y="170" fill="#a8a49b" font-size="12">L</text>
+            <text x="180" y="170" fill="#a8a49b" font-size="12" text-anchor="middle">ψ(0)=ψ(L)=0</text>
+          </svg>
+        </div>
+      </div>
+      <div class="cd em-cd">
+        <h3>Final result</h3>
+        <div class="fm" style="margin:10px 0;color:var(--accent);font-size:clamp(20px,2.3vw,28px)">$E_n=\dfrac{n^2h^2}{8mL^2}=\dfrac{n^2\pi^2\hbar^2}{2mL^2}$</div>
+        <div class="fm sfm" style="margin:8px 0">$\psi_n(x)=\sqrt{\dfrac{2}{L}}\sin\dfrac{n\pi x}{L}$</div>
+      </div>
+      <div class="derive-actions">
+        <button id="deriveNext" type="button">Next step</button>
+        <button id="deriveAll" type="button">Show all</button>
+        <button id="deriveReset" type="button">Reset</button>
+      </div>
+      <div class="tk tk-amber"><span class="lab">Presentation cue</span>
+        <p>Use one click per algebra move: equation → substitution → boundary condition → quantized $k$ → quantized $E$ → normalized $\psi_n$.</p>
+      </div>
+      <div class="tk"><span class="lab">Core idea</span>
+        <p>The walls force $\psi(0)=\psi(L)=0$. That single constraint filters a continuous wave number $k$ into $k_n=n\pi/L$.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S5 CHECKPOINT -->
+<section class="slide">
+  <div class="sh"><p class="ey">Concept checkpoint</p><h2>Stop after the derivation: what exactly did we prove?</h2></div>
+  <div class="qgrid">
+    <details class="qcard">
+      <summary>Where did discreteness enter the argument?</summary>
+      <div><p>At the boundary condition $\psi(L)=0$. The equation itself allows any $k$, but $\sin(kL)=0$ only allows $kL=n\pi$.</p></div>
+    </details>
+    <details class="qcard">
+      <summary>Why is $n=0$ rejected?</summary>
+      <div><p>If $n=0$, then $k=0$ and $\psi(x)=A\sin0=0$ everywhere. That describes no particle, not a valid state.</p></div>
+    </details>
+    <details class="qcard">
+      <summary>Why do negative $n$ values not create new states?</summary>
+      <div><p>$\sin(-n\pi x/L)=-\sin(n\pi x/L)$. Multiplying a wave function by $-1$ does not change $|\psi|^2$, so it is the same physical state.</p></div>
+    </details>
+    <details class="qcard">
+      <summary>Why does $E_n$ grow like $n^2$?</summary>
+      <div><p>The kinetic-energy operator measures curvature. Higher $n$ means shorter wavelength, larger $k$, and $E=\hbar^2k^2/2m$.</p></div>
+    </details>
+  </div>
+  <div class="tk tk-blue" style="max-width:1100px;margin-top:18px"><span class="lab">Instructor rhythm</span>
+    <p>Ask students to answer before opening each card. The point is to separate algebraic manipulation from physical meaning.</p>
   </div>
 </section>
 
@@ -231,7 +488,7 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
       <label>Box width L:<input type="range" id="lSlider" min="4" max="12" step="0.5" value="6"><span class="vl" id="lVal">6.0 Å</span></label>
       <span class="leg"><span class="sw" style="background:#6dbf5e"></span>Energy levels $E_n$ &nbsp; <span class="sw" style="background:#5ba4e6"></span>Wave functions $\psi_n$ &nbsp; <span class="sw" style="background:#ddb84a;border-radius:50%;width:8px;height:8px"></span>Nodes</span>
     </div>
-    <p class="rdt">Now: $E_1$ = <b id="e1Out">1.04 eV</b> &nbsp;·&nbsp; level spacing $E_2-E_1$ = <b id="dEOut">3.13 eV</b></p>
+    <p class="rdt">Qualitative trend: larger $L$ → <b>lower energy levels</b> and <b>smaller spacing</b></p>
     <div class="tk tk-amber" style="max-width:1000px"><span class="lab">What to watch</span>
       <p><strong>Left — energy levels</strong>: as $L$ grows, every level <strong class="amber">drops and bunches together</strong> (because $E_n\propto 1/L^2$). <strong>Right — wave functions</strong>: the box widens and the sine waves stretch horizontally; the $n$-th wave function has exactly <strong class="amber">$n-1$ nodes</strong> (interior points where it crosses zero).</p>
     </div>
@@ -256,6 +513,40 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
     <p class="rdt" id="psiOut"></p>
     <div class="tk" style="max-width:1000px"><span class="lab">Node rule</span>
       <p>The $n$-th eigenstate $\psi_n$ has <strong class="accent">$n-1$ nodes</strong>. More nodes → sharper bending of the wave function → larger kinetic energy → <strong class="accent">higher energy</strong> ($E_n\propto n^2$). The left plot is $\psi_n$ (can be positive or negative); the right plot is $|\psi_n|^2$ (always non-negative — the probability density of finding the electron).</p>
+    </div>
+  </div>
+</section>
+
+<!-- S8 WAVE FUNCTION MEANING -->
+<section class="slide">
+  <div class="sh"><p class="ey">Interpretation</p><h2>What does the wave function actually tell us?</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>$\psi(x)$ is an amplitude, not a probability</h3>
+        <p>The wave function can be positive, negative, or complex. Its sign matters for interference, but a sign by itself is not a probability.</p>
+        <div class="fm sfm" style="color:var(--accent)">$\text{probability density}=|\psi(x)|^2$</div>
+      </div>
+      <div class="cd">
+        <h3>Probability lives in intervals</h3>
+        <p>The probability of finding the electron between $a$ and $b$ is the area under $|\psi|^2$:</p>
+        <div class="fm sfm">$\displaystyle P(a&lt;x&lt;b)=\int_a^b|\psi(x)|^2\,dx$</div>
+        <p>A point has zero width, so we speak about probability density at a point, not probability at a point.</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd">
+        <h3>Nodes are forbidden positions</h3>
+        <p>At a node, $\psi=0$, so $|\psi|^2=0$. A measurement will never find the electron exactly at that interior node.</p>
+        <ul class="bl" style="margin-top:10px">
+          <li>$n=1$: no interior nodes</li>
+          <li>$n=2$: one interior node at $x=L/2$</li>
+          <li>$n=3$: two interior nodes at $x=L/3$ and $2L/3$</li>
+        </ul>
+      </div>
+      <div class="tk tk-coral"><span class="lab">Important warning</span>
+        <p>The electron is not sliding along the sine curve. The curve tells us the spatial structure of the quantum state, not a classical path.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -285,42 +576,32 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
   </div>
 </section>
 
-<!-- S6 NUMERICAL FEEL -->
+<!-- S10 ZERO-POINT ENERGY -->
 <section class="slide">
-  <div class="sh"><p class="ey">Numerical feel</p><h2>Plug in real numbers: what energy range do the levels span?</h2></div>
-  <div class="tc">
-    <div class="stk">
-      <div class="cd">
-        <h3>Work out a typical scale</h3>
-        <p>Take the electron mass $m=9.11\times10^{-31}$ kg and a box width $L=5\,\text{Å}=5\times10^{-10}$ m. Substituting into $E_n=n^2h^2/8mL^2$:</p>
-        <table class="cmp">
-          <tr><th>Quantum number n</th><th>Energy $E_n$</th><th>Relative to $E_1$</th></tr>
-          <tr><td>1</td><td>≈ 1.5 eV</td><td>1×</td></tr>
-          <tr><td>2</td><td>≈ 6.0 eV</td><td>4×</td></tr>
-          <tr><td>3</td><td>≈ 13.5 eV</td><td>9×</td></tr>
-        </table>
-        <p style="margin-top:10px">The lowest transition $E_2-E_1\approx 4.5$ eV. Converting with $\lambda(\text{nm})\approx 1240/E(\text{eV})$ → <strong class="purple">≈ 275 nm</strong>.</p>
-      </div>
+  <div class="sh"><p class="ey">Physical meaning · zero-point energy</p><h2>Why the ground state still has kinetic energy</h2></div>
+  <div class="board">
+    <div class="chalk">
+      <h3>Route 1: from the exact solution</h3>
+      <div class="fm sfm">$E_1=\dfrac{h^2}{8mL^2}>0$</div>
+      <p>The lowest allowed state is not a flat line. It is a half sine wave, so it has curvature. Curvature costs kinetic energy.</p>
+      <div class="fm sfm">$\hat T=-\dfrac{\hbar^2}{2m}\dfrac{d^2}{dx^2}$</div>
     </div>
-    <div class="stk">
-      <div class="cd em-cd">
-        <h3>What this number means</h3>
-        <p>4.5 eV / 275 nm falls in the <strong class="purple">ultraviolet</strong> (visible light is roughly 1.6–3.1 eV).</p>
-        <p style="margin-top:8px">A 5 Å box has level spacings too large; its absorption sits in the UV — no visible color.</p>
-        <div class="tk tk-blue" style="margin-top:12px"><span class="lab">Key intuition</span>
-          <p>Because $E_n\propto 1/L^2$: to <strong>redshift</strong> the absorption into the visible range you need a <strong class="blue">larger L</strong> — a longer box. That is the key to the next slide on conjugated chains.</p>
-        </div>
-      </div>
-      <div class="tk tk-amber"><span class="lab">Handy conversion</span>
-        <p>$\lambda(\text{nm}) \approx 1240 / E(\text{eV})$ — the photon energy–wavelength conversion, extremely useful for quick spectral estimates.</p>
-      </div>
+    <div class="chalk">
+      <h3>Route 2: from uncertainty</h3>
+      <div class="fm sfm">$\Delta x\sim L$</div>
+      <div class="fm sfm">$\Delta p\gtrsim\dfrac{\hbar}{L}$</div>
+      <div class="fm sfm">$E_{\min}\sim\dfrac{(\Delta p)^2}{2m}\sim\dfrac{\hbar^2}{2mL^2}$</div>
+      <p>The scaling matches the exact answer: stronger confinement raises the minimum kinetic energy.</p>
     </div>
+  </div>
+  <div class="tk tk-amber" style="max-width:1100px;margin-top:16px"><span class="lab">Classroom contrast</span>
+    <p>Classically, the particle could sit still with $E=0$. Quantum mechanically, a completely still particle would have definite momentum and definite position range at the same time, which is not allowed.</p>
   </div>
 </section>
 
 <!-- S7 ORGANIC ELECTRONICS CONNECTION -->
 <section class="slide">
-  <div class="sh"><p class="ey">Into organic electronics</p><h2>Why does a longer conjugated chain absorb redder?</h2></div>
+  <div class="sh"><p class="ey">Back to organic electronics</p><h2>Conjugation length controls the band gap qualitatively</h2></div>
   <div class="tc">
     <div class="stk">
       <div class="cd em-cd">
@@ -335,18 +616,28 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
     </div>
     <div class="stk">
       <div class="cd">
-        <h3>Experimental check: the polyacene series</h3>
-        <table class="cmp">
-          <tr><th>Molecule</th><th>Rings</th><th>Absorption peak</th><th>Color</th></tr>
-          <tr><td>Naphthalene</td><td>2</td><td>~220 nm</td><td>colorless</td></tr>
-          <tr><td>Anthracene</td><td>3</td><td>~380 nm</td><td>colorless</td></tr>
-          <tr><td>Tetracene</td><td>4</td><td>~480 nm</td><td>orange</td></tr>
-          <tr><td>Pentacene</td><td>5</td><td>~580 nm</td><td>blue-violet</td></tr>
-        </table>
-        <p style="margin-top:8px">More rings, longer chain — the absorption peak redshifts monotonically, fully consistent with the $\lambda\propto L^2$ trend.</p>
+        <h3>Qualitative trend</h3>
+        <div class="svgbox" style="margin-top:10px;background:transparent;border:none">
+          <svg viewBox="0 0 540 250">
+            <line x1="70" y1="205" x2="480" y2="205" stroke="#706c65" stroke-width="1.5"/>
+            <line x1="70" y1="205" x2="70" y2="42" stroke="#706c65" stroke-width="1.5"/>
+            <text x="275" y="235" fill="#a8a49b" font-size="13" text-anchor="middle">conjugation length</text>
+            <text x="25" y="124" fill="#a8a49b" font-size="13" text-anchor="middle" transform="rotate(-90 25 124)">band gap</text>
+            <path d="M88 70 C170 96 235 128 302 158 C360 184 414 196 468 201" fill="none" stroke="#6dbf5e" stroke-width="3"/>
+            <circle cx="104" cy="76" r="5" fill="#5ba4e6"/>
+            <circle cx="242" cy="132" r="5" fill="#ddb84a"/>
+            <circle cx="442" cy="198" r="5" fill="#e8734a"/>
+            <text x="104" y="55" fill="#5ba4e6" font-size="12" text-anchor="middle">short</text>
+            <text x="242" y="112" fill="#ddb84a" font-size="12" text-anchor="middle">medium</text>
+            <text x="442" y="182" fill="#e8734a" font-size="12" text-anchor="middle">long</text>
+            <text x="400" y="82" fill="#a8a49b" font-size="13" text-anchor="middle">gap shrinks</text>
+            <text x="400" y="101" fill="#a8a49b" font-size="13" text-anchor="middle">absorption redshifts</text>
+          </svg>
+        </div>
+        <p style="margin-top:8px">The infinite-well model gives the direction of the effect: more delocalization means smaller spacing between allowed electronic states.</p>
       </div>
       <div class="tk tk-amber"><span class="lab">Limits of the model</span>
-        <p>The free-electron model is <strong>qualitatively right, quantitatively rough</strong>. Deviations come from electron–electron repulsion, bond-length alternation, and end effects. A more accurate treatment is Hückel theory (Lecture 9).</p>
+        <p>The free-electron model is for intuition, not accurate prediction. Real gaps also depend on bond-length alternation, electron–electron repulsion, substituents, geometry, and solid-state environment.</p>
       </div>
     </div>
   </div>
@@ -428,6 +719,29 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
   </div>
 </section>
 
+<!-- S17 COMMON MISCONCEPTIONS -->
+<section class="slide">
+  <div class="sh"><p class="ey">Common misconceptions</p><h2>Four mistakes worth preventing explicitly</h2></div>
+  <div class="qgrid">
+    <details class="qcard" open>
+      <summary>"The wave function is the electron's path."</summary>
+      <div><p>No. $\psi(x)$ is a probability amplitude. Measurements sample positions according to $|\psi(x)|^2$; the electron is not moving along the drawn sine curve.</p></div>
+    </details>
+    <details class="qcard" open>
+      <summary>"Negative $\psi$ means negative probability."</summary>
+      <div><p>No. Probability density is $|\psi|^2$, which is never negative. The sign of $\psi$ matters when amplitudes interfere.</p></div>
+    </details>
+    <details class="qcard" open>
+      <summary>"Quantization was assumed."</summary>
+      <div><p>No. The derivation starts with a continuous differential equation. Discrete energies appear only after applying boundary conditions.</p></div>
+    </details>
+    <details class="qcard" open>
+      <summary>"Infinite wells are real objects."</summary>
+      <div><p>No. They are idealizations. Real barriers are finite, so wave functions leak into the barrier and energy levels shift.</p></div>
+    </details>
+  </div>
+</section>
+
 <!-- S10 SUMMARY + CHEAT SHEET -->
 <section class="slide">
   <div class="sh"><p class="ey">Summary</p><h2>Infinite Square Well · Cheat Sheet</h2></div>
@@ -440,7 +754,6 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
         <li><strong>Node rule</strong>: $\psi_n$ has $n-1$ nodes</li>
         <li><strong>Zero-point energy</strong>: $E_1 = h^2/8mL^2 \neq 0$</li>
         <li><strong>Size law</strong>: $E_n\propto 1/L^2$, $\;\lambda\propto L^2$</li>
-        <li><strong>Energy conversion</strong>: $\lambda(\text{nm})\approx 1240/E(\text{eV})$</li>
       </ul>
     </div>
     <div class="stk">
@@ -448,7 +761,7 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
         <p>A single boundary condition — "the wave function must vanish at the walls" — simultaneously forces energy quantization, zero-point energy, and wave-function nodes: the three core features of quantum mechanics.</p>
       </div>
       <div class="tk tk-blue"><span class="lab">Why it matters for organic electronics</span>
-        <p>$E_n\propto 1/L^2$ quantitatively links conjugation length to band gap / absorption color — the first cornerstone for understanding the optical properties of organic semiconductors.</p>
+        <p>$E_n\propto 1/L^2$ gives the qualitative link: longer conjugation means closer levels, a smaller gap, and redder absorption.</p>
       </div>
       <div class="tk tk-amber"><span class="lab">Next lecture</span>
         <p>The quantum harmonic oscillator — why do the absorption/emission spectra of organic semiconductors always carry a characteristic vibrational progression? Keywords: Franck–Condon, Huang–Rhys factor.</p>
@@ -460,9 +773,9 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
 </main>
 <footer class="ft">
   <button class="nb" onclick="go(-1)">← Prev</button>
-  <div class="ptr"><div class="pfill" id="pf" style="width:9%"></div></div>
+  <div class="ptr"><div class="pfill" id="pf" style="width:7%"></div></div>
   <div style="display:flex;align-items:center;gap:10px">
-    <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> fullscreen</span>
+    <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> fullscreen · <kbd>S</kbd> presenter</span>
     <button class="nb" onclick="location.href='../lecture01/index.html'">L1</button>
     <button class="nb" onclick="location.href='../lecture02/index.html'">L2</button>
     <button class="nb" onclick="go(1)">Next →</button>
@@ -476,16 +789,18 @@ details.dv .dvb{padding:6px 18px 14px;border-top:1px solid var(--accent-dim)}
 /* ===== navigation ===== */
 let cur=0;const SL=document.querySelectorAll('.slide'),TN=SL.length;
 document.getElementById('ind').textContent='1 / '+TN;
-function goTo(n){if(n<0||n>=TN)return;SL[cur].classList.remove('active');SL[cur].classList.add('exit');const p=cur;cur=n;SL[cur].classList.add('active');setTimeout(()=>SL[p].classList.remove('exit'),450);document.getElementById('ind').textContent=(cur+1)+' / '+TN;document.getElementById('pf').style.width=((cur+1)/TN*100)+'%'}
+function goTo(n){if(n<0||n>=TN)return;SL[cur].classList.remove('active');SL[cur].classList.add('exit');const p=cur;cur=n;SL[cur].classList.add('active');setTimeout(()=>SL[p].classList.remove('exit'),450);document.getElementById('ind').textContent=(cur+1)+' / '+TN;document.getElementById('pf').style.width=((cur+1)/TN*100)+'%';if(window.__deckNavHook)window.__deckNavHook(cur)}
 function go(d){goTo(cur+d)}
 document.addEventListener('keydown',e=>{
   if(e.target.tagName==='INPUT')return;
+  if(e.target.closest?.('.derive-main')&&(e.key==='Enter'||e.key===' ')){e.preventDefault();revealDeriveStep();return}
+  if(e.target.closest?.('button')&&(e.key==='Enter'||e.key===' '))return;
   if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();go(1)}
   if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}
   if(e.key==='f'||e.key==='F')document.documentElement.requestFullscreen?.()
 });
 document.querySelector('.deck').addEventListener('click',e=>{
-  if(e.target.closest('.ct')||e.target.closest('button')||e.target.closest('input')||e.target.closest('label')||e.target.closest('.svgbox')||e.target.closest('details'))return;
+  if(e.target.closest('.ct')||e.target.closest('.derive')||e.target.closest('button')||e.target.closest('input')||e.target.closest('label')||e.target.closest('.svgbox')||e.target.closest('details'))return;
   go(1)
 });
 let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});
@@ -493,7 +808,7 @@ document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;
 
 /* ===== physics + helpers ===== */
 const SUB=['','₁','₂','₃','₄','₅'];
-function e1eV(L){return 37.6/(L*L);}              /* L in Å → E1 in eV */
+function relE1(L){return 1/(L*L);}
 function wavePath(x0,x1,yc,n,amp){
   const N=160;let d='';
   for(let i=0;i<=N;i++){const t=i/N;const x=x0+t*(x1-x0);const y=yc-amp*Math.sin(n*Math.PI*t);d+=(i?'L':'M')+x.toFixed(1)+' '+y.toFixed(1);}
@@ -508,14 +823,15 @@ function sqPath(x0,x1,yb,n,amp){
 /* ===== Widget 1: L-slider energy diagram ===== */
 function drawWell(){
   const L=+document.getElementById('lSlider').value;
-  const E1=e1eV(L);
+  const E1=relE1(L);
   document.getElementById('lVal').textContent=L.toFixed(1)+' Å';
-  document.getElementById('e1Out').textContent=E1.toFixed(2)+' eV';
-  document.getElementById('dEOut').textContent=(3*E1).toFixed(2)+' eV';
+  const e1Node=document.getElementById('e1Out'),dENode=document.getElementById('dEOut');
+  if(e1Node)e1Node.textContent=E1.toFixed(2);
+  if(dENode)dENode.textContent=(3*E1).toFixed(2);
   const cols=['#6dbf5e','#5ba4e6','#b07ee8','#ddb84a'];
   let s='';
   /* --- region A: energy levels --- */
-  const Emax=40,ay0=388,ay1=44,axL=92,axR=312,sc=(ay0-ay1)/Emax;
+  const Emax=1.08,ay0=388,ay1=44,axL=92,axR=312,sc=(ay0-ay1)/Emax;
   s+=`<text x="56" y="32" fill="#a8a49b" font-size="14">Energy levels Eₙ</text>`;
   s+=`<line x1="${axL}" y1="${ay1-8}" x2="${axL}" y2="${ay0}" stroke="#5a564e" stroke-width="1.5"/>`;
   s+=`<line x1="${axL}" y1="${ay0}" x2="${axR+12}" y2="${ay0}" stroke="#5a564e" stroke-width="1.5"/>`;
@@ -523,7 +839,7 @@ function drawWell(){
   for(let n=4;n>=1;n--){
     const E=n*n*E1,y=ay0-E*sc;
     s+=`<line x1="${axL}" y1="${y}" x2="${axR}" y2="${y}" stroke="${cols[n-1]}" stroke-width="2.6"/>`;
-    s+=`<text x="${axL+6}" y="${y-6}" fill="${cols[n-1]}" font-size="12">E${SUB[n]} = ${E.toFixed(1)} eV</text>`;
+    s+=`<text x="${axL+6}" y="${y-6}" fill="${cols[n-1]}" font-size="12">E${SUB[n]} ∝ ${n*n}/L²</text>`;
   }
   /* --- region B: well + wavefunctions --- */
   const cx=585,boxW=140+(L-4)/8*240,xL=cx-boxW/2,xR=cx+boxW/2,bTop=58,bBot=400;
@@ -614,10 +930,487 @@ function drawFinite(){
   svg.innerHTML=s;
 }
 
+/* ===== click-through derivation ===== */
+let derivationStep=0;
+const derivationMax=document.querySelectorAll('.dstep').length;
+function updateDerivation(){
+  const empty=document.getElementById('deriveEmpty');
+  const count=document.getElementById('deriveCount');
+  document.querySelectorAll('.dstep').forEach(el=>{
+    const n=+el.dataset.step;
+    el.classList.toggle('on',n<=derivationStep);
+    el.classList.toggle('hot',n===derivationStep);
+  });
+  if(empty)empty.style.display=derivationStep?'none':'block';
+  if(count)count.textContent=derivationStep+' / '+derivationMax;
+  const next=document.getElementById('deriveNext');
+  if(next)next.disabled=derivationStep>=derivationMax;
+}
+function revealDeriveStep(){
+  if(derivationStep<derivationMax){
+    derivationStep++;
+    updateDerivation();
+    document.querySelector(`.dstep[data-step="${derivationStep}"]`)?.scrollIntoView({block:'nearest',behavior:'smooth'});
+  }
+}
+function showAllDerivation(){derivationStep=derivationMax;updateDerivation()}
+function resetDerivation(){derivationStep=0;updateDerivation()}
+document.getElementById('deriveMain')?.addEventListener('click',e=>{e.stopPropagation();revealDeriveStep()});
+document.getElementById('deriveNext')?.addEventListener('click',e=>{e.stopPropagation();revealDeriveStep()});
+document.getElementById('deriveAll')?.addEventListener('click',e=>{e.stopPropagation();showAllDerivation()});
+document.getElementById('deriveReset')?.addEventListener('click',e=>{e.stopPropagation();resetDerivation()});
+
 window.addEventListener('load',()=>{
   try{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false})}catch(e){}
-  drawCover();drawWell();drawPsi();drawFinite();
+  drawCover();drawWell();drawPsi();drawFinite();updateDerivation();
 });
 document.getElementById('lSlider').addEventListener('input',drawWell);
+
+/* ===== presenter mode + ink annotations ===== */
+(function(){
+  "use strict";
+  var params = new URLSearchParams(location.search);
+  var IS_PRESENTER = params.has('presenter');
+  var IS_TOP = (window.self === window.top);
+  var BASE = location.href.split('?')[0].split('#')[0];
+  if (location.protocol !== 'file:') BASE = BASE.replace(/index\.html?$/i, '');
+  var MSG = 'qmnav';
+
+  var SPEAKER_NOTES = [
+    "开场直接从有机电子学的问题切入：为什么共轭程度越大，HOMO-LUMO gap 越小，吸收越红移？\n告诉学生：今天的目标不是精确算分子能级，而是建立一个定性图像。我们用最简单的电子盒子模型说明：电子波能展开的空间越大，允许能级越密，带隙就越小。\n这页也提醒可以按 S 打开演讲者模式，右下角有画笔。",
+    "这一页把化学观察先摆出来。不要急着讲势阱，先让学生说出他们已经知道的趋势：共轭链越长，颜色越深、吸收越往长波长移动。\n然后给出本讲的核心翻译：更长共轭 = 更长的电子离域长度 L；更长的 L = 允许能级更靠近。\n重点是“qualitative answer”，避免让学生以为这个模型会精确预测真实分子的带隙。",
+    "正式定义模型。左边讲势能：盒子里面 V=0，墙外 V=∞。右边讲边界条件的来源。\n关键句：无限高墙不是说电子很难出去，而是在模型里完全不能出去，所以墙外 ψ=0；连续性要求墙内边缘也必须为零。\n这两个条件 ψ(0)=0, ψ(L)=0 是整讲的发动机。",
+    "这一页用逐步推导器讲，别一次性全展开。右侧先指一下无限深势阱示意图：盒子内 V=0，墙外 V=∞，所以边界条件是 ψ(0)=ψ(L)=0。\n讲法建议：先把 TISE 写出来，再代 V=0；接着把方程改写成 ψ''=-k²ψ；再说明通解是 sin 和 cos。\n到边界条件时放慢：ψ(0)=0 杀掉 cos；ψ(L)=0 迫使 sin(kL)=0，于是 kL=nπ。最后再把 k 代回 E=ℏ²k²/2m，并归一化得到 ψn。",
+    "这是推导之后的停顿页，不要直接跳到动画。逐个打开问题，让学生先回答。\n第一问抓住主线：量子化不是人为规定，是 ψ(L)=0 选出来的。第二问解释 n=0 为什么无意义。第三问解释负 n 只是整体符号变化。第四问把 n² 和曲率、动能联系起来。",
+    "这页用滑块讲 L 的影响，只讲趋势，不做数值计算。先问：盒子变宽，能级会升高还是降低？然后拖动滑块。\n强调左图：能级整体下降并变密，因为 E∝1/L²。右图：波函数被拉长，节点间距变大。\n把 L 直接翻译成共轭长度：共轭越长，电子波越能展开。",
+    "用 n 浏览器讲节点。点 n=1 到 n=5，让学生数节点。\n重点不是背公式，而是建立图像：更高 n 意味着更多节点、更短波长、更大曲率、更高动能。\n同时提醒：左边 ψ 可以正负变化；右边 |ψ|² 永远非负，才对应测量位置的概率密度。",
+    "专门纠正波函数的含义。先说 ψ 不是电子的轨迹，也不是直接可观测的概率。\n真正和位置测量对应的是 |ψ|²。区间概率是面积，不是某一个点的概率。\n讲节点时强调：节点处概率密度为零，所以在那里找不到电子，但不要把电子想成沿着曲线运动。",
+    "把三个物理结论收束到一页。第一，能量离散来自边界条件。第二，E1 不等于 0，这就是零点能。第三，节点数和能量相关。\n这一页适合当小结，也适合让学生自己复述：如果只记一句话，就是“边界条件把连续波筛成离散驻波”。",
+    "零点能单独多讲一下，因为这是学生最容易觉得反直觉的地方。\n左边从精确解说：基态是半个正弦波，不是平线，因此有曲率，有动能。\n右边从不确定性原理说：把电子限制在宽度 L 内，Δx 变小，Δp 必须存在，所以动能不可能为零。\n最后对比经典：小球可以停着，电子不可以。",
+    "现在回到开头的问题。π 电子在共轭骨架上离域，可以粗略看成在一维盒子里运动。\n讲推理链：共轭程度越大 → 电子离域长度 L 越大 → allowed levels 更密 → HOMO-LUMO gap 更小 → 吸收能量更低 → 波长更长，也就是 redshift。\n这一页只保留趋势图，不给学生做数值题。",
+    "讲有限深势阱作为现实修正。无限深势阱是理想化，真实分子边界不是无限高。\n最重要的新现象是 leakage：波函数会进入经典禁阻区并指数衰减。\n把这个和后续 tunneling 连接起来：如果波函数能漏进势垒，下一讲或后面讲界面输运时，就能理解隧穿。",
+    "把一维结果推广到三维。强调数学结构没变：三个方向各自给一个 n，能量相加。\n量子点例子很好讲：小点 confinement 强，gap 大，发蓝光；大点 gap 小，发红光。\n这页的目的不是深入半导体，而是让学生看到 particle in a box 不是玩具模型，它能解释真实材料趋势。",
+    "这页用于收尾前防误解。四个误区建议逐条读：ψ 不是路径；负 ψ 不是负概率；量子化不是假设；无限势阱不是现实物体。\n如果时间不够，至少讲前两个。它们会影响学生后面理解轨道、干涉和概率密度。",
+    "最后总结。请学生合上推导，看能否复述这条定性链：边界条件 → standing waves → discrete energy levels → L 越大能级越密 → 共轭越长带隙越小。\n强调这不是精确分子计算，而是理解有机半导体光学趋势的第一张图像。\n最后预告下一讲谐振子和振动进展。"
+  ];
+
+  if (IS_PRESENTER) {
+    if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initPresenter);
+    else initPresenter();
+  } else {
+    initDeckReceiver();
+    if (IS_TOP) initAudience();
+  }
+
+  function initDeckReceiver(){
+    window.addEventListener('message', function(e){
+      var d = e.data;
+      if (!d || typeof d !== 'object' || d.t !== MSG) return;
+      window.__remoteApply = true;
+      try { if (typeof window.goTo === 'function') window.goTo(d.i | 0); } catch(_){}
+      window.__remoteApply = false;
+    });
+    if (!IS_TOP) setupPreviewRelay();
+  }
+
+  function setupPreviewRelay(){
+    function isControl(t){
+      return t && t.closest && t.closest('.slide') && t.closest('button, input, select, label, summary, [role="button"]');
+    }
+    document.addEventListener('click', function(e){
+      if (!isControl(e.target)) e.stopPropagation();
+    }, true);
+    function report(kind, t, extra){
+      var m = { t: 'qmact-up', kind: kind, id: t.id || null,
+                idx: Array.prototype.indexOf.call(document.getElementsByTagName('*'), t) };
+      if (extra) for (var k in extra) m[k] = extra[k];
+      try { parent.postMessage(m, '*'); } catch(_){}
+    }
+    document.addEventListener('click', function(e){
+      var b = e.target.closest ? e.target.closest('button, summary, [role="button"]') : null;
+      if (b && b.closest('.slide')) report('click', b);
+    });
+    document.addEventListener('input', function(e){
+      var t = e.target;
+      if (t && t.closest && t.closest('.slide') && (t.tagName === 'INPUT' || t.tagName === 'SELECT'))
+        report('input', t, { value: t.value });
+    });
+    document.addEventListener('change', function(e){
+      var t = e.target;
+      if (t && t.closest && t.closest('.slide') && (t.tagName === 'INPUT' || t.tagName === 'SELECT'))
+        report('change', t, { value: t.value, checked: !!t.checked });
+    });
+  }
+
+  function initAudience(){
+    var presenterWin = null;
+    setupAudienceInk();
+    window.addEventListener('message', function(e){
+      var d = e.data;
+      if (!d || typeof d !== 'object' || d.t !== 'qmact') return;
+      var el = d.id ? document.getElementById(d.id) : document.getElementsByTagName('*')[d.idx];
+      if (!el) return;
+      try {
+        if (d.kind === 'click') el.click();
+        else if (d.kind === 'input') { el.value = d.value; el.dispatchEvent(new Event('input', { bubbles: true })); }
+        else if (d.kind === 'change') {
+          if (el.type === 'checkbox') el.checked = !!d.checked;
+          else if (d.value !== undefined) el.value = d.value;
+          el.dispatchEvent(new Event('change', { bubbles: true }));
+          el.dispatchEvent(new Event('input', { bubbles: true }));
+        }
+      } catch(_){}
+    });
+    window.__deckNavHook = function(i){
+      if (window.__inkClear) window.__inkClear();
+      if (window.__remoteApply) return;
+      if (presenterWin && !presenterWin.closed) {
+        try { presenterWin.postMessage({ t: MSG, i: i }, '*'); } catch(_){}
+      }
+    };
+    document.addEventListener('keydown', function(e){
+      if (e.key !== 's' && e.key !== 'S') return;
+      if (e.ctrlKey || e.metaKey || e.altKey) return;
+      if (e.target && e.target.tagName === 'INPUT') return;
+      e.preventDefault();
+      if (presenterWin && !presenterWin.closed) { presenterWin.focus(); return; }
+      var idx = (typeof cur === 'number') ? cur : 0;
+      presenterWin = window.open(BASE + '?presenter&i=' + idx, 'qmPresenter', 'width=1280,height=860');
+      if (!presenterWin) alert('演讲者窗口被浏览器拦截了。\n请允许本页弹出窗口后，再按一次 S 键。');
+    });
+  }
+
+  function initPresenter(){
+    document.title = '演讲者模式 · ' + document.title;
+    document.body.classList.add('presenter-on');
+
+    var slides = document.querySelectorAll('.slide');
+    var TOTAL = slides.length;
+    var TITLES = Array.prototype.map.call(slides, function(s){
+      var el = s.querySelector('h1, h2');
+      return el ? el.textContent.replace(/\s+/g, ' ').trim() : 'Slide';
+    });
+    var pcur = parseInt(params.get('i'), 10);
+    if (isNaN(pcur) || pcur < 0) pcur = 0;
+    if (pcur > TOTAL - 1) pcur = TOTAL - 1;
+
+    var root = document.createElement('div');
+    root.className = 'pmode';
+    root.innerHTML =
+      '<div class="pm-head">' +
+        '<div class="pm-title">演讲者模式 · Lecture 3 Infinite Square Well</div>' +
+        '<div class="pm-clocks">' +
+          '<div class="pm-metric"><div class="v" id="pmCount">--</div><div class="l">幻灯片</div></div>' +
+          '<div class="pm-metric tm"><div class="v" id="pmTimer">00:00</div><div class="l">已用时</div></div>' +
+          '<button class="pm-reset" id="pmReset">重置</button>' +
+          '<div class="pm-metric"><div class="v" id="pmClock">--:--</div><div class="l">时间</div></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pm-body">' +
+        '<div class="pm-col cur">' +
+          '<div class="pm-label pm-label-row">' +
+            '<span class="pm-label-txt">当前页 · <b id="pmCurT"></b></span>' +
+            '<span class="pm-toolbar">' +
+              '<button class="pm-tool" id="pmPen" title="画笔 (P)">✎</button>' +
+              '<button class="pm-tool" id="pmEraser" title="橡皮擦">擦</button>' +
+              '<button class="pm-swatch on" data-c="#ff5252" style="background:#ff5252" title="红色"></button>' +
+              '<button class="pm-swatch" data-c="#ffd54a" style="background:#ffd54a" title="黄色"></button>' +
+              '<button class="pm-swatch" data-c="#5ad1ff" style="background:#5ad1ff" title="蓝色"></button>' +
+              '<button class="pm-tool" id="pmClear" title="清除本页批注">清</button>' +
+            '</span>' +
+          '</div>' +
+          '<div class="pm-wrap"><div class="pv-stage" id="pmStageCur"></div></div>' +
+        '</div>' +
+        '<div class="pm-col nx">' +
+          '<div class="pm-label">下一页 · <b id="pmNextT"></b></div>' +
+          '<div class="pm-wrap"><div class="pv-stage" id="pmStageNext"><div class="pv-end" id="pmEnd">演示结束 · 已是最后一页</div></div></div>' +
+          '<div class="pm-notes"><h4>演讲备注</h4><div class="pm-note-body" id="pmNote"></div></div>' +
+        '</div>' +
+      '</div>' +
+      '<div class="pm-foot">' +
+        '<button class="pm-nav" id="pmPrev">← 上一页</button>' +
+        '<div class="pm-hint"><kbd>←</kbd><kbd>→</kbd> 翻页 · <kbd>P</kbd> 画笔 · 在当前页中可操作滑块/按钮 · <kbd>Esc</kbd> 关闭</div>' +
+        '<button class="pm-nav" id="pmNext">下一页 →</button>' +
+      '</div>';
+    document.body.appendChild(root);
+
+    var elCount = root.querySelector('#pmCount'),
+        elTimer = root.querySelector('#pmTimer'),
+        elClock = root.querySelector('#pmClock'),
+        elReset = root.querySelector('#pmReset'),
+        elCurT  = root.querySelector('#pmCurT'),
+        elNextT = root.querySelector('#pmNextT'),
+        elNote  = root.querySelector('#pmNote'),
+        elEnd   = root.querySelector('#pmEnd'),
+        elPrev  = root.querySelector('#pmPrev'),
+        elNext  = root.querySelector('#pmNext'),
+        stageCur  = root.querySelector('#pmStageCur'),
+        stageNext = root.querySelector('#pmStageNext');
+
+    var curPv  = makePreview(stageCur,  function(){ return pcur; }, true);
+    var nextPv = makePreview(stageNext, function(){ return pcur + 1; }, false);
+    var inkApi = setupInk();
+
+    function render(){
+      elCount.textContent = pad(pcur + 1) + ' / ' + pad(TOTAL);
+      elCurT.textContent  = TITLES[pcur] || '';
+      elNextT.textContent = (pcur + 1 < TOTAL) ? (TITLES[pcur + 1] || '') : '— 演示结束';
+      elNote.textContent  = SPEAKER_NOTES[pcur] || '（本页暂无演讲备注，可自行补充）';
+      elEnd.classList.toggle('on', pcur + 1 >= TOTAL);
+      elPrev.disabled = (pcur <= 0);
+      elNext.disabled = (pcur >= TOTAL - 1);
+      curPv.show(); nextPv.show();
+    }
+    function go(i, fromAudience){
+      i = Math.max(0, Math.min(i, TOTAL - 1));
+      if (i === pcur) return;
+      pcur = i;
+      inkApi.clearForNav();
+      render();
+      if (!fromAudience) postAudience();
+    }
+    function postAudience(){
+      try {
+        if (window.opener && !window.opener.closed) window.opener.postMessage({ t: MSG, i: pcur }, '*');
+      } catch(_){}
+    }
+    window.addEventListener('message', function(e){
+      var d = e.data;
+      if (!d || typeof d !== 'object') return;
+      if (d.t === MSG) { go(d.i | 0, true); return; }
+      if (d.t === 'qmact-up' && curPv.frame && e.source === curPv.frame.contentWindow) {
+        if (window.opener && !window.opener.closed) {
+          d.t = 'qmact';
+          try { window.opener.postMessage(d, '*'); } catch(_){}
+        }
+      }
+    });
+    document.addEventListener('keydown', function(e){
+      var k = e.key;
+      if (k==='ArrowRight'||k==='PageDown'||k===' '||k==='Enter'){ e.preventDefault(); go(pcur+1); }
+      else if (k==='ArrowLeft'||k==='PageUp'){ e.preventDefault(); go(pcur-1); }
+      else if (k==='Home'){ e.preventDefault(); go(0); }
+      else if (k==='End'){ e.preventDefault(); go(TOTAL-1); }
+      else if (k==='p'||k==='P'){ e.preventDefault(); inkApi.togglePen(); }
+      else if (k==='Escape'){ window.close(); }
+    });
+    elPrev.onclick = function(){ go(pcur-1); };
+    elNext.onclick = function(){ go(pcur+1); };
+    elReset.onclick = function(){ t0 = Date.now(); tick(); };
+
+    var t0 = Date.now();
+    function tick(){
+      var s = Math.max(0, Math.floor((Date.now() - t0) / 1000));
+      elTimer.textContent = pad((s/60)|0) + ':' + pad(s%60);
+      var d = new Date();
+      elClock.textContent = pad(d.getHours()) + ':' + pad(d.getMinutes());
+    }
+    setInterval(tick, 500); tick();
+    render();
+
+    function makePreview(stage, indexFn, interactive){
+      var frame = document.createElement('iframe');
+      frame.className = 'pv-frame';
+      frame.setAttribute('scrolling', 'no');
+      if (interactive) frame.style.pointerEvents = 'auto';
+      var loaded = false;
+      frame.addEventListener('load', function(){ loaded = true; show(); });
+      frame.src = BASE;
+      stage.insertBefore(frame, stage.firstChild);
+      function show(){
+        if (!loaded) return;
+        var i = indexFn();
+        if (i < 0 || i > TOTAL - 1) return;
+        try { frame.contentWindow.postMessage({ t: MSG, i: i }, '*'); } catch(_){}
+      }
+      function fit(){ frame.style.transform = 'scale(' + (stage.clientWidth / 1280) + ')'; }
+      if (window.ResizeObserver) new ResizeObserver(fit).observe(stage);
+      window.addEventListener('resize', fit);
+      fit();
+      return { show: show, frame: frame };
+    }
+
+    function setupInk(){
+      var canvas = document.createElement('canvas');
+      canvas.className = 'pm-ink';
+      stageCur.appendChild(canvas);
+      var ink = createInk(canvas, function(){ return { w: stageCur.clientWidth, h: stageCur.clientHeight }; });
+      var penOn = false, tool = 'pen', color = '#ff5252', drawing = false;
+      var btnPen = root.querySelector('#pmPen'),
+          btnEraser = root.querySelector('#pmEraser'),
+          btnClear = root.querySelector('#pmClear'),
+          swatches = root.querySelectorAll('.pm-swatch');
+      function refresh(){
+        canvas.classList.toggle('draw', penOn);
+        btnPen.classList.toggle('on', penOn && tool === 'pen');
+        btnEraser.classList.toggle('on', penOn && tool === 'eraser');
+        Array.prototype.forEach.call(swatches, function(sw){
+          sw.classList.toggle('on', sw.getAttribute('data-c') === color);
+        });
+      }
+      function pick(t){ if (penOn && tool === t) penOn = false; else { tool = t; penOn = true; } refresh(); }
+      function sendInk(m){
+        m.t = 'qmink';
+        try { if (window.opener && !window.opener.closed) window.opener.postMessage(m, '*'); } catch(_){}
+      }
+      function norm(e){
+        var r = canvas.getBoundingClientRect();
+        return { x: (e.clientX - r.left) / (r.width || 1), y: (e.clientY - r.top) / (r.height || 1) };
+      }
+      canvas.addEventListener('pointerdown', function(e){
+        if (!penOn) return;
+        e.preventDefault();
+        try { canvas.setPointerCapture(e.pointerId); } catch(_){}
+        drawing = true;
+        var p = norm(e), st = { tool: tool, color: color, w: tool === 'eraser' ? 30 : 3.8 };
+        ink.down(st, p);
+        sendInk({ op: 'down', x: p.x, y: p.y, tool: st.tool, color: st.color, w: st.w });
+      });
+      canvas.addEventListener('pointermove', function(e){
+        if (!penOn || !drawing) return;
+        var p = norm(e);
+        ink.move(p);
+        sendInk({ op: 'move', x: p.x, y: p.y });
+      });
+      function endStroke(){ if (!drawing) return; drawing = false; ink.up(); sendInk({ op: 'up' }); }
+      canvas.addEventListener('pointerup', endStroke);
+      canvas.addEventListener('pointercancel', endStroke);
+      canvas.addEventListener('click', function(e){ if (penOn) e.stopPropagation(); });
+      btnPen.addEventListener('click', function(){ pick('pen'); });
+      btnEraser.addEventListener('click', function(){ pick('eraser'); });
+      btnClear.addEventListener('click', function(){ ink.clear(); sendInk({ op: 'clear' }); });
+      Array.prototype.forEach.call(swatches, function(sw){
+        sw.addEventListener('click', function(){
+          color = sw.getAttribute('data-c'); tool = 'pen'; penOn = true; refresh();
+        });
+      });
+      if (window.ResizeObserver) new ResizeObserver(function(){ ink.fit(); }).observe(stageCur);
+      window.addEventListener('resize', function(){ ink.fit(); });
+      ink.fit();
+      return {
+        clearForNav: function(){ ink.clear(); },
+        togglePen: function(){ pick('pen'); }
+      };
+    }
+  }
+
+  function createInk(canvas, sizeFn){
+    var ctx = canvas.getContext('2d');
+    var dpr = window.devicePixelRatio || 1;
+    var REF = 1280;
+    var strokes = [], curStroke = null;
+    function applyStyle(st){
+      if (st.tool === 'eraser') { ctx.globalCompositeOperation = 'destination-out'; ctx.strokeStyle = '#000'; }
+      else { ctx.globalCompositeOperation = 'source-over'; ctx.strokeStyle = st.color; }
+      ctx.lineWidth = st.w * (sizeFn().w / REF);
+      ctx.lineCap = 'round'; ctx.lineJoin = 'round';
+    }
+    function seg(st, a, b){
+      var s = sizeFn();
+      applyStyle(st);
+      ctx.beginPath();
+      ctx.moveTo(a.x * s.w, a.y * s.h);
+      ctx.lineTo(b.x * s.w, b.y * s.h);
+      ctx.stroke();
+      ctx.globalCompositeOperation = 'source-over';
+    }
+    function dot(st, p){ seg(st, p, { x: p.x + 0.0006, y: p.y }); }
+    function redraw(){
+      var s = sizeFn();
+      ctx.clearRect(0, 0, s.w, s.h);
+      strokes.forEach(function(st){
+        if (st.pts.length === 1) { dot(st, st.pts[0]); return; }
+        for (var i = 1; i < st.pts.length; i++) seg(st, st.pts[i-1], st.pts[i]);
+      });
+    }
+    function fit(){
+      var s = sizeFn();
+      if (!s.w || !s.h) return;
+      canvas.width = s.w * dpr; canvas.height = s.h * dpr;
+      canvas.style.width = s.w + 'px'; canvas.style.height = s.h + 'px';
+      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+      redraw();
+    }
+    return {
+      fit: fit, redraw: redraw,
+      down: function(st, p){ curStroke = { tool: st.tool, color: st.color, w: st.w, pts: [p] }; strokes.push(curStroke); dot(curStroke, p); },
+      move: function(p){ if (!curStroke) return; var l = curStroke.pts[curStroke.pts.length-1]; curStroke.pts.push(p); seg(curStroke, l, p); },
+      up: function(){ curStroke = null; },
+      clear: function(){ strokes = []; curStroke = null; redraw(); }
+    };
+  }
+
+  function setupAudienceInk(){
+    var canvas = document.createElement('canvas');
+    canvas.id = 'qm-anno';
+    canvas.style.cssText = 'position:fixed;left:0;top:0;z-index:50;pointer-events:none;touch-action:none';
+    document.body.appendChild(canvas);
+    var ink = createInk(canvas, function(){ return { w: window.innerWidth, h: window.innerHeight }; });
+    window.addEventListener('resize', function(){ ink.fit(); });
+    ink.fit();
+
+    window.addEventListener('message', function(e){
+      var d = e.data;
+      if (!d || typeof d !== 'object' || d.t !== 'qmink') return;
+      if (d.op === 'down') ink.down({ tool: d.tool, color: d.color, w: d.w }, { x: d.x, y: d.y });
+      else if (d.op === 'move') ink.move({ x: d.x, y: d.y });
+      else if (d.op === 'up') ink.up();
+      else if (d.op === 'clear') ink.clear();
+    });
+    window.__inkClear = function(){ ink.clear(); };
+
+    var bar = document.createElement('div');
+    bar.className = 'deck-pen';
+    bar.innerHTML =
+      '<button class="dp-btn" data-act="pen" title="画笔">✎</button>' +
+      '<button class="dp-btn" data-act="eraser" title="橡皮擦">擦</button>' +
+      '<button class="dp-sw on" data-c="#ff5252" style="background:#ff5252" title="红色"></button>' +
+      '<button class="dp-sw" data-c="#ffd54a" style="background:#ffd54a" title="黄色"></button>' +
+      '<button class="dp-sw" data-c="#5ad1ff" style="background:#5ad1ff" title="蓝色"></button>' +
+      '<button class="dp-btn" data-act="clear" title="清除本页">清</button>';
+    document.body.appendChild(bar);
+
+    var penOn = false, tool = 'pen', color = '#ff5252', drawing = false;
+    function refresh(){
+      canvas.style.pointerEvents = penOn ? 'auto' : 'none';
+      bar.querySelector('[data-act="pen"]').classList.toggle('on', penOn && tool === 'pen');
+      bar.querySelector('[data-act="eraser"]').classList.toggle('on', penOn && tool === 'eraser');
+      Array.prototype.forEach.call(bar.querySelectorAll('.dp-sw'), function(sw){
+        sw.classList.toggle('on', sw.getAttribute('data-c') === color);
+      });
+    }
+    function pick(t){ if (penOn && tool === t) penOn = false; else { tool = t; penOn = true; } refresh(); }
+    bar.addEventListener('click', function(e){
+      var b = e.target && e.target.closest ? e.target.closest('.dp-btn, .dp-sw') : null;
+      if (!b) return;
+      if (b.classList.contains('dp-sw')) { color = b.getAttribute('data-c'); tool = 'pen'; penOn = true; refresh(); return; }
+      var act = b.getAttribute('data-act');
+      if (act === 'pen') pick('pen');
+      else if (act === 'eraser') pick('eraser');
+      else if (act === 'clear') ink.clear();
+    });
+    function norm(e){
+      var w = window.innerWidth || 1, h = window.innerHeight || 1;
+      return { x: e.clientX / w, y: e.clientY / h };
+    }
+    canvas.addEventListener('pointerdown', function(e){
+      if (!penOn || e.pointerType === 'touch') return;
+      e.preventDefault();
+      try { canvas.setPointerCapture(e.pointerId); } catch(_){}
+      drawing = true;
+      ink.down({ tool: tool, color: color, w: tool === 'eraser' ? 30 : 3.8 }, norm(e));
+    });
+    canvas.addEventListener('pointermove', function(e){
+      if (!penOn || !drawing || e.pointerType === 'touch') return;
+      ink.move(norm(e));
+    });
+    function endStroke(){ if (drawing) { drawing = false; ink.up(); } }
+    canvas.addEventListener('pointerup', endStroke);
+    canvas.addEventListener('pointercancel', endStroke);
+    refresh();
+  }
+
+  function pad(n){ n = n | 0; return (n < 10 ? '0' : '') + n; }
+})();
 </script>
 </body></html>

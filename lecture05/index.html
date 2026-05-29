@@ -1,0 +1,970 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<title>Topic · DFT Foundations</title>
+<link rel="preconnect" href="https://fonts.googleapis.com/">
+<link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Fira+Code&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<style>
+:root{
+  --bg:#0c0e0c;--bg2:#151915;--bg3:#1e231e;
+  --fg:#ede9e0;--fg2:#a8a49b;--fg3:#706c65;
+  --accent:#6dbf5e;--accent2:#3d8a35;--accent-dim:#2a5a24;
+  --blue:#5ba4e6;--coral:#e8734a;--purple:#b07ee8;--amber:#ddb84a;--red:#e05454;
+  --ff:'Playfair Display','Noto Serif SC',Georgia,serif;
+  --mono:'Fira Code',monospace;
+  --radius:8px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--fg);font-family:var(--ff);font-size:18px;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent2);color:#fff}
+.app{width:100%;height:100%;display:flex;flex-direction:column}
+header.chrome{height:32px;background:var(--bg2);border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;padding:0 20px;flex-shrink:0;z-index:20}
+.chrome .tag{font-size:10px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);opacity:0.6}
+.chrome .tsm{font-size:11px;color:var(--fg3);margin-left:14px}
+.chrome .ind{font-size:11px;color:var(--fg3);font-variant-numeric:tabular-nums;font-family:var(--mono)}
+.deck{flex:1;position:relative;overflow:hidden}
+.slide{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:center;align-items:center;padding:24px 5vw 36px;opacity:0;pointer-events:none;transform:translateX(40px);transition:opacity 0.4s,transform 0.4s;overflow-y:auto}
+.slide.active{opacity:1;pointer-events:auto;transform:translateX(0)}
+.slide.exit{opacity:0;transform:translateX(-40px)}
+footer.ft{height:30px;background:var(--bg2);border-top:1px solid rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:space-between;padding:0 18px;flex-shrink:0;z-index:20}
+.ptr{flex:1;height:2px;background:rgba(255,255,255,0.05);border-radius:2px;margin:0 14px}
+.pfill{height:100%;background:var(--accent);border-radius:2px;transition:width 0.3s}
+.ft .ht{font-size:10px;color:var(--fg3)}
+.ft .ht kbd{background:var(--bg3);padding:1px 4px;border-radius:3px;font-size:9px;border:1px solid rgba(255,255,255,0.08)}
+.ft .nb{background:none;border:1px solid rgba(255,255,255,0.1);color:var(--fg2);font-family:var(--ff);font-size:11px;padding:3px 10px;border-radius:4px;cursor:pointer;transition:all 0.2s}
+.ft .nb:hover{background:rgba(255,255,255,0.05)}
+
+.slide h1{font-size:clamp(34px,5.2vw,62px);font-weight:700;line-height:1.12;text-align:center;letter-spacing:-0.5px;max-width:1100px}
+.slide h2{font-size:clamp(26px,3.7vw,46px);font-weight:700;line-height:1.15;max-width:1150px}
+.slide h3{font-size:19px;font-weight:600;margin-bottom:8px}
+.slide p{font-size:16px;line-height:1.62;color:var(--fg2)}
+.ey{font-size:13px;font-weight:600;letter-spacing:2.5px;text-transform:uppercase;color:var(--accent);margin-bottom:10px}
+.sh{text-align:left;width:100%;max-width:1200px;margin-bottom:18px}
+.lead{font-size:clamp(17px,2.2vw,23px);color:var(--fg2);line-height:1.5;text-align:center;max-width:840px;margin-top:16px;font-style:italic}
+.accent{color:var(--accent)}.blue{color:var(--blue)}.coral{color:var(--coral)}.purple{color:var(--purple)}.amber{color:var(--amber)}
+.cap{font-size:13px;color:var(--fg3);text-align:center;margin-top:10px}
+.fm{font-size:clamp(22px,3vw,38px);text-align:center;margin:14px 0}
+.sfm{font-size:clamp(17px,2vw,24px)}
+
+.cd{background:var(--bg2);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:18px 22px}
+.cd h3{font-size:17px;font-weight:600;margin-bottom:8px}
+.cd p{font-size:15px;line-height:1.6;color:var(--fg2)}
+.em-cd{border-color:var(--accent-dim);background:rgba(42,90,36,0.07)}
+.tk{border-left:3px solid var(--accent);background:rgba(42,90,36,0.05);padding:12px 16px;margin-top:10px}
+.tk span.lab{font-size:12px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;color:var(--accent);display:block;margin-bottom:4px}
+.tk p{font-size:14px}
+.tk-blue{border-left-color:var(--blue);background:rgba(91,164,230,0.06)}
+.tk-blue span.lab{color:var(--blue)}
+.tk-amber{border-left-color:var(--amber);background:rgba(221,184,74,0.06)}
+.tk-amber span.lab{color:var(--amber)}
+.tk-coral{border-left-color:var(--coral);background:rgba(232,115,74,0.06)}
+.tk-coral span.lab{color:var(--coral)}
+.tk-purple{border-left-color:var(--purple);background:rgba(176,126,232,0.06)}
+.tk-purple span.lab{color:var(--purple)}
+ul.bl{list-style:none;padding:0}
+ul.bl li{position:relative;padding-left:16px;margin-bottom:6px;font-size:15px;line-height:1.55;color:var(--fg2)}
+ul.bl li::before{content:'';position:absolute;left:0;top:7px;width:4px;height:4px;border-radius:50%;background:var(--accent)}
+.yc{display:inline-block;font-size:10px;font-weight:600;letter-spacing:1px;text-transform:uppercase;background:var(--accent-dim);color:var(--accent);padding:2px 8px;border-radius:4px;margin-bottom:6px}
+
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:20px;width:100%;max-width:1200px}
+.t3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:16px;width:100%;max-width:1200px}
+.stk{display:flex;flex-direction:column;gap:12px}
+.cc{display:flex;flex-direction:column;align-items:center;gap:14px;width:100%;max-width:1200px}
+
+table.cmp{width:100%;border-collapse:collapse;margin-top:6px}
+table.cmp th,table.cmp td{padding:8px 12px;font-size:14px;text-align:left;border-bottom:1px solid rgba(255,255,255,0.06);color:var(--fg2)}
+table.cmp th{color:var(--fg);font-weight:600;background:rgba(255,255,255,0.02)}
+table.cmp tr:last-child td{border-bottom:none}
+
+.qgrid{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:1200px}
+.qcard{border:1px solid rgba(255,255,255,0.07);background:var(--bg2);border-radius:var(--radius);overflow:hidden}
+.qcard summary{cursor:pointer;list-style:none;padding:14px 16px;color:var(--fg);font-size:16px;font-weight:600}
+.qcard summary::-webkit-details-marker{display:none}
+.qcard summary::before{content:'?';display:inline-block;width:22px;height:22px;border-radius:50%;background:var(--accent-dim);color:var(--accent);font-family:var(--mono);font-size:13px;line-height:22px;text-align:center;margin-right:9px}
+.qcard[open] summary::before{content:'✓';background:rgba(109,191,94,0.22)}
+.qcard div{border-top:1px solid rgba(255,255,255,0.06);padding:12px 16px}
+.qcard p{font-size:14px}
+.board{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:1200px}
+.chalk{background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:14px 16px}
+.chalk .fm{text-align:left}
+
+.svgbox{width:100%;background:rgba(0,0,0,0.22);border-radius:6px;border:1px solid rgba(255,255,255,0.05)}
+.svgbox svg{display:block;width:100%;height:auto}
+.ct{display:flex;gap:10px;flex-wrap:wrap;justify-content:center;align-items:center;margin-top:8px}
+.ct label{font-size:14px;color:var(--fg2);display:flex;align-items:center;gap:8px}
+.ct input[type=range]{width:200px;accent-color:var(--accent)}
+.ct .vl{font-size:13px;color:var(--accent);min-width:54px;text-align:left;font-family:var(--mono)}
+.ct button{font-family:var(--ff);font-size:14px;padding:6px 14px;border:1px solid rgba(255,255,255,0.1);border-radius:4px;background:transparent;color:var(--fg2);cursor:pointer;transition:all 0.2s}
+.ct button:hover,.ct button.on{background:var(--accent2);border-color:var(--accent);color:#fff}
+.rdt{font-family:var(--mono);font-size:14px;color:var(--fg2);text-align:center;margin-top:6px}
+.rdt b{color:var(--accent)}
+
+.proof-step{background:var(--bg2);border:1px solid rgba(255,255,255,0.06);border-radius:var(--radius);padding:16px 20px;margin-bottom:10px;border-left:3px solid var(--accent)}
+.proof-step.s2{border-left-color:var(--blue)}
+.proof-step.s3{border-left-color:var(--purple)}
+.proof-step.s4{border-left-color:var(--coral)}
+.proof-step h3{font-size:16px;margin-bottom:6px}
+.proof-step p{font-size:14px;line-height:1.6}
+
+@media(max-width:768px){
+  .slide{padding:16px 16px 28px}
+  .tc,.t3,.qgrid,.board{grid-template-columns:1fr}
+  header.chrome .tsm{display:none}
+  .ct input[type=range]{width:140px}
+}
+</style>
+</head>
+<body>
+<div class="app">
+<header class="chrome">
+  <div style="display:flex;align-items:center;gap:8px"><span class="tag">Quantum Mechanics</span><span class="tsm">Topic · Density Functional Theory — Foundations</span></div>
+  <span class="ind" id="ind">1 / 16</span>
+</header>
+<main class="deck" id="deck">
+
+<!-- S0 COVER -->
+<section class="slide active">
+  <p class="ey" style="font-size:15px">Quantum Mechanics for Organic Electronics · Lecture 05</p>
+  <h1 style="font-style:italic;color:var(--accent);font-size:clamp(38px,6vw,72px)">Density Functional Theory<br><span style="font-size:0.55em;color:var(--fg2)">The Many-Body Problem &amp; Hohenberg-Kohn Theorems</span></h1>
+  <div class="svgbox" style="max-width:620px;margin-top:22px;background:transparent;border:none">
+    <svg viewBox="0 0 620 140" id="coverSvg"></svg>
+  </div>
+  <p class="lead" style="font-style:normal;font-size:clamp(16px,2vw,21px)">Real molecules have <strong class="accent">many electrons</strong>. The exact wave function lives in impossibly high dimensions. DFT replaces it with a 3D electron density — and <em>nothing is lost</em>.</p>
+  <p class="cap">← → navigate · click empty space to advance · <kbd>F</kbd> fullscreen</p>
+</section>
+
+<!-- S1 MOTIVATION -->
+<section class="slide">
+  <div class="sh"><p class="ey">Motivation · the challenge</p><h2>From one particle to many electrons</h2></div>
+  <div class="tc">
+    <div class="cd">
+      <h3>What we've solved so far</h3>
+      <ul class="bl" style="margin-top:8px">
+        <li>Particle in a box — <strong>1 particle</strong>, exact solution</li>
+        <li>Quantum harmonic oscillator — <strong>1 particle</strong>, exact solution</li>
+        <li>Hydrogen atom — <strong>1 electron</strong> + 1 nucleus, exact solution</li>
+      </ul>
+      <p style="margin-top:12px">All of these are <strong class="accent">single-particle problems</strong>. The Schrödinger equation separates cleanly, and we get analytical solutions.</p>
+    </div>
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>The real world</h3>
+        <ul class="bl" style="margin-top:8px">
+          <li>Anthracene (蒽): <strong class="coral">94 electrons</strong></li>
+          <li>C₆₀ fullerene: <strong class="coral">360 electrons</strong></li>
+          <li>P3HT monomer: <strong class="coral">100+ electrons</strong></li>
+          <li>A protein: <strong class="coral">thousands of electrons</strong></li>
+        </ul>
+        <p style="margin-top:10px">These many-electron problems <strong>cannot be solved exactly</strong>. We need a fundamentally new approach.</p>
+      </div>
+      <div class="tk"><span class="lab">Central question</span>
+        <p>How can we compute the electronic structure of a real molecule — orbital energies, geometry, spectra — <strong class="accent">from first principles</strong>, without experimental parameters?</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S2 MANY-BODY HAMILTONIAN -->
+<section class="slide">
+  <div class="sh"><p class="ey">The exact equation</p><h2>The many-body Schrödinger equation</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>Full Hamiltonian: five terms</h3>
+        <p>For $M$ nuclei and $N$ electrons:</p>
+        <div class="fm sfm" style="margin:10px 0">$\hat{H}_{\text{total}} = \hat{T}_N + \hat{T}_e + \hat{V}_{NN} + \hat{V}_{eN} + \hat{V}_{ee}$</div>
+        <table class="cmp" style="margin-top:8px">
+          <tr><th>Term</th><th>Physics</th></tr>
+          <tr><td>$\hat{T}_N$</td><td>Nuclear kinetic energy</td></tr>
+          <tr><td class="accent">$\hat{T}_e = -\sum_i \frac{\hbar^2}{2m_e}\nabla_i^2$</td><td>Electron kinetic energy</td></tr>
+          <tr><td>$\hat{V}_{NN}$</td><td>Nucleus–nucleus repulsion</td></tr>
+          <tr><td class="blue">$\hat{V}_{eN} = -\sum_{i,A} \frac{Z_A e^2}{|\vec{r}_i - \vec{R}_A|}$</td><td>Electron–nucleus attraction</td></tr>
+          <tr><td class="coral">$\hat{V}_{ee} = \sum_{i<j} \frac{e^2}{|\vec{r}_i - \vec{r}_j|}$</td><td>Electron–electron repulsion</td></tr>
+        </table>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd">
+        <h3>The wave function</h3>
+        <div class="fm sfm" style="margin:10px 0">$\Psi(\vec{r}_1, \vec{r}_2, \ldots, \vec{r}_N; \vec{R}_1, \ldots, \vec{R}_M)$</div>
+        <p>This is a function of <strong class="amber">$3(N+M)$ coordinates</strong> — the positions of every electron and every nucleus.</p>
+      </div>
+      <div class="tk tk-coral"><span class="lab">The villain</span>
+        <p>$\hat{V}_{ee}$ couples <strong>every</strong> electron to <strong>every other</strong> electron. The position of electron $i$ depends on where <em>all</em> other electrons are. This makes the equation <strong class="coral">inseparable</strong> — no analytical solution exists for $N > 1$.</p>
+      </div>
+      <div class="tk tk-blue"><span class="lab">Compare with hydrogen</span>
+        <p>For H atom: $\hat{V}_{ee} = 0$ (only one electron). The equation separates into $r$, $\theta$, $\phi$ parts → exact solution. Add one more electron (He) and exact solution is already impossible.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S3 DIMENSIONALITY CATASTROPHE -->
+<section class="slide">
+  <div class="sh"><p class="ey">The fundamental barrier</p><h2>The dimensionality catastrophe</h2></div>
+  <div class="cc" style="gap:14px">
+    <div class="tc" style="max-width:1200px">
+      <div class="stk">
+        <div class="cd em-cd">
+          <h3>How much memory to store $\Psi$?</h3>
+          <p>$\Psi(\vec{r}_1, \ldots, \vec{r}_N)$ lives in $3N$-dimensional space.</p>
+          <ul class="bl" style="margin-top:8px">
+            <li>Use 10 grid points per coordinate</li>
+            <li>Total grid points: $10^{3N}$</li>
+            <li>Each point needs 8 bytes (double precision)</li>
+            <li>Storage needed: $8 \times 10^{3N}$ bytes</li>
+          </ul>
+          <p style="margin-top:10px">Atoms in the observable universe: $\sim 10^{80}$</p>
+        </div>
+        <div class="tk tk-coral"><span class="lab">Conclusion</span>
+          <p>For any molecule larger than a few electrons, directly storing $\Psi$ is <strong class="coral">physically impossible</strong> — not because computers aren't fast enough, but because the <strong>universe is too small</strong>.</p>
+        </div>
+      </div>
+      <div class="stk">
+        <div class="svgbox">
+          <svg viewBox="0 0 520 360" id="dimSvg"></svg>
+        </div>
+        <div class="ct">
+          <label>Electrons $N$:<input type="range" id="nSlider" min="1" max="100" step="1" value="10"><span class="vl" id="nVal">10</span></label>
+        </div>
+        <p class="rdt" id="dimOut"></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S4 BORN-OPPENHEIMER APPROXIMATION -->
+<section class="slide">
+  <div class="sh"><p class="ey">First simplification</p><h2>Born-Oppenheimer approximation: freeze the nuclei</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>The mass gap</h3>
+        <p>Proton mass / electron mass = <strong class="accent">1836</strong></p>
+        <p style="margin-top:8px">Nuclei move $\sim\sqrt{1836} \approx 43$ times slower than electrons. From the electron's perspective, nuclei are essentially <strong>frozen in place</strong>.</p>
+      </div>
+      <div class="cd">
+        <h3>The approximation</h3>
+        <p>Treat nuclear positions $\{\vec{R}_A\}$ as <strong>fixed parameters</strong>, not variables. Solve only for the electrons:</p>
+        <div class="fm sfm" style="margin:10px 0;color:var(--accent)">$\hat{H}_e\,\Psi_e = E_e\,\Psi_e$</div>
+        <div class="fm sfm" style="margin:8px 0">$\hat{H}_e = \hat{T}_e + \hat{V}_{eN} + \hat{V}_{ee}$</div>
+        <p>$\hat{V}_{NN}$ is just a constant (nuclei are fixed) — add it back later.</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="svgbox">
+        <svg viewBox="0 0 520 300" id="boSvg"></svg>
+      </div>
+      <div class="tk"><span class="lab">Two-step strategy</span>
+        <p><strong class="accent">Step 1:</strong> Fix nuclear positions → solve electron problem → get energy $E_e(\{\vec{R}\})$.<br>
+        <strong class="blue">Step 2:</strong> Vary nuclear positions → map out the <strong>potential energy surface</strong> → study nuclear motion on this surface.</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">Still not enough</span>
+        <p>Dimensions reduced from $3(N+M)$ to $3N$, but $3N$ is still astronomical. For anthracene: $3 \times 94 = 282$ dimensions. We need a <strong>fundamentally different approach</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S5 METHOD COMPARISON -->
+<section class="slide">
+  <div class="sh"><p class="ey">Landscape of methods</p><h2>How different approaches tackle the many-electron problem</h2></div>
+  <div class="cc" style="gap:14px">
+    <div class="cd" style="width:100%;max-width:1200px;padding:14px 20px">
+      <table class="cmp">
+        <tr><th>Method</th><th>Core idea</th><th>Accuracy</th><th>Scaling</th><th>Practical limit</th></tr>
+        <tr><td><strong>Hartree-Fock</strong></td><td>Each electron in average field</td><td>Missing correlation</td><td>$O(K^4)$</td><td>Small molecules (qualitative)</td></tr>
+        <tr><td><strong>CI</strong></td><td>Multiple Slater determinants</td><td>Systematically improvable</td><td>Exponential</td><td>~15 electrons</td></tr>
+        <tr><td><strong>CCSD(T)</strong></td><td>"Gold standard" of chemistry</td><td>Very high</td><td>$O(N^7)$</td><td>~30 atoms</td></tr>
+        <tr style="background:rgba(42,90,36,0.12)"><td><strong class="accent">DFT</strong></td><td class="accent"><strong>Density replaces wave function</strong></td><td class="accent"><strong>Good (depends on functional)</strong></td><td class="accent"><strong>$O(K^3)$</strong></td><td class="accent"><strong>Hundreds of atoms</strong></td></tr>
+        <tr><td><strong>Semi-empirical</strong></td><td>Experimental parameters replace hard integrals</td><td>Depends on parametrization</td><td>$O(N^2)$</td><td>Thousands of atoms</td></tr>
+      </table>
+    </div>
+    <div class="tc" style="max-width:1200px">
+      <div class="tk"><span class="lab">Why DFT wins</span>
+        <p>DFT achieves accuracy close to CCSD(T) but with computational cost similar to Hartree-Fock. This makes it the <strong class="accent">most widely used</strong> quantum chemistry method for organic electronics.</p>
+      </div>
+      <div class="tk tk-blue"><span class="lab">The key insight</span>
+        <p>All other methods try to approximate the $3N$-dimensional wave function $\Psi$. DFT asks a radical question: <strong class="blue">can we bypass $\Psi$ entirely and work with the 3D electron density $\rho(\vec{r})$ instead?</strong></p>
+      </div>
+    </div>
+    <div class="svgbox" style="max-width:900px;background:transparent;border:none">
+      <svg viewBox="0 0 900 160" id="scalingSvg"></svg>
+    </div>
+  </div>
+</section>
+
+<!-- S6 ELECTRON DENSITY -->
+<section class="slide">
+  <div class="sh"><p class="ey">The central quantity</p><h2>Electron density: from $3N$ dimensions to 3</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>Definition</h3>
+        <div class="fm sfm" style="margin:10px 0">$\rho(\vec{r}) = N\!\int |\Psi(\vec{r}, \vec{r}_2, \ldots, \vec{r}_N)|^2 \, d\vec{r}_2 \cdots d\vec{r}_N$</div>
+        <p><strong>Physical meaning:</strong> $\rho(\vec{r})\,d^3r$ = probability of finding <em>any one electron</em> in the volume element $d^3r$ at position $\vec{r}$.</p>
+      </div>
+      <div class="cd">
+        <h3>Key properties</h3>
+        <ul class="bl" style="margin-top:8px">
+          <li>$\rho(\vec{r}) \geq 0$ — it's a probability density, always non-negative</li>
+          <li>$\int \rho(\vec{r})\,d^3r = N$ — integrates to total number of electrons</li>
+          <li>$\rho(\vec{r})$ is a function of <strong class="accent">ordinary 3D space</strong> — regardless of how many electrons the system has</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="svgbox">
+        <svg viewBox="0 0 520 320" id="densitySvg"></svg>
+      </div>
+      <div class="tk"><span class="lab">Experimentally observable</span>
+        <p>$\rho(\vec{r})$ is what you measure in <strong class="accent">X-ray diffraction</strong> experiments. It is a real, physical observable — unlike the abstract $3N$-dimensional wave function.</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">The bold question</span>
+        <p>Going from $\Psi$ ($3N$ dimensions) to $\rho$ (3 dimensions) is a massive compression. Surely we lose information? <strong class="amber">Hohenberg and Kohn proved that, for the ground state, we lose nothing.</strong></p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S7 HK THEOREM 1: STATEMENT -->
+<section class="slide">
+  <div class="sh"><p class="ey">Hohenberg-Kohn, 1964</p><h2>First theorem: density determines everything</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd" style="border-left:3px solid var(--accent)">
+        <h3 class="accent">Theorem statement</h3>
+        <p style="font-size:16px;line-height:1.7;color:var(--fg)">For a system of $N$ electrons in an external potential $V_{\text{ext}}(\vec{r})$ with a non-degenerate ground state, the ground-state electron density $\rho_0(\vec{r})$ <strong class="accent">uniquely determines</strong> $V_{\text{ext}}(\vec{r})$ (up to an additive constant).</p>
+      </div>
+      <div class="cd">
+        <h3>The logical chain</h3>
+        <div class="fm sfm" style="color:var(--accent);margin:12px 0">$\rho_0 \;\to\; V_{\text{ext}} \;\to\; \hat{H} \;\to\; \Psi_0 \;\to\; \text{everything}$</div>
+        <p>Once you know $\rho_0$, you can (in principle) reconstruct the external potential, the Hamiltonian, the wave function, and <strong>all ground-state properties</strong>: energy, forces, dipole moment, polarizability…</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd">
+        <h3>Why this is astonishing</h3>
+        <ul class="bl" style="margin-top:8px">
+          <li>From $\Psi$ to $\rho$ is a <strong>colossal</strong> compression: $3N$ dimensions → 3 dimensions</li>
+          <li>Common sense says: compressing so much <em>must</em> lose information</li>
+          <li>HK theorem says: for the ground state, <strong class="accent">no information is lost</strong></li>
+          <li>A 3D function contains <em>exactly the same physics</em> as the $3N$-dimensional wave function</li>
+        </ul>
+      </div>
+      <div class="tk tk-coral"><span class="lab">Contrapositive</span>
+        <p>Two different external potentials (differing by more than a constant) <strong class="coral">cannot</strong> produce the same ground-state density. The mapping $V_{\text{ext}} \to \rho_0$ is injective (one-to-one).</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S8 HK PROOF PART 1 -->
+<section class="slide">
+  <div class="sh"><p class="ey">The proof · part I</p><h2>Proof by contradiction: setting up two systems</h2></div>
+  <div class="cc" style="gap:12px">
+    <p style="font-size:15px;color:var(--fg2);max-width:1100px;text-align:center">This proof is one of the most elegant in quantum mechanics — short, beautiful, and purely based on the variational principle.</p>
+    <div class="tc" style="max-width:1200px">
+      <div class="proof-step">
+        <h3 class="accent">Step 1 — Assume the opposite</h3>
+        <p>Suppose two <em>different</em> external potentials $V_1$ and $V_2$ (with $V_1 - V_2 \neq$ const) give the <strong>same</strong> ground-state density $\rho_0$.</p>
+        <p style="margin-top:8px">They define two Hamiltonians with different ground states:</p>
+        <div class="fm sfm" style="margin:8px 0;text-align:left">$\hat{H}_1\Psi_1 = E_1\Psi_1, \quad \hat{H}_2\Psi_2 = E_2\Psi_2$</div>
+        <p>Since $V_1 \neq V_2 + \text{const}$, we must have $\Psi_1 \neq \Psi_2$.</p>
+      </div>
+      <div class="proof-step s2">
+        <h3 class="blue">Step 2 — Apply variational principle to System 1</h3>
+        <p>$\Psi_1$ is the ground state of $\hat{H}_1$, so for <em>any other state</em> (including $\Psi_2$):</p>
+        <div class="fm sfm" style="margin:8px 0;text-align:left">$E_1 < \langle\Psi_2|\hat{H}_1|\Psi_2\rangle$</div>
+        <p>Write $\hat{H}_1 = \hat{H}_2 + \sum_i[V_1(\vec{r}_i) - V_2(\vec{r}_i)]$:</p>
+        <div class="fm sfm" style="margin:8px 0;text-align:left;color:var(--blue)">$E_1 < E_2 + \int [V_1 - V_2]\,\rho_0\,d^3r \quad \text{(A)}$</div>
+        <p style="font-size:13px;color:var(--fg3)">We used: $\langle\Psi_2|\hat{H}_2|\Psi_2\rangle = E_2$ and the fact that single-body operator expectations can be written as integrals over $\rho$.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S9 HK PROOF PART 2 -->
+<section class="slide">
+  <div class="sh"><p class="ey">The proof · part II</p><h2>The contradiction: $0 < 0$</h2></div>
+  <div class="cc" style="gap:12px">
+    <div class="tc" style="max-width:1200px">
+      <div class="proof-step s3">
+        <h3 class="purple">Step 3 — Apply variational principle to System 2</h3>
+        <p>By perfect symmetry (swap labels 1 ↔ 2):</p>
+        <div class="fm sfm" style="margin:8px 0;text-align:left;color:var(--purple)">$E_2 < E_1 + \int [V_2 - V_1]\,\rho_0\,d^3r \quad \text{(B)}$</div>
+      </div>
+      <div class="proof-step s4">
+        <h3 class="coral">Step 4 — Add (A) + (B)</h3>
+        <div class="fm sfm" style="margin:8px 0;text-align:left">$E_1 + E_2 < E_2 + E_1 + \underbrace{\int[V_1 - V_2]\rho_0\,d^3r + \int[V_2 - V_1]\rho_0\,d^3r}_{= 0}$</div>
+        <p style="margin-top:8px">The two integral terms cancel exactly, giving:</p>
+        <div class="fm" style="color:var(--coral)">$E_1 + E_2 < E_1 + E_2$</div>
+        <div class="fm" style="color:var(--coral)">$0 < 0 \quad$ <strong>Contradiction!</strong> $\;\blacksquare$</div>
+      </div>
+    </div>
+    <div class="tc" style="max-width:1200px;margin-top:6px">
+      <div class="tk"><span class="lab">Therefore</span>
+        <p>Our assumption was wrong. Two different external potentials <strong class="accent">cannot</strong> give the same ground-state density. The mapping $\rho_0 \to V_{\text{ext}}$ is unique. <strong>QED.</strong></p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">Beauty of the proof</span>
+        <p>Only two ingredients: the <strong class="amber">variational principle</strong> (from Lecture 03) and the <strong class="amber">density-expectation value relationship</strong> for single-body operators. No approximations anywhere — this is an <em>exact</em> theorem.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S10 HK THEOREM 1: IMPLICATIONS -->
+<section class="slide">
+  <div class="sh"><p class="ey">Implications</p><h2>What HK-I really means: density is the fundamental variable</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>The paradigm shift</h3>
+        <ul class="bl" style="margin-top:8px">
+          <li><strong>Before HK:</strong> the wave function $\Psi$ is the fundamental object. $\rho$ is just a derived quantity.</li>
+          <li><strong>After HK:</strong> $\rho_0$ contains all ground-state information. $\Psi$ is, in principle, redundant.</li>
+        </ul>
+        <p style="margin-top:10px">Every ground-state property $O$ is a <strong>functional of the density</strong>:</p>
+        <div class="fm sfm" style="color:var(--accent);margin:10px 0">$O = O[\rho_0]$</div>
+        <p>Energy, dipole moment, polarizability, forces on nuclei — all of them.</p>
+      </div>
+      <div class="tk tk-coral"><span class="lab">Important caveat</span>
+        <p>HK-I says these functionals <strong class="coral">exist</strong>, but doesn't tell us their <strong>explicit form</strong>. It's an existence theorem, not a construction manual.</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="svgbox">
+        <svg viewBox="0 0 520 350" id="hkMapSvg"></svg>
+      </div>
+      <div class="cd">
+        <h3>Analogy</h3>
+        <p>Imagine compressing a movie (terabytes) into a single photograph. You'd expect to lose most of the content. HK-I says: for the "ground-state movie" of electrons, <strong class="accent">the photograph is lossless</strong>. The 3D density snapshot encodes the entire $3N$-dimensional story.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S11 HK THEOREM 2 -->
+<section class="slide">
+  <div class="sh"><p class="ey">Hohenberg-Kohn, 1964</p><h2>Second theorem: the variational principle for density</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd" style="border-left:3px solid var(--blue)">
+        <h3 class="blue">Theorem statement</h3>
+        <p style="font-size:16px;line-height:1.7;color:var(--fg)">There exists a <strong>universal energy functional</strong> $E[\rho]$ such that, for the correct $V_{\text{ext}}$, the true ground-state density $\rho_0$ minimizes $E[\rho]$ among all trial densities satisfying $\rho \geq 0$ and $\int\rho\,d^3r = N$:</p>
+        <div class="fm sfm" style="color:var(--blue);margin:10px 0">$E_0 = E[\rho_0] \leq E[\tilde\rho]$</div>
+      </div>
+      <div class="cd">
+        <h3>What this gives us</h3>
+        <p>An <strong class="accent">operational strategy</strong>: search over all possible 3D densities, and the one that minimizes $E[\rho]$ is the true ground-state density.</p>
+        <p style="margin-top:8px">This is the density analog of the variational principle for wave functions — but now we vary over 3D functions instead of $3N$-dimensional ones!</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd">
+        <h3>Structure of the energy functional</h3>
+        <div class="fm sfm" style="margin:10px 0">$E[\rho] = T[\rho] + V_{eN}[\rho] + V_{ee}[\rho]$</div>
+        <table class="cmp" style="margin-top:8px">
+          <tr><th>Term</th><th>Meaning</th><th>Known?</th></tr>
+          <tr><td>$V_{eN}[\rho] = \int V_{\text{ext}}\rho\,d^3r$</td><td>External potential energy</td><td class="accent"><strong>Yes, exactly</strong></td></tr>
+          <tr><td>$T[\rho]$</td><td>Kinetic energy</td><td class="coral"><strong>No!</strong></td></tr>
+          <tr><td>$V_{ee}[\rho]$</td><td>Electron–electron interaction</td><td class="coral"><strong>No!</strong></td></tr>
+        </table>
+      </div>
+      <div class="tk tk-coral"><span class="lab">The gap</span>
+        <p>HK-II proves the variational principle works, but we <strong class="coral">don't know the explicit form</strong> of $T[\rho]$ and $V_{ee}[\rho]$. Early attempts (Thomas-Fermi model) failed badly — they couldn't even predict chemical bonding!</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S12 FUNCTIONAL DECOMPOSITION -->
+<section class="slide">
+  <div class="sh"><p class="ey">Energy functional</p><h2>What we know, what we don't, and why it matters</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>The universal functional $F[\rho]$</h3>
+        <p>Separate the known external potential part from the unknown "internal" part:</p>
+        <div class="fm sfm" style="margin:10px 0">$E[\rho] = \underbrace{\int V_{\text{ext}}\rho\,d^3r}_{\text{known}} + \underbrace{F[\rho]}_{\text{universal, unknown}}$</div>
+        <p>$F[\rho] = T[\rho] + V_{ee}[\rho]$ is <strong>universal</strong>: it's the same functional for <em>every</em> electronic system — hydrogen, anthracene, DNA. Only $V_{\text{ext}}$ changes from system to system.</p>
+      </div>
+      <div class="tk"><span class="lab">Why "universal" matters</span>
+        <p>If someone discovers the exact $F[\rho]$, it would solve <strong>all of chemistry and materials science</strong> in one stroke. Every molecule, every solid, every surface — the same functional.</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="svgbox">
+        <svg viewBox="0 0 520 330" id="funcPieSvg"></svg>
+      </div>
+      <div class="cd">
+        <h3>The Thomas-Fermi failure</h3>
+        <p>The earliest attempt at a kinetic energy functional:</p>
+        <div class="fm sfm" style="margin:8px 0">$T_{\text{TF}}[\rho] = C_F\int\rho^{5/3}\,d^3r$</div>
+        <p>This assumes locally uniform density — fatal for molecules where density varies sharply near nuclei and in bonds. Result: <strong class="coral">no chemical bonding predicted at all</strong>.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S13 HK LIMITATIONS -->
+<section class="slide">
+  <div class="sh"><p class="ey">Fine print</p><h2>Limitations of the Hohenberg-Kohn theorems</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd" style="border-left:3px solid var(--coral)">
+        <h3>1. Ground state only</h3>
+        <p>HK theorems guarantee uniqueness and variational principle only for the <strong>ground state</strong>. Excited states require a different framework → TD-DFT (Runge-Gross theorem, a later lecture).</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--amber)">
+        <h3>2. Functional form unknown</h3>
+        <p>The theorems prove that $E[\rho]$ <em>exists</em>, but give no recipe for constructing it. This is the <strong class="amber">central unsolved problem</strong> of DFT — the entire field of functional development is dedicated to finding good approximations.</p>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd" style="border-left:3px solid var(--purple)">
+        <h3>3. Non-degenerate ground state</h3>
+        <p>The proof uses the strict inequality from the variational principle, which requires a non-degenerate ground state. Degenerate cases need extensions (Levy constrained search formulation, 1979).</p>
+      </div>
+      <div class="cd" style="border-left:3px solid var(--blue)">
+        <h3>4. $v$-representability</h3>
+        <p>Not every function satisfying $\rho \geq 0, \int\rho = N$ corresponds to the ground state of <em>some</em> external potential. The variational search may visit "unphysical" densities.</p>
+      </div>
+      <div class="tk"><span class="lab">Bottom line</span>
+        <p>HK provides the <strong class="accent">theoretical foundation</strong>, but we need a practical scheme to actually compute anything. This is where <strong>Kohn and Sham</strong> enter — next lecture.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S14 ROADMAP -->
+<section class="slide">
+  <div class="sh"><p class="ey">The big picture</p><h2>DFT roadmap: where we are and where we're going</h2></div>
+  <div class="cc" style="gap:14px">
+    <div class="svgbox" style="max-width:1000px;background:transparent;border:none">
+      <svg viewBox="0 0 1000 340" id="roadmapSvg"></svg>
+    </div>
+    <div class="tc" style="max-width:1200px">
+      <div class="cd em-cd">
+        <h3>Connection to previous lectures</h3>
+        <table class="cmp">
+          <tr><th>QM concept (Lectures 1-4)</th><th>Role in DFT</th></tr>
+          <tr><td>Schrödinger equation</td><td>KS equation has the same form</td></tr>
+          <tr><td>Particle in a potential</td><td>KS = particle in effective potential $V_{\text{eff}}$</td></tr>
+          <tr><td>Variational principle</td><td>Foundation of HK-II and KS derivation</td></tr>
+          <tr><td>Harmonic oscillator</td><td>Frequency calculation = harmonic approx. on PES</td></tr>
+          <tr><td>Born-Oppenheimer</td><td>DFT solves the electronic part only</td></tr>
+        </table>
+      </div>
+      <div class="stk">
+        <div class="tk"><span class="lab">Today (Lecture 05)</span>
+          <p>Many-body problem → dimensionality catastrophe → Born-Oppenheimer → HK theorems establish density as the fundamental variable.</p>
+        </div>
+        <div class="tk tk-blue"><span class="lab">Next (Lecture 06)</span>
+          <p>Kohn-Sham scheme: the ingenious trick of a <strong class="blue">fictitious non-interacting system</strong>. Exchange-correlation functionals: LDA → GGA → Hybrids → Range-separated. How to choose the right one.</p>
+        </div>
+        <div class="tk tk-amber"><span class="lab">Lecture 07</span>
+          <p>Basis sets, computation workflow, DFT limitations, and real applications: HOMO/LUMO, reorganization energy, TD-DFT spectra for organic electronics.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- S15 SUMMARY -->
+<section class="slide">
+  <div class="sh"><p class="ey">Summary</p><h2>DFT Foundations · Cheat Sheet</h2></div>
+  <div class="tc">
+    <div class="cd em-cd">
+      <h3 class="accent">Core ideas</h3>
+      <ul class="bl" style="margin-top:8px">
+        <li><strong>Many-body problem:</strong> $\hat{V}_{ee}$ couples all electrons → no exact solution for $N > 1$</li>
+        <li><strong>Dimensionality catastrophe:</strong> $\Psi$ lives in $3N$ dimensions → cannot be stored or computed directly</li>
+        <li><strong>Born-Oppenheimer:</strong> separate fast electrons from slow nuclei → still $3N$ dimensions</li>
+        <li><strong>HK-I:</strong> $\rho_0(\vec{r})$ uniquely determines $V_{\text{ext}}$ → 3D density contains <em>all</em> ground-state physics</li>
+        <li><strong>HK-II:</strong> variational principle works for density → minimize $E[\rho]$ to find ground state</li>
+      </ul>
+      <div class="fm sfm" style="margin:12px 0;color:var(--accent)">$\rho_0 \;\to\; V_{\text{ext}} \;\to\; \hat{H} \;\to\; \Psi_0 \;\to\; \text{everything}$</div>
+    </div>
+    <div class="stk">
+      <div class="cd">
+        <h3>Key equations</h3>
+        <div class="fm sfm" style="margin:8px 0">$\rho(\vec{r}) = N\int|\Psi(\vec{r},\vec{r}_2,\ldots)|^2\,d\vec{r}_2\cdots$</div>
+        <div class="fm sfm" style="margin:8px 0">$E[\rho] = T[\rho] + \int V_{\text{ext}}\rho\,d^3r + V_{ee}[\rho]$</div>
+        <div class="fm sfm" style="margin:8px 0">$E_0 = \min_{\rho} E[\rho]$</div>
+      </div>
+      <div class="tk"><span class="lab">The open problem</span>
+        <p>HK theorems prove the density is enough, but don't give us the functional $F[\rho] = T[\rho] + V_{ee}[\rho]$. Direct approximations (Thomas-Fermi) fail catastrophically.</p>
+      </div>
+      <div class="tk tk-blue"><span class="lab">Next lecture preview</span>
+        <p>Kohn and Sham's breakthrough (1965): introduce a <strong class="blue">fictitious non-interacting system</strong> to compute kinetic energy exactly, and push all unknowns into a small correction term $E_{\text{xc}}$.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+</main>
+<footer class="ft">
+  <button class="nb" onclick="go(-1)">← Prev</button>
+  <div class="ptr"><div class="pfill" id="pf" style="width:6%"></div></div>
+  <div style="display:flex;align-items:center;gap:10px">
+    <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> fullscreen</span>
+    <button class="nb" onclick="location.href='../lecture04/index.html'">L4</button>
+    <button class="nb" onclick="go(1)">Next →</button>
+  </div>
+</footer>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script>
+/* ===== Navigation ===== */
+let cur=0;const SL=document.querySelectorAll('.slide'),TN=SL.length;
+document.getElementById('ind').textContent='1 / '+TN;
+function goTo(n){if(n<0||n>=TN)return;SL[cur].classList.remove('active');SL[cur].classList.add('exit');const p=cur;cur=n;SL[cur].classList.add('active');setTimeout(()=>SL[p].classList.remove('exit'),450);document.getElementById('ind').textContent=(cur+1)+' / '+TN;document.getElementById('pf').style.width=((cur+1)/TN*100)+'%'}
+function go(d){goTo(cur+d)}
+document.addEventListener('keydown',e=>{
+  if(e.target.tagName==='INPUT')return;
+  if(e.key==='ArrowRight'||e.key===' '||e.key==='Enter'){e.preventDefault();go(1)}
+  if(e.key==='ArrowLeft'){e.preventDefault();go(-1)}
+  if(e.key==='f'||e.key==='F')document.documentElement.requestFullscreen?.()
+});
+document.querySelector('.deck').addEventListener('click',e=>{
+  if(e.target.closest('.ct')||e.target.closest('button')||e.target.closest('input')||e.target.closest('label')||e.target.closest('.svgbox')||e.target.closest('details'))return;
+  go(1)
+});
+let tx=0;document.addEventListener('touchstart',e=>{tx=e.touches[0].clientX});
+document.addEventListener('touchend',e=>{const d=e.changedTouches[0].clientX-tx;if(Math.abs(d)>60){d>0?go(-1):go(1)}});
+
+/* ===== Helper: formatted number ===== */
+function fmtExp(n){
+  if(n<1000) return n.toString();
+  const e=Math.floor(Math.log10(n));
+  return '10^'+e;
+}
+
+/* ===== S0 Cover: electron cloud schematic ===== */
+function drawCover(){
+  const svg=document.getElementById('coverSvg');
+  let s='';
+  // Draw stylized molecule with electron cloud
+  const cx=310,cy=70;
+  // Nuclei
+  const nuclei=[{x:cx-100,y:cy},{x:cx-40,y:cy-20},{x:cx+20,y:cy+10},{x:cx+80,y:cy-5},{x:cx+140,y:cy+5}];
+  // Electron cloud (ellipses around nuclei)
+  for(const n of nuclei){
+    s+=`<ellipse cx="${n.x}" cy="${n.y}" rx="50" ry="35" fill="rgba(91,164,230,0.08)" stroke="rgba(91,164,230,0.2)" stroke-width="1"/>`;
+  }
+  // Overlap cloud
+  s+=`<ellipse cx="${cx+20}" cy="${cy}" rx="180" ry="50" fill="rgba(109,191,94,0.06)" stroke="rgba(109,191,94,0.15)" stroke-width="1.5" stroke-dasharray="6 3"/>`;
+  // Nuclei dots
+  for(const n of nuclei){
+    s+=`<circle cx="${n.x}" cy="${n.y}" r="6" fill="var(--coral)" opacity="0.9"/>`;
+    s+=`<circle cx="${n.x}" cy="${n.y}" r="3" fill="#fff" opacity="0.6"/>`;
+  }
+  // Scattered electrons
+  const electrons=[
+    {x:cx-120,y:cy+20},{x:cx-80,y:cy-30},{x:cx-50,y:cy+25},{x:cx-20,y:cy-35},
+    {x:cx+10,y:cy+30},{x:cx+40,y:cy-25},{x:cx+70,y:cy+20},{x:cx+100,y:cy-30},
+    {x:cx+130,y:cy+25},{x:cx+160,y:cy-15},{x:cx-30,y:cy+5},{x:cx+50,y:cy+5}
+  ];
+  for(const e of electrons){
+    s+=`<circle cx="${e.x}" cy="${e.y}" r="2.5" fill="var(--blue)" opacity="0.7"/>`;
+  }
+  // Labels
+  s+=`<text x="80" y="130" fill="var(--fg3)" font-size="12">nuclei</text>`;
+  s+=`<text x="380" y="130" fill="var(--fg3)" font-size="12">electrons</text>`;
+  s+=`<text x="${cx+20}" y="130" fill="var(--accent)" font-size="13" text-anchor="middle" font-weight="600">ρ(r) = electron density</text>`;
+  svg.innerHTML=s;
+}
+
+/* ===== S3 Dimensionality catastrophe ===== */
+function drawDim(){
+  const N=+document.getElementById('nSlider').value;
+  document.getElementById('nVal').textContent=N;
+  const svg=document.getElementById('dimSvg');
+  let s='';
+  const xL=70,xR=480,yB=320,yT=40;
+  const dim=3*N;
+  const logStorage=dim; // log10(10^(3N)) = 3N
+  // Axes
+  s+=`<line x1="${xL}" y1="${yB}" x2="${xR}" y2="${yB}" stroke="#5a564e" stroke-width="1.5"/>`;
+  s+=`<line x1="${xL}" y1="${yB}" x2="${xL}" y2="${yT}" stroke="#5a564e" stroke-width="1.5"/>`;
+  s+=`<text x="${(xL+xR)/2}" y="${yB+30}" fill="#706c65" font-size="12" text-anchor="middle">Number of electrons N</text>`;
+  s+=`<text x="${xL-8}" y="${yT-5}" fill="#706c65" font-size="11" text-anchor="end">log₁₀(grid points)</text>`;
+  // Draw bar chart - storage as log scale
+  const maxLog=300;
+  const barH=(yB-yT-20);
+  // Reference line: universe atoms = 10^80
+  const uniY=yB-80/maxLog*barH;
+  s+=`<line x1="${xL}" y1="${uniY}" x2="${xR}" y2="${uniY}" stroke="var(--coral)" stroke-width="1.5" stroke-dasharray="6 3"/>`;
+  s+=`<text x="${xR+5}" y="${uniY+4}" fill="var(--coral)" font-size="11">10⁸⁰ atoms</text>`;
+  s+=`<text x="${xR+5}" y="${uniY+16}" fill="var(--coral)" font-size="10">in universe</text>`;
+  // Plot curve for different N values
+  let path='';
+  for(let n=1;n<=100;n++){
+    const x=xL+(n/100)*(xR-xL-40);
+    const lv=3*n;
+    const y=yB-Math.min(lv/maxLog,1)*barH;
+    path+=(n===1?'M':'L')+x.toFixed(1)+' '+y.toFixed(1);
+  }
+  s+=`<path d="${path}" fill="none" stroke="var(--accent)" stroke-width="2.5"/>`;
+  // Current N marker
+  const curX=xL+(N/100)*(xR-xL-40);
+  const curLog=3*N;
+  const curY=yB-Math.min(curLog/maxLog,1)*barH;
+  s+=`<circle cx="${curX}" cy="${curY}" r="6" fill="var(--accent)"/>`;
+  s+=`<line x1="${curX}" y1="${curY}" x2="${curX}" y2="${yB}" stroke="var(--accent)" stroke-width="1" stroke-dasharray="3 3"/>`;
+  // Molecule markers
+  const molecules=[{n:2,label:'He',col:'#5ba4e6'},{n:10,label:'Ne',col:'#5ba4e6'},{n:42,label:'benzene',col:'#ddb84a'},{n:94,label:'anthracene',col:'#e8734a'}];
+  for(const m of molecules){
+    const mx=xL+(m.n/100)*(xR-xL-40);
+    s+=`<line x1="${mx}" y1="${yB}" x2="${mx}" y2="${yB+8}" stroke="${m.col}" stroke-width="1.5"/>`;
+    s+=`<text x="${mx}" y="${yB+20}" fill="${m.col}" font-size="10" text-anchor="middle">${m.label}</text>`;
+  }
+  // Y-axis ticks
+  for(let v=0;v<=300;v+=50){
+    const y=yB-v/maxLog*barH;
+    s+=`<line x1="${xL-4}" y1="${y}" x2="${xL}" y2="${y}" stroke="#5a564e" stroke-width="1"/>`;
+    s+=`<text x="${xL-8}" y="${y+4}" fill="#706c65" font-size="10" text-anchor="end">${v}</text>`;
+  }
+  svg.innerHTML=s;
+  // Info text
+  const status=curLog>80?'<span style="color:var(--coral)">exceeds universe</span>':'<span style="color:var(--accent)">feasible</span>';
+  document.getElementById('dimOut').innerHTML=`N = <b>${N}</b> electrons · dimensions = <b>3×${N} = ${dim}</b> · grid points = <b>10<sup>${dim}</sup></b> · ${status}`;
+}
+
+/* ===== S4 Born-Oppenheimer ===== */
+function drawBO(){
+  const svg=document.getElementById('boSvg');
+  let s='';
+  const cx=260,cy=150;
+  // Large nucleus
+  s+=`<circle cx="${cx-80}" cy="${cy}" r="28" fill="rgba(232,115,74,0.3)" stroke="var(--coral)" stroke-width="2"/>`;
+  s+=`<text x="${cx-80}" y="${cy+5}" fill="var(--coral)" font-size="14" text-anchor="middle" font-weight="600">Nucleus</text>`;
+  s+=`<text x="${cx-80}" y="${cy+22}" fill="var(--coral)" font-size="11" text-anchor="middle">SLOW</text>`;
+  s+=`<text x="${cx-80}" y="${cy-35}" fill="var(--fg3)" font-size="11" text-anchor="middle">m = 1836 mₑ</text>`;
+  // Electrons
+  const ePos=[{x:cx+80,y:cy-50},{x:cx+120,y:cy+20},{x:cx+60,y:cy+60},{x:cx+160,y:cy-20}];
+  for(const e of ePos){
+    s+=`<circle cx="${e.x}" cy="${e.y}" r="8" fill="rgba(91,164,230,0.3)" stroke="var(--blue)" stroke-width="1.5"/>`;
+    // Motion arrows
+    const angle=Math.random()*Math.PI*2;
+    const dx=Math.cos(angle)*18,dy=Math.sin(angle)*18;
+    s+=`<line x1="${e.x}" y1="${e.y}" x2="${e.x+dx}" y2="${e.y+dy}" stroke="var(--blue)" stroke-width="1.5" marker-end="url(#earr)"/>`;
+  }
+  s+=`<text x="${cx+110}" y="${cy+90}" fill="var(--blue)" font-size="14" text-anchor="middle" font-weight="600">Electrons — FAST</text>`;
+  // Arrow markers
+  s+=`<defs><marker id="earr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--blue)"/></marker></defs>`;
+  // Separation symbol
+  s+=`<line x1="${cx}" y1="30" x2="${cx}" y2="270" stroke="var(--accent)" stroke-width="1.5" stroke-dasharray="8 4"/>`;
+  s+=`<text x="${cx}" y="22" fill="var(--accent)" font-size="12" text-anchor="middle">BO separation</text>`;
+  // Speed comparison
+  s+=`<text x="${cx-80}" y="260" fill="var(--fg3)" font-size="11" text-anchor="middle">×1 speed</text>`;
+  s+=`<text x="${cx+110}" y="260" fill="var(--fg3)" font-size="11" text-anchor="middle">×43 speed</text>`;
+  svg.innerHTML=s;
+}
+
+/* ===== S5 Method scaling ===== */
+function drawScaling(){
+  const svg=document.getElementById('scalingSvg');
+  let s='';
+  const xL=80,xR=860,yB=140,yT=20;
+  // Draw horizontal scaling bars
+  const methods=[
+    {name:'CI / Full CI',scale:'Exponential',w:780,col:'var(--red)',op:0.5},
+    {name:'CCSD(T)',scale:'O(N⁷)',w:600,col:'var(--coral)',op:0.6},
+    {name:'Hartree-Fock',scale:'O(K⁴)',w:350,col:'var(--amber)',op:0.6},
+    {name:'DFT',scale:'O(K³)',w:280,col:'var(--accent)',op:0.9},
+    {name:'Semi-empirical',scale:'O(N²)',w:160,col:'var(--blue)',op:0.6}
+  ];
+  const rowH=24,gap=4;
+  for(let i=0;i<methods.length;i++){
+    const m=methods[i];
+    const y=yT+i*(rowH+gap);
+    s+=`<rect x="${xL}" y="${y}" width="${m.w}" height="${rowH}" fill="${m.col}" rx="3" opacity="${m.op}"/>`;
+    s+=`<text x="${xL+8}" y="${y+16}" fill="#fff" font-size="12" font-weight="600">${m.name}</text>`;
+    s+=`<text x="${xL+m.w+8}" y="${y+16}" fill="var(--fg3)" font-size="11">${m.scale}</text>`;
+  }
+  s+=`<text x="${(xL+xR)/2}" y="${yB+10}" fill="var(--fg3)" font-size="11" text-anchor="middle">Relative computational cost (log scale) →</text>`;
+  svg.innerHTML=s;
+}
+
+/* ===== S6 Density visualization ===== */
+function drawDensity(){
+  const svg=document.getElementById('densitySvg');
+  let s='';
+  const cx=260,yb=280;
+  // Left: Ψ (high-dimensional blob)
+  s+=`<text x="130" y="30" fill="var(--fg2)" font-size="14" text-anchor="middle" font-weight="600">Ψ(r₁, r₂, …, rₙ)</text>`;
+  s+=`<text x="130" y="48" fill="var(--fg3)" font-size="12" text-anchor="middle">3N dimensions</text>`;
+  // Draw abstract high-dim representation
+  for(let i=0;i<8;i++){
+    const r=40+i*8;
+    const op=0.15-i*0.015;
+    s+=`<ellipse cx="130" cy="150" rx="${r}" ry="${r*0.6}" fill="none" stroke="var(--purple)" stroke-width="1" opacity="${op}" transform="rotate(${i*12},130,150)"/>`;
+  }
+  s+=`<text x="130" y="155" fill="var(--purple)" font-size="28" text-anchor="middle" font-weight="700">?</text>`;
+  // Arrow
+  s+=`<line x1="230" y1="150" x2="290" y2="150" stroke="var(--accent)" stroke-width="2.5" marker-end="url(#garr)"/>`;
+  s+=`<text x="260" y="140" fill="var(--accent)" font-size="11" text-anchor="middle">integrate out</text>`;
+  s+=`<text x="260" y="168" fill="var(--accent)" font-size="11" text-anchor="middle">r₂…rₙ</text>`;
+  // Right: ρ(r) (3D density curve)
+  s+=`<text x="390" y="30" fill="var(--fg2)" font-size="14" text-anchor="middle" font-weight="600">ρ(r)</text>`;
+  s+=`<text x="390" y="48" fill="var(--fg3)" font-size="12" text-anchor="middle">3 dimensions</text>`;
+  // Draw a nice density profile
+  let dp='';
+  for(let i=0;i<=160;i++){
+    const x=310+i;
+    const t=(i-80)/30;
+    // Two-peak density (like a diatomic)
+    const rho=0.8*Math.exp(-(t+1.2)*(t+1.2)/0.8)+Math.exp(-(t-1.2)*(t-1.2)/0.6);
+    const y=240-rho*80;
+    dp+=(i===0?'M':'L')+x.toFixed(1)+' '+y.toFixed(1);
+  }
+  s+=`<path d="M310 240 ${dp.substring(1)} L470 240 Z" fill="rgba(109,191,94,0.15)" stroke="var(--accent)" stroke-width="2.5"/>`;
+  // x-axis for density
+  s+=`<line x1="310" y1="240" x2="470" y2="240" stroke="var(--fg3)" stroke-width="1"/>`;
+  s+=`<text x="390" y="258" fill="var(--fg3)" font-size="11" text-anchor="middle">position r</text>`;
+  // Arrow marker
+  s+=`<defs><marker id="garr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="var(--accent)"/></marker></defs>`;
+  // Bottom: comparison
+  s+=`<text x="130" y="290" fill="var(--purple)" font-size="12" text-anchor="middle">Cannot store</text>`;
+  s+=`<text x="130" y="306" fill="var(--purple)" font-size="12" text-anchor="middle">Cannot visualize</text>`;
+  s+=`<text x="390" y="290" fill="var(--accent)" font-size="12" text-anchor="middle">Easy to store</text>`;
+  s+=`<text x="390" y="306" fill="var(--accent)" font-size="12" text-anchor="middle">Experimentally measurable</text>`;
+  svg.innerHTML=s;
+}
+
+/* ===== S10 HK mapping diagram ===== */
+function drawHKMap(){
+  const svg=document.getElementById('hkMapSvg');
+  let s='';
+  // Draw the logical chain: ρ₀ → V_ext → Ĥ → Ψ₀ → everything
+  const boxes=[
+    {x:40,y:140,w:80,h:50,label:'ρ₀(r)',sub:'3D density',col:'var(--accent)'},
+    {x:160,y:140,w:80,h:50,label:'V_ext',sub:'External pot.',col:'var(--blue)'},
+    {x:280,y:140,w:60,h:50,label:'Ĥ',sub:'Hamiltonian',col:'var(--purple)'},
+    {x:380,y:140,w:70,h:50,label:'Ψ₀',sub:'Wave function',col:'var(--amber)'},
+  ];
+  for(const b of boxes){
+    s+=`<rect x="${b.x}" y="${b.y}" width="${b.w}" height="${b.h}" fill="none" stroke="${b.col}" stroke-width="2" rx="6"/>`;
+    s+=`<text x="${b.x+b.w/2}" y="${b.y+22}" fill="${b.col}" font-size="15" text-anchor="middle" font-weight="600">${b.label}</text>`;
+    s+=`<text x="${b.x+b.w/2}" y="${b.y+38}" fill="var(--fg3)" font-size="10" text-anchor="middle">${b.sub}</text>`;
+  }
+  // Arrows
+  const arrows=[[120,165,160,165],[240,165,280,165],[340,165,380,165]];
+  for(const a of arrows){
+    s+=`<line x1="${a[0]}" y1="${a[1]}" x2="${a[2]-4}" y2="${a[3]}" stroke="var(--fg2)" stroke-width="1.5" marker-end="url(#marr)"/>`;
+  }
+  // "Everything" fan-out
+  s+=`<line x1="450" y1="150" x2="490" y2="110" stroke="var(--fg2)" stroke-width="1" marker-end="url(#marr)"/>`;
+  s+=`<line x1="450" y1="160" x2="490" y2="160" stroke="var(--fg2)" stroke-width="1" marker-end="url(#marr)"/>`;
+  s+=`<line x1="450" y1="170" x2="490" y2="210" stroke="var(--fg2)" stroke-width="1" marker-end="url(#marr)"/>`;
+  s+=`<text x="495" y="114" fill="var(--fg3)" font-size="11">Energy</text>`;
+  s+=`<text x="495" y="164" fill="var(--fg3)" font-size="11">Forces</text>`;
+  s+=`<text x="495" y="214" fill="var(--fg3)" font-size="11">Dipole, χ, …</text>`;
+  // HK-I label
+  s+=`<text x="140" y="128" fill="var(--accent)" font-size="12" text-anchor="middle" font-weight="600">HK-I</text>`;
+  // Arrow marker
+  s+=`<defs><marker id="marr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--fg2)"/></marker></defs>`;
+  // Big label on top
+  s+=`<text x="260" y="80" fill="var(--fg)" font-size="15" text-anchor="middle" font-weight="600">The HK-I logical chain</text>`;
+  s+=`<text x="260" y="100" fill="var(--fg3)" font-size="12" text-anchor="middle">Know the density → know everything (ground state)</text>`;
+  // Compression visual
+  s+=`<text x="60" y="220" fill="var(--accent)" font-size="11" text-anchor="middle">3 dimensions</text>`;
+  s+=`<text x="415" y="220" fill="var(--amber)" font-size="11" text-anchor="middle">3N dimensions</text>`;
+  s+=`<text x="260" y="255" fill="var(--fg3)" font-size="12" text-anchor="middle" font-style="italic">"Lossless compression of quantum mechanics"</text>`;
+  svg.innerHTML=s;
+}
+
+/* ===== S12 Functional pie ===== */
+function drawFuncPie(){
+  const svg=document.getElementById('funcPieSvg');
+  let s='';
+  // Draw a schematic of E[ρ] = T[ρ] + V_eN[ρ] + V_ee[ρ]
+  // As stacked blocks
+  const xL=60,xR=480,yB=290,yT=30;
+  const blockW=160,gap=20;
+  const blocks=[
+    {label:'V_eN[ρ]',desc:'Electron-nucleus\nattraction',h:200,col:'var(--accent)',known:true},
+    {label:'T[ρ]',desc:'Kinetic\nenergy',h:200,col:'var(--coral)',known:false},
+    {label:'V_ee[ρ]',desc:'Electron-electron\ninteraction',h:200,col:'var(--amber)',known:false}
+  ];
+  for(let i=0;i<3;i++){
+    const b=blocks[i];
+    const x=xL+i*(blockW+gap);
+    s+=`<rect x="${x}" y="${yT+40}" width="${blockW}" height="${b.h}" fill="${b.col}" rx="6" opacity="${b.known?0.3:0.12}"/>`;
+    s+=`<rect x="${x}" y="${yT+40}" width="${blockW}" height="${b.h}" fill="none" stroke="${b.col}" stroke-width="2" rx="6"/>`;
+    s+=`<text x="${x+blockW/2}" y="${yT+90}" fill="${b.col}" font-size="18" text-anchor="middle" font-weight="600">${b.label}</text>`;
+    const lines=b.desc.split('\n');
+    for(let j=0;j<lines.length;j++){
+      s+=`<text x="${x+blockW/2}" y="${yT+115+j*16}" fill="var(--fg3)" font-size="12" text-anchor="middle">${lines[j]}</text>`;
+    }
+    // Known/unknown badge
+    if(b.known){
+      s+=`<text x="${x+blockW/2}" y="${yT+170}" fill="var(--accent)" font-size="13" text-anchor="middle" font-weight="600">✓ KNOWN</text>`;
+    } else {
+      s+=`<text x="${x+blockW/2}" y="${yT+170}" fill="var(--coral)" font-size="13" text-anchor="middle" font-weight="600">✗ UNKNOWN</text>`;
+    }
+  }
+  // Title
+  s+=`<text x="${(xL+xR)/2}" y="25" fill="var(--fg)" font-size="14" text-anchor="middle" font-weight="600">E[ρ] = T[ρ] + V_eN[ρ] + V_ee[ρ]</text>`;
+  // Bottom note
+  s+=`<text x="${(xL+xR)/2}" y="${yB+20}" fill="var(--fg3)" font-size="12" text-anchor="middle" font-style="italic">2 out of 3 terms have no known explicit functional form</text>`;
+  svg.innerHTML=s;
+}
+
+/* ===== S14 Roadmap ===== */
+function drawRoadmap(){
+  const svg=document.getElementById('roadmapSvg');
+  let s='';
+  // Draw a flowchart: many-body → BO → HK → KS → functionals → basis sets → applications
+  const steps=[
+    {x:30,y:60,w:160,h:60,label:'Many-body Ψ',sub:'3N dimensions',col:'var(--coral)',done:true},
+    {x:220,y:60,w:160,h:60,label:'BO approx.',sub:'Freeze nuclei',col:'var(--amber)',done:true},
+    {x:410,y:60,w:160,h:60,label:'HK theorems',sub:'ρ₀ is enough',col:'var(--accent)',done:true},
+    {x:30,y:200,w:160,h:60,label:'Kohn-Sham',sub:'Fictitious system',col:'var(--blue)',done:false},
+    {x:220,y:200,w:160,h:60,label:'E_xc functionals',sub:'LDA→GGA→Hybrid',col:'var(--purple)',done:false},
+    {x:410,y:200,w:160,h:60,label:'Basis sets',sub:'GTO expansion',col:'var(--amber)',done:false},
+    {x:600,y:200,w:160,h:60,label:'Applications',sub:'HOMO/LUMO, λ, spectra',col:'var(--accent)',done:false}
+  ];
+  for(const st of steps){
+    const op=st.done?1:0.4;
+    s+=`<rect x="${st.x}" y="${st.y}" width="${st.w}" height="${st.h}" fill="none" stroke="${st.col}" stroke-width="${st.done?2.5:1.5}" rx="8" opacity="${op}"/>`;
+    if(st.done) s+=`<rect x="${st.x}" y="${st.y}" width="${st.w}" height="${st.h}" fill="${st.col}" rx="8" opacity="0.08"/>`;
+    s+=`<text x="${st.x+st.w/2}" y="${st.y+25}" fill="${st.col}" font-size="14" text-anchor="middle" font-weight="600" opacity="${op}">${st.label}</text>`;
+    s+=`<text x="${st.x+st.w/2}" y="${st.y+42}" fill="var(--fg3)" font-size="11" text-anchor="middle" opacity="${op}">${st.sub}</text>`;
+  }
+  // Arrows top row
+  s+=`<line x1="190" y1="90" x2="218" y2="90" stroke="var(--fg2)" stroke-width="1.5" marker-end="url(#rarr)"/>`;
+  s+=`<line x1="380" y1="90" x2="408" y2="90" stroke="var(--fg2)" stroke-width="1.5" marker-end="url(#rarr)"/>`;
+  // Arrow down from HK to KS
+  s+=`<path d="M490,120 L490,150 Q490,165 475,165 L120,165 Q105,165 105,180 L105,198" fill="none" stroke="var(--fg2)" stroke-width="1.5" marker-end="url(#rarr)"/>`;
+  // Arrows bottom row
+  s+=`<line x1="190" y1="230" x2="218" y2="230" stroke="var(--fg3)" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#rarr)"/>`;
+  s+=`<line x1="380" y1="230" x2="408" y2="230" stroke="var(--fg3)" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#rarr)"/>`;
+  s+=`<line x1="570" y1="230" x2="598" y2="230" stroke="var(--fg3)" stroke-width="1" stroke-dasharray="4 3" marker-end="url(#rarr)"/>`;
+  // Legend
+  s+=`<rect x="620" y="60" width="14" height="14" fill="var(--accent)" rx="3" opacity="0.3"/>`;
+  s+=`<rect x="620" y="60" width="14" height="14" fill="none" stroke="var(--accent)" stroke-width="2" rx="3"/>`;
+  s+=`<text x="640" y="72" fill="var(--fg2)" font-size="11">Today (L05)</text>`;
+  s+=`<rect x="620" y="82" width="14" height="14" fill="none" stroke="var(--fg3)" stroke-width="1" rx="3" opacity="0.4"/>`;
+  s+=`<text x="640" y="94" fill="var(--fg3)" font-size="11">Coming (L06–07)</text>`;
+  // Arrow marker
+  s+=`<defs><marker id="rarr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 Z" fill="var(--fg2)"/></marker></defs>`;
+  // Title
+  s+=`<text x="380" y="305" fill="var(--fg3)" font-size="12" text-anchor="middle">The complete DFT pipeline: from unsolvable many-body problem to practical calculations</text>`;
+  svg.innerHTML=s;
+}
+
+/* ===== Init ===== */
+window.addEventListener('load',()=>{
+  try{renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:true},{left:"$",right:"$",display:false}],throwOnError:false})}catch(e){}
+  drawCover();drawDim();drawBO();drawScaling();drawDensity();drawHKMap();drawFuncPie();drawRoadmap();
+});
+document.getElementById('nSlider').addEventListener('input',drawDim);
+</script>
+</body></html>
