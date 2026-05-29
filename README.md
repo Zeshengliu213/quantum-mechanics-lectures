@@ -14,9 +14,9 @@ Interactive lecture slides for a graduate-level quantum mechanics course, with a
 |---|---------|---------------|--------|
 | 01 | [History of QM](https://zeshengliu213.github.io/quantum-mechanics-lectures/lecture01/index.html) | Why classical physics fails for π-electrons | ✅ Complete |
 | 02 | [From Matter Waves to Schrödinger](https://zeshengliu213.github.io/quantum-mechanics-lectures/lecture02/index.html) | Wave equation for quantum particles | ✅ Complete |
-| 03 | Particle in a Box | Conjugation length vs. bandgap | 📝 Planned |
-| 04 | Quantum Harmonic Oscillator | Franck-Condon, Huang-Rhys, vibronic spectra | 📝 Planned |
-| 05 | Tunneling | Charge injection at metal/organic interfaces, SAMs | 📝 Planned |
+| 03 | [Particle in a Box](https://zeshengliu213.github.io/quantum-mechanics-lectures/lecture03/index.html) | Conjugation length vs. bandgap | ✅ Complete |
+| 04 | [Quantum Harmonic Oscillator](https://zeshengliu213.github.io/quantum-mechanics-lectures/lecture04/index.html) | Franck-Condon, Huang-Rhys, vibronic spectra | ✅ Complete |
+| 05 | [Tunneling](https://zeshengliu213.github.io/quantum-mechanics-lectures/lecture05/index.html) | Charge injection at metal/organic interfaces, SAMs | ✅ Complete |
 | 06 | Angular Momentum & H Atom | Carbon atomic orbitals → sp² hybridization | 📝 Planned |
 | 07 | Spin & Identical Particles | Singlet/triplet, OLED spin statistics, radicals | 📝 Planned |
 | 08 | Perturbation Theory | Intermolecular coupling, CT states, interface dipoles | 📝 Planned |
@@ -46,6 +46,23 @@ Interactive lecture slides for a graduate-level quantum mechanics course, with a
 - Classical trajectory vs. double-slit electron interference
 - Uncertainty principle (position–momentum Gaussian pair)
 - Two-state superposition interference
+
+### Lecture 03 Animations
+- Adjustable quantum number eigenstate viewer (ψₙ and |ψₙ|²)
+- HOMO-LUMO gap vs. box length (interactive slider)
+- Finite vs. infinite well wave function comparison
+- Acene series absorption data visualization
+
+### Lecture 04 Animations
+- Classical vs. quantum oscillator probability density
+- Harmonic oscillator eigenstates with Hermite polynomials
+- Ladder operator step-by-step derivation
+- Interactive Huang-Rhys factor S and vibronic spectrum
+- Franck-Condon overlap visualization
+
+### Lecture 05 Animations
+- Tunneling through a rectangular barrier
+- Transmission coefficient vs. barrier parameters
 
 ## Navigation
 
