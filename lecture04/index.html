@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en"><head><meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1.0">
-<title>Topic · Quantum Harmonic Oscillator</title>
+<title>Lecture 04 · Quantum Harmonic Oscillator & Vibrational Spectroscopy</title>
 <link rel="preconnect" href="https://fonts.googleapis.com/">
 <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Fira+Code&family=Noto+Serif+SC:wght@500;700&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<link rel="stylesheet" href="./vendor/katex/katex.min.css">
 <style>
 :root{
   --bg:#0c0e0c;--bg2:#151915;--bg3:#1e231e;
@@ -84,9 +84,6 @@ table.cmp tr:last-child td{border-bottom:none}
 .qcard[open] summary::before{content:'✓';background:rgba(109,191,94,0.22)}
 .qcard div{border-top:1px solid rgba(255,255,255,0.06);padding:12px 16px}
 .qcard p{font-size:14px}
-.board{display:grid;grid-template-columns:1fr 1fr;gap:14px;width:100%;max-width:1200px}
-.chalk{background:rgba(0,0,0,0.26);border:1px solid rgba(255,255,255,0.07);border-radius:6px;padding:14px 16px}
-.chalk .fm{text-align:left}
 
 .svgbox{width:100%;background:rgba(0,0,0,0.22);border-radius:6px;border:1px solid rgba(255,255,255,0.05)}
 .svgbox svg{display:block;width:100%;height:auto}
@@ -100,8 +97,8 @@ table.cmp tr:last-child td{border-bottom:none}
 .rdt b{color:var(--accent)}
 
 @media(max-width:768px){
-  .slide{padding:16px 16px 28px}
-  .tc,.t3,.qgrid,.board{grid-template-columns:1fr}
+  .slide{padding:16px 16px 28px;justify-content:flex-start}
+  .tc,.t3,.qgrid{grid-template-columns:1fr}
   header.chrome .tsm{display:none}
   .ct input[type=range]{width:140px}
 }
@@ -378,6 +375,50 @@ table.cmp tr:last-child td{border-bottom:none}
 
 
 
+<!-- S9 HUANG-RHYS FACTOR & POISSON ENVELOPE -->
+<section class="slide">
+  <div class="sh"><p class="ey">The bridge · displacement → spectrum</p><h2>The Huang-Rhys factor $S$ and the Poisson envelope</h2></div>
+  <div class="tc">
+    <div class="stk">
+      <div class="cd em-cd">
+        <h3>One number captures the coupling</h3>
+        <p>The dimensionless displacement of the excited-state parabola defines the <strong class="accent">Huang-Rhys factor</strong>:</p>
+        <div class="fm sfm" style="margin:10px 0;color:var(--accent)">$S = \frac{m\omega}{2\hbar}\,\Delta Q^2$</div>
+        <p>Physically, $S$ is the <strong>average number of vibrational quanta</strong> created when the electron jumps — the single dimensionless number that fixes the shape of the whole progression.</p>
+      </div>
+      <div class="tk tk-amber"><span class="lab">Reading $S$ at a glance</span>
+        <ul class="bl" style="margin-top:2px">
+          <li><strong class="accent">$S \ll 1$</strong> — rigid molecule, the 0-0 line dominates (e.g. anthracene)</li>
+          <li><strong class="blue">$S \approx 1$</strong> — 0-0 and 0-1 peaks are comparable</li>
+          <li><strong class="coral">$S > 1$</strong> — envelope peaks near $n \approx S$, broad progression</li>
+        </ul>
+      </div>
+    </div>
+    <div class="stk">
+      <div class="cd">
+        <h3>Intensities follow a Poisson distribution</h3>
+        <p>From the ground vibrational state, the Franck-Condon factor for a $0 \to n'$ transition is:</p>
+        <div class="fm sfm" style="margin:10px 0;color:var(--blue)">$I_{0\to n'} = |\langle n' | 0 \rangle|^2 = \frac{S^{n'} e^{-S}}{n'!}$</div>
+        <p>The mean is $\langle n'\rangle = S$, which gives the quick experimental handle:</p>
+        <div class="fm sfm" style="margin:8px 0;color:var(--accent)">$\dfrac{I_{0\text{-}1}}{I_{0\text{-}0}} = S$</div>
+      </div>
+      <details class="qcard">
+        <summary>Derivation — why exactly Poisson?</summary>
+        <div>
+          <p>Displacing the ground-state oscillator by $\Delta Q$ is the displacement operator $\hat D(\alpha)=e^{\alpha \hat a^\dagger-\alpha^*\hat a}$ acting on $|0\rangle$, with $\alpha=\sqrt{S}$. The result is a <strong>coherent state</strong>:</p>
+          <div class="fm sfm" style="margin:8px 0">$|\alpha\rangle = e^{-S/2}\displaystyle\sum_{n'}\frac{\alpha^{\,n'}}{\sqrt{n'!}}\,|n'\rangle$</div>
+          <p>Projecting onto the excited level $|n'\rangle$ and squaring:</p>
+          <div class="fm sfm" style="margin:8px 0">$|\langle n'|\alpha\rangle|^2 = e^{-S}\,\dfrac{S^{\,n'}}{n'!}$</div>
+          <p style="margin-top:6px">— a Poisson distribution with mean $S$. $\blacksquare$</p>
+        </div>
+      </details>
+      <div class="tk tk-blue"><span class="lab">Next: see it live</span>
+        <p>The simulator on the next slide draws exactly this Poisson envelope as you vary $S$ and $\hbar\omega$.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- S10 INTERACTIVE: VIBRONIC SPECTRUM SIMULATOR -->
 <section class="slide">
   <div class="sh"><p class="ey">Interactive · vibronic spectrum</p><h2>Adjust $S$ and $\hbar\omega$ to simulate a PL spectrum</h2></div>
@@ -488,7 +529,7 @@ table.cmp tr:last-child td{border-bottom:none}
     <div class="stk">
       <div style="text-align:center">
         <img src="./41560_2017_Article_BFnenergy201753_Fig2_HTML.webp" alt="Marcus theory: displaced parabolas for D/A and D⁺/A⁻ charge-transfer states" style="width:100%;max-width:560px;border-radius:8px;box-shadow:0 2px 12px rgba(0,0,0,0.12)">
-        <p style="font-size:0.72em;color:var(--dim);margin-top:6px">Displaced parabolas for charge transfer: (a) high $E_{CT}$ (b) low $E_{CT}$<br><span style="font-size:0.9em">Nature Energy <strong>2</strong>, 17053 (2017)</span></p>
+        <p style="font-size:0.72em;color:var(--fg3);margin-top:6px">Displaced parabolas for charge transfer: (a) high $E_{CT}$ (b) low $E_{CT}$<br><span style="font-size:0.9em">Nature Energy <strong>2</strong>, 17053 (2017)</span></p>
       </div>
       <div class="tk tk-amber"><span class="lab">Reading the figure</span>
         <p>D/A and D⁺/A⁻ states are displaced oscillators. $k_r$ (radiative) and $k_{nr}$ (non-radiative) rates depend on the <strong>Franck-Condon overlap</strong> between vibrational levels — exactly the physics we derived.</p>
@@ -555,7 +596,7 @@ table.cmp tr:last-child td{border-bottom:none}
 </main>
 <footer class="ft">
   <button class="nb" onclick="go(-1)">← Prev</button>
-  <div class="ptr"><div class="pfill" id="pf" style="width:6%"></div></div>
+  <div class="ptr"><div class="pfill" id="pf" style="width:6.25%"></div></div>
   <div style="display:flex;align-items:center;gap:10px">
     <span class="ht"><kbd>←</kbd><kbd>→</kbd> · <kbd>F</kbd> fullscreen</span>
     <button class="nb" onclick="location.href='../lecture03/index.html'">L3</button>
@@ -565,8 +606,8 @@ table.cmp tr:last-child td{border-bottom:none}
 </footer>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="./vendor/katex/katex.min.js"></script>
+<script src="./vendor/katex/contrib/auto-render.min.js"></script>
 <script>
 /* ===== Navigation ===== */
 let cur=0;const SL=document.querySelectorAll('.slide'),TN=SL.length;
@@ -628,7 +669,7 @@ function drawCover(){
 function drawComb(){
   const svg=document.getElementById('combSvg');
   let s='';
-  const S=0.8,hw=0.17,E00=2.5;
+  const S=0.8;
   const x0=60,xW=440,yB=170,yT=30;
   // axis
   s+=`<line x1="${x0}" y1="${yB}" x2="${x0+xW}" y2="${yB}" stroke="#5a564e" stroke-width="1.5"/>`;
@@ -740,11 +781,6 @@ function drawHOWf(){
     wf+=(i===0?'M':'L')+x.toFixed(1)+' '+Math.max(yT,Math.min(yB,y)).toFixed(1);
   }
   s+=`<path d="${wf}" fill="none" stroke="#6dbf5e" stroke-width="3"/>`;
-  // nodes
-  for(let j=1;j<=n;j++){
-    // approximate node positions for HO: between classical turning points
-    // For simplicity, find zeros numerically
-  }
   // Right: |psi_n|^2
   s+=`<text x="${(rxL+rxR)/2}" y="28" fill="#a8a49b" font-size="14" text-anchor="middle">|ψ${n}(x)|²</text>`;
   s+=`<line x1="${rxL}" y1="${yB}" x2="${rxR}" y2="${yB}" stroke="rgba(255,255,255,0.1)" stroke-width="1.5"/>`;
